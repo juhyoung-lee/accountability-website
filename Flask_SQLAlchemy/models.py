@@ -9,6 +9,17 @@ class User(db.Model):
     age = db.Column(db.Integer)
     date_created = db.Column(db.DateTime, default=datetime.now)
 
+class Client(db.Model):
+    email_id = db.Column(db.Integer, db.ForeignKey('user.email_id'), primary_key=True)
+    phone_number = db.Column(db.Integer)
+    timezone = db.Column(db.Integer)
+    year = db.Column(db.Integer)
+    major_minor = db.Column(db.String(200))
+    classes = db.Column(db.String(500))
+    partner_request = db.Column(db.String(50))
+    priorities = db.Column(db.String(500))
+    aim = db.Column(db.String(500))
+
 class Goal(db.Model):
     goal_id = db.Column(db.Integer, primary_key=True)
     email_id = db.Column(db.Integer, db.ForeignKey('user.email_id'), primary_key=True) #db.ForeignKey('user.email_id') when user table is created
