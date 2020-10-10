@@ -15,14 +15,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 #db.init_app(app)
 
-class Milestone(db.Model):
-    Milestone_ID = db.Column(db.String(100), primary_key=True) 
-    Goal_ID = db.Column(db.String(100), primary_key=True) 
-    Email_ID = db.Column(db.String(100), primary_key=True) 
-    Name = db.Column(db.String(50), nullable=False)
-    Deadline = db.Column(db.DateTime)
-    Date_Completed = db.Column(db.DateTime)
-
 def add_milestones():
     letters = string.ascii_lowercase
     for _ in range(100):
