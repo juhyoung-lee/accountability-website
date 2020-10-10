@@ -11,13 +11,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 
 db = SQLAlchemy(app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    location = db.Column(db.String(50))
-    age = db.Column(db.Integer)
-    date_created = db.Column(db.DateTime, default=datetime.now)
-
 @app.route('/<name>/<location>/<age>')
 def index(name, location):
     user = User(name=name, location=location, age=age)
