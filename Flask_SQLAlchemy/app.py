@@ -1,5 +1,6 @@
   
 from datetime import datetime
+import forms
 
 from flask import Flask 
 from flask_sqlalchemy import SQLAlchemy 
@@ -24,3 +25,32 @@ def get_user(name):
     user = User.query.filter_by(name=name).first()
 
     return f'<h1>The user is located in: { user.location }</h1>'
+
+@app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
+def edit_client(email_id):
+    client = db.session.query(models.Client)\
+        .filter(models.Client.email_id == email_id).one()
+    phone_number = db.session.query(client.phone_number).one()
+    timezone = db.session.query(client.timezone).one()
+    year = db.session.query(client.year).one()
+    major_minor = db.session.query(client.major_minor).one()    
+    classes = db.session.query(client.classes).one()    
+    partner_request = db.session.query(client.partner_request).one()
+    priorities = db.session.query(client.priorities).one()
+    aim = db.session.query(client.aim).one()
+    
+    form = forms.ClientEditForm(client, phone_number, timezone, year, major_minor, classes, 
+        partner_request, priorities, aim)
+
+    if form.validate_on_submit():
+        try:
+            form.errors.pop('database', None)
+            models.Drinker.edit(email_id, form.phone_number.data, form.timezone.data,
+            	form.year.data, form.major_minor.data, form.classes.data, 
+            	form.partner_request.data, form.priorities.data, form.aim.data)
+            return redirect(url_for('clientdisplay', email_id=form.email_id.data))
+        except BaseException as e:
+            form.errors['database'] = str(e)
+            return render_template('edit-client.html', Client=client, form=form)
+    else:
+        return render_template('edit-client.html', Client=client, form=form)

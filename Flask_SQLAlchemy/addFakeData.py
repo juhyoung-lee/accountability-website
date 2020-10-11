@@ -13,14 +13,14 @@ def add_client():
   letters = string.ascii_lowercase
   client = Client(
     email_id = fake.email(),
-    phone_number = randome.randint(10000000000, 99999999999),
+    phone_number = random.randint(10000000000, 99999999999),
     timezone = random.randint(0, 23), #choose one of the one-hour time zone randomly
     year = random.randint(2021,2024), #or can be a bigger range
-    major_minor = join(random.choice(letters) for _ in range(30)),
-    classes = join(random.choice(letters) for _ in range(50)),
-    partner_request = fake.name,
-    priorities = join(random.choice(letters) for _ in range(100)),
-    aim = join(random.choice(letters) for _ in range(100)),
+    major_minor = ''.join(random.choice(letters) for _ in range(30)),
+    classes = ''.join(random.choice(letters) for _ in range(50)),
+    partner_request = fake.name(),
+    priorities = fake.sentence(),
+    aim = fake.sentence()
   )
   db.session.add(client)
   db.session.commit()
