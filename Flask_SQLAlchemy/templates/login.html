@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% block head %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="login.css">
-</head>
-<body>
+<link rel="stylesheet" href="/static/css/login.css">
+{% endblock %}
 
+{% block body%}
 <h2>Login Form</h2>
 
 <form action="/action_page.php" method="post">
@@ -32,6 +30,4 @@
     <!--<span class="psw">Forgot <a href="#">password?</a></span>-->
   </div>
 </form>
-
-</body>
-</html>
+{% endblock %}

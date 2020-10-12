@@ -1,17 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang='en'>
   <head>
-    <title>Flask DB-Beers Example</title>
-    <meta name="description" content="A sample Flask website for db-beers"/>
-    <meta name="keywords" content="flask, db-beers"/>
-    <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
-    <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen"/>
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='stylesheet' href='/static/css/layout.css' />
+    <title>Accountability Partners</title>
+    <div class='topnav'>
+      <a class='left active' href='#home.html'>Accountability Partners</a>
+      <a class='right' href='#feedback.html'>Feedback</a>
+      <a class='right' href='#user.html'>User Dropdown</a>
+    </div>
+    {% block head %}{% endblock %}
   </head>
   <body>
-    <h1><img src="/static/img/beer.jpg" style="float:right"/> Flask <a href="/">DB-Beers Example</a></h1>
-    <hr/>
-    <h2 id="heading">{% block heading %}{% endblock %}</h2>
     {% block content %}{% endblock %}
   </body>
 </html>
