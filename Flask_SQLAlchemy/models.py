@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 
 class User(db.Model):
-    email_id = db.Column(db.String(50), primary_key=True)
+    email_id = db.Column(db.String(100), primary_key=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(50))
     phone_number = db.Column(db.Integer)
@@ -19,8 +19,7 @@ class User(db.Model):
 
 
 class Client(db.Model):
-    email_id = db.Column(db.Integer, db.ForeignKey(
-        'user.email_id'), primary_key=True)
+    email_id = db.Column(db.String(100), primary_key=True)
     phone_number = db.Column(db.Integer)
     timezone = db.Column(db.Integer)
     year = db.Column(db.Integer)
@@ -34,8 +33,9 @@ class Client(db.Model):
 class Goal(db.Model):
     goal_id = db.Column(db.Integer, primary_key=True)
     # db.ForeignKey('user.email_id') when user table is created
-    email_id = db.Column(db.Integer, db.ForeignKey(
-        'user.email_id'), primary_key=True)
+    # email_id = db.Column(db.Integer, db.ForeignKey(
+    #     'user.email_id'), primary_key=True)
+    email_id = db.Column(db.Integer)
     name = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
     date_completed = db.Column(db.DateTime)
@@ -45,8 +45,9 @@ class Goal(db.Model):
 class Milestone(db.Model):
     Milestone_ID = db.Column(db.String(100), primary_key=True)
     Goal_ID = db.Column(db.String(100), primary_key=True)
-    Email_ID = db.Column(db.String(100), db.ForeignKey(
-        'user.email_id'), primary_key=True)
+    # Email_ID = db.Column(db.String(100), db.ForeignKey(
+    #     'user.email_id'), primary_key=True)
+    Email_ID = db.Column(db.String(100), primary_key=True)
     Name = db.Column(db.String(50), nullable=False)
     Deadline = db.Column(db.DateTime)
     Date_Completed = db.Column(db.DateTime)
