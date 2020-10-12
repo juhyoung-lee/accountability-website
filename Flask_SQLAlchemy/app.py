@@ -49,7 +49,7 @@ def view_goal():
 def edit_goal():
     form = ClientEditForm()
     if form.validate_on_submit():
-        return redirect(url_for('success'))
+        return redirect(url_for('success')) ## change this to appropriate url
     return render_template('edit-goal.html', form=form)
 
 

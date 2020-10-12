@@ -1,8 +1,27 @@
 {% extends 'layout.html' %}
 {% block heading %}Edit Goal: {{form.name}}{% endblock %}
 {% block content %}
-<form action="{{url_for('edit_goal', name=form.name)}}" method="POST">
-  <div class="formwrapper">
+<form action="{{url_for('edit_goal', name=Goal.name)}}" method="POST">
+  {{form.csrf_token}}
+  <h3>
+    Goal: {{form.name}}
+    {% if form.name.errors %}
+    <ul>{% for error in form.name.errors %}<li>{{error}}</li>{% endfor %}</ul>
+    {% endif %}
+  </h3>
+
+  <label for = "progress">
+    Progress: {{form.progress}}
+    {% if form.progress.errors %}
+    <ul>{% for error in form.progress.errors %}<li>{{error}}</li>{% endfor %}</ul>
+    {% endif %}
+  </label>
+  <input type="number" placeholder="Enter goal progress" name="progress" id="progress" value="{{Goal.progress}}">
+
+  <input type="reset" value="Cancel"/>
+  <input type="submit" value="Save changes"/>
+
+  <!-- <div class="formwrapper">
     <h2 class="title">Edit Goal</h2>
     <form method="POST" action="/">
         <div class="form-field">{{ form.name.label }} {{ form.name(size=20) }}
@@ -25,16 +44,8 @@
         </div>
         {{ form.submit }}
     </form>
-  </div>
+  </div> -->
 
-   <!-- <p>
-    Goal: {{form.name}}
-    {% if Goal.name.errors %}
-    <ul>{% for error in form.name.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
-    <input type="reset" value="Cancel"/>
-    <input type="submit" value="Save changes"/>
-  </p> -->
   {% if 'database' in form.errors %}<p>{{form.errors['database']}}</p>{% endif %}
 </form>
 {% endblock %}
