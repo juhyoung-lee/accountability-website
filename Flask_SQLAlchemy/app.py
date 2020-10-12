@@ -23,7 +23,7 @@ def layout():
     return render_template('layout.html')
 
 
-@app.route('/login.html')
+@app.route('/login')
 def login():
     return render_template('login.html')
 
