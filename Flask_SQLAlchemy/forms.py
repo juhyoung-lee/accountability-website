@@ -19,6 +19,14 @@ class ClientEditForm:
 
         return F()
 
+class GoalEditForm:
+    @staticmethod
+    def form(goal_name, progress):
+        class F(FlaskForm):
+            name = StringField(default=Goal.name)
+            progress = IntegerField(default=Goal.progress)
+        return F()
+
 class ServingsFormFactory:
     @staticmethod
     def form(beer_names):

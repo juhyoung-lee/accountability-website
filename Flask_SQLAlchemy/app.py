@@ -2,8 +2,10 @@
 from datetime import datetime
 import forms
 
-from flask import Flask, redirect, render_template
+from flask import Flask, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
+
+from forms import ClientEditForm
 
 app = Flask(__name__)
 
@@ -45,7 +47,10 @@ def view_goal():
 
 @app.route('/edit-goal.html')
 def edit_goal():
-    return render_template('edit-goal.html')
+    form = ClientEditForm()
+    if form.validate_on_submit():
+        return redirect(url_for('success'))
+    return render_template('edit-goal.html', form=form)
 
 
 @app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
