@@ -49,7 +49,7 @@ def add_goals():
             goal = Goal(
                 goal_id=''.join(random.choice(letters) for i in range(10)),
                 email_id=client.email_id,
-                name=''.join(random.choice(letters) for i in range(10))
+                name=fake.color_name()
             )
             db.session.add(goal)
     db.session.commit()
