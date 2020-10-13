@@ -1,9 +1,9 @@
-
 from datetime import datetime
 import forms
 
 from flask import Flask, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 
@@ -23,12 +23,12 @@ def layout():
     return render_template('layout.html')
 
 
-@app.route('/login.html')
+@app.route('/login')
 def login():
     return render_template('login.html')
 
 
-@app.route('/registration.html')
+@app.route('/registration.html', methods=['POST', 'GET'])
 def registration():
     return render_template('registration.html')
 
@@ -46,6 +46,11 @@ def view_goal():
 @app.route('/edit-goal.html')
 def edit_goal():
     return render_template('edit-goal.html')
+
+
+@app.route('/edit-client.html')
+def edit_client1():
+    return render_template('edit-client.html')
 
 
 @app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
@@ -80,19 +85,3 @@ def edit_client(email_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-# @app.route('/<name>/<location>/<age>')
-# def index(name, location):
-#     user = User(name=name, location=location, age=age)
-#     db.session.add(user)
-#     db.session.commit()
-
-#     return '<h1>Added New User!</h1>'
-
-
-# @app.route('/<name>')
-# def get_user(name):
-#     user = User.query.filter_by(name=name).first()
-
-#     return f'<h1>The user is located in: { user.location }</h1>'
