@@ -69,34 +69,12 @@ def registration():
 def view_client():
     return render_template('view-client.html')
 
-@app.route("/temp.html", methods=["POST", "GET"])
-def temp():
-    if request.method == "POST":
-	    user = request.form["nm"]
-	    return redirect(url_for("view_goal", usr=user))
-    else:
-	    return render_template("temp.html")
-
-#@app.route("/<usr>")
-#def user(usr):
- #   return f"<h1>{usr}</h1>"
-
-
-#@app.route("/<usr>")
-#def view_goal(usr):
-#    return render_template('view-goal.html',content=usr)
-
-
-@app.route('/<usr>')
-def view_goal(usr):
+@app.route('/view-goal')
+def view_goal():
+    usr = session['email']
     results = db.session.query(models.Goal) \
                         .filter(models.Goal.email_id == usr).all()
     return render_template('view-goal.html', usr=usr, data=results)
-
-#@ app.route('/view-goal')
-#def view_goal():
-#    return render_template('view-goal.html')
-
 
 @ app.route('/edit-goal')
 def edit_goal():
