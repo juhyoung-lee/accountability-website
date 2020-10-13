@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import forms
+import models
 from flask import Flask, redirect, render_template, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 
@@ -44,10 +45,15 @@ def login():
     if request.method == 'POST':
         email = request.form['uname']
         psw = request.form['psw']
-        if request.form.get('remember') != None:
-            session.permanent = True
-        session['email'] = email
-        return redirect(url_for('loggedin'))
+        # db.session.query(user)
+        if models.User.query.filter_by(email_id=email, password=psw).first():
+            session['email'] = email
+            if request.form.get('remember') != None:
+                session.permanent = True
+            return redirect(url_for('loggedin'))
+        else:
+            return redirect(url_for('login'))
+
     else:
         if 'email' in session:
             return redirect(url_for('index'))
