@@ -18,7 +18,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/layout.html')
+@app.route('/layout')
 def layout():
     return render_template('layout.html')
 
@@ -28,27 +28,27 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/registration.html', methods=['POST', 'GET'])
+@app.route('/registration', methods=['POST', 'GET'])
 def registration():
     return render_template('registration.html')
 
 
-@app.route('/view-client.html')
+@app.route('/view-client')
 def view_client():
     return render_template('view-client.html')
 
 
-@app.route('/view-goal.html')
+@app.route('/view-goal')
 def view_goal():
     return render_template('view-goal.html')
 
 
-@app.route('/edit-goal.html')
+@app.route('/edit-goal')
 def edit_goal():
     return render_template('edit-goal.html')
 
 
-@app.route('/edit-client.html')
+@app.route('/edit-client')
 def edit_client1():
     return render_template('edit-client.html')
 
