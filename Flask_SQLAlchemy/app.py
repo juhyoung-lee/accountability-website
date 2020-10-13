@@ -1,7 +1,8 @@
 from datetime import datetime
 import forms
+import models
 
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -37,10 +38,30 @@ def registration():
 def view_client():
     return render_template('view-client.html')
 
+@app.route("/temp.html", methods=["POST", "GET"])
+def temp():
+    if request.method == "POST":
+	    user = request.form["nm"]
+	    return redirect(url_for("view_goal", usr=user))
+    else:
+	    return render_template("temp.html")
 
-@app.route('/view-goal.html')
-def view_goal():
-    return render_template('view-goal.html')
+#@app.route("/<usr>")
+#def user(usr):
+ #   return f"<h1>{usr}</h1>"
+
+
+#@app.route("/<usr>")
+#def view_goal(usr):
+#    return render_template('view-goal.html',content=usr)
+
+
+@app.route('/<usr>')
+def view_goal(usr):
+    results = db.session.query(models.Goal) \
+                        .filter(models.Goal.email_id == usr).all()
+    return render_template('view-goal.html', usr=usr, data=results)
+
 
 
 @app.route('/edit-goal.html')
