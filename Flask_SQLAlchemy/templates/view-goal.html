@@ -7,7 +7,7 @@
 
 {% block content%}
     <body>
-        <header>Personal Goals</header>
+        <header>{{usr}}'s Personal Goals</header>
 
             <div class="row">
             <div class="column" style="background-color:#aaa;">
@@ -16,10 +16,15 @@
             </div>
             <div class="column" style="background-color:#bbb;">
                 <h2>My Goals</h2>
-                <section>Goal 1: Get better at full stack development</section>
+                <!--<section>Goal 1: Get better at full stack development</section>
                 <section>Goal 2:</section>
                 <section>Goal 3:</section>
-                <footer></footer>
+                <footer></footer>-->
+                {% for goal in data %}
+                <tr>
+                    <td>{{goal.name}}</td>
+                </tr>
+                {% endfor %}
             </div>
             </div>
     </body>
