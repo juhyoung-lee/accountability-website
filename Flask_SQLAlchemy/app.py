@@ -1,12 +1,12 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import forms
 import models
-
-from flask import Flask, redirect, render_template, url_for, request
+from flask import Flask, redirect, render_template, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 
-
 app = Flask(__name__)
+app.secret_key = 'sudeepa'
+app.permanent_session_lifetime = timedelta(days=3)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -19,22 +19,53 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/layout.html')
+@app.route('/layout')
 def layout():
     return render_template('layout.html')
 
 
-@app.route('/login')
+@app.route('/loggedin')
+def loggedin():
+    if 'email' in session:
+        email = session['email']
+        return f'<h1>{email} logged in</h1>'
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/logout')
+def logout():
+    if 'email' in session:
+        session.pop('email', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        email = request.form['uname']
+        psw = request.form['psw']
+        # db.session.query(user)
+        if models.User.query.filter_by(email_id=email, password=psw).first():
+            session['email'] = email
+            if request.form.get('remember') != None:
+                session.permanent = True
+            return redirect(url_for('loggedin'))
+        else:
+            return redirect(url_for('login'))
+
+    else:
+        if 'email' in session:
+            return redirect(url_for('index'))
+        return render_template('login.html')
 
 
-@app.route('/registration.html', methods=['POST', 'GET'])
+@ app.route('/registration', methods=['POST', 'GET'])
 def registration():
     return render_template('registration.html')
 
 
-@app.route('/view-client.html')
+@ app.route('/view-client')
 def view_client():
     return render_template('view-client.html')
 
@@ -62,22 +93,25 @@ def view_goal(usr):
                         .filter(models.Goal.email_id == usr).all()
     return render_template('view-goal.html', usr=usr, data=results)
 
+#@ app.route('/view-goal')
+#def view_goal():
+#    return render_template('view-goal.html')
 
 
-@app.route('/edit-goal.html')
+@ app.route('/edit-goal')
 def edit_goal():
     return render_template('edit-goal.html')
 
 
-@app.route('/edit-client.html')
+@ app.route('/edit-client')
 def edit_client1():
     return render_template('edit-client.html')
 
 
-@app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
+@ app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
 def edit_client(email_id):
-    client = db.session.query(models.Client)\
-        .filter(models.Client.email_id == email_id).one()
+    client = db.session.query(models.Client).filter(
+        models.Client.email_id == email_id).one()
     phone_number = db.session.query(client.phone_number).one()
     timezone = db.session.query(client.timezone).one()
     year = db.session.query(client.year).one()
