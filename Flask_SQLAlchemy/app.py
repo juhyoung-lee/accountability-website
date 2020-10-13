@@ -45,8 +45,7 @@ def login():
     if request.method == 'POST':
         email = request.form['uname']
         psw = request.form['psw']
-        # db.session.query(user)
-        if models.User.query.filter_by(email_id=email, password=psw).first():
+        if db.session.query(models.User).filter(models.User.email_id == email and models.User.password == psw).first():
             session['email'] = email
             if request.form.get('remember') != None:
                 session.permanent = True
