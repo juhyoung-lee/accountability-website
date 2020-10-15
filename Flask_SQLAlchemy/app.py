@@ -68,11 +68,12 @@ def registration():
 def view_client():
     return render_template('view-client.html')
 
-
-@ app.route('/view-goal')
+@app.route('/view-goal')
 def view_goal():
-    return render_template('view-goal.html')
-
+    usr = session['email']
+    results = db.session.query(models.Goal) \
+                        .filter(models.Goal.email_id == usr).all()
+    return render_template('view-goal.html', usr=usr, data=results)
 
 @ app.route('/edit-goal')
 def edit_goal():
