@@ -5,7 +5,7 @@ import forms
 from flask import Flask, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import ClientEditForm
+from forms import GoalEditForm
 
 app = Flask(__name__)
 
@@ -47,9 +47,9 @@ def view_goal():
 
 @app.route('/edit-goal.html')
 def edit_goal():
-    form = ClientEditForm()
-    if form.validate_on_submit():
-        return redirect(url_for('success')) ## change this to appropriate url
+    form = GoalEditForm()
+    # if form.validate_on_submit():
+    #     return redirect(url_for('success')) ## change this to appropriate url
     return render_template('edit-goal.html', form=form)
 
 

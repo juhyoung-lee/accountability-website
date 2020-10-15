@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block heading %}Edit Goal: {{form.name}}{% endblock %}
 {% block content %}
-<form action="{{url_for('edit_goal', name=Goal.name)}}" method="POST">
+<form action="{{url_for('edit_goal', name=form.name)}}" method="POST">
   {{form.csrf_token}}
   <h3>
     Goal: {{form.name}}
@@ -16,7 +16,7 @@
     <ul>{% for error in form.progress.errors %}<li>{{error}}</li>{% endfor %}</ul>
     {% endif %}
   </label>
-  <input type="number" placeholder="Enter goal progress" name="progress" id="progress" value="{{Goal.progress}}">
+  <input type="number" placeholder="Enter goal progress" name="progress" id="progress" value="{{form.progress}}">
 
   <input type="reset" value="Cancel"/>
   <input type="submit" value="Save changes"/>

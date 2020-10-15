@@ -25,6 +25,7 @@ class GoalEditForm:
         class F(FlaskForm):
             name = StringField(default=Goal.name)
             progress = IntegerField(default=Goal.progress)
+            submit = SubmitField('Save changes')
         return F()
 
 class ServingsFormFactory:
