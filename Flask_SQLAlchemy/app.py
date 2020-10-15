@@ -6,6 +6,10 @@ from flask import Flask, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import GoalEditForm
+import sys
+sys.path.append(".")
+
+from models import *
 
 app = Flask(__name__)
 
@@ -45,12 +49,17 @@ def view_goal():
     return render_template('view-goal.html')
 
 
-@app.route('/edit-goal.html')
-def edit_goal():
-    form = GoalEditForm()
+@app.route('/edit-goal/<id>', methods=['GET', 'POST'])
+def edit_goal(id):
     # if form.validate_on_submit():
     #     return redirect(url_for('success')) ## change this to appropriate url
-    return render_template('edit-goal.html', form=form)
+    goal = Goal.query.filter_by(goal_id=id).first_or_404()
+    return render_template('edit-goal.html', goal=goal)
+    # except con.Error as err: # if error
+        # then display the error in 'database_error.html' page
+        # return render_template('database_error.html', error=err)
+
+    return render_template('edit-goal.html', goal=goal)
 
 
 @app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
