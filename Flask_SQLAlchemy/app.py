@@ -67,7 +67,10 @@ def registration():
 
 @ app.route('/view-client')
 def view_client():
-    return render_template('view-client.html')
+    usr = session['email']
+    results = db.session.query(models.Client) \
+                        .filter(models.Client.email_id == usr).one()
+    return render_template('view-client.html', usr=usr, data=results)
 
 @app.route('/view-goal')
 def view_goal():
