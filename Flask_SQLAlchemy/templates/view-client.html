@@ -6,39 +6,91 @@
 {% endblock %} 
 {% block content%}
     <body>
-        <header>{{usr}}'s Personal Info</header>
-
             <div class="row">
-                <div class="column" style="background-color:#aaa;">
-                    <h2>Overall Progress</h2>
-                    <p>Some text/figure..</p>
-                </div>
                 <div class="column" style="background-color:#bbb;">
-                    <h2>Goals</h2>
+                    <h2>{{usr}}'s Personal Info</h2>
                     <table>
                         <tr>
                             <td>Email</td>
-                            <td>Cell Phone Number</td>
-                            <td>Class Year</td>
-                            <td>Major</td>
-                            <td>Current Courses</td>
-                            <td>What do you hope to get out of having a partner?</td>
-                            <td>Time Zone</td>
-                            <td>Requested Partner</td>
-                            <td>Matching Priorities</td>
                         </tr>
                         <tr>
                             <td>{{data.email_id}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Cell Phone Number</td>
+                        </tr>
+                        <tr>
                             <td>{{data.phone_number}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Class Year</td>
+                        </tr>
+                        <tr>
                             <td>{{data.year}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Major</td>
+                        </tr>
+                        <tr>
                             <td>{{data.major_minor}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Current Course</td>
+                        </tr>
+                        <tr>
                             <td>{{data.classes}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>What do You Hope to Get Out of Having a Partner?</td>
+                        </tr>
+                        <tr>
                             <td>{{data.aim}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Time Zone</td>
+                        </tr>
+                        <tr>
                             <td>{{data.timezone}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Requested Partner</td>
+                        </tr>
+                        <tr>
                             <td>{{data.partner_request}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Matching Priority</td>
+                        </tr>
+                        <tr>
                             <td>{{data.priorities}}</td>
                         </tr>
                     </table>
+                    <br>
+                    <button type="button">Edit Personal Info</button>
                 </div>
             </div>
     </body>
