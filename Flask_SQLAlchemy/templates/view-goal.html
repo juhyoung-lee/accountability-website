@@ -16,18 +16,33 @@
                 </div>
                 <div class="column" style="background-color:#bbb;">
                     <h2>Goals</h2>
-                    <table>
-                        <tr>
-                            <td>Goal Name</td>
-                            <td>Progress</td>
-                            <td>Date Created</td>
+                    <table>                                         
+                        <tr>                                                        <!--top labels for the table--> 
+                            <th>Goal Name</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
                         </tr>
-                        {% for goal in data %}
+                        {% for goal in goal_data %}                                 <!--prints out all the goals--> 
                         <tr>
                             <td>{{goal.name}}</td>
                             <td>{{goal.progress}}</td>
                             <td>{{goal.date_created}}</td>
+                            <td><button type="button">Edit Goal</button></td>
                         </tr>
+                        <tr>   
+                            <td></td>
+                            <td></td> 
+                            <th>Milestones</th>                                     <!--for each goal, display the corresponding milestones-->
+                        </tr>
+                            {% for milestone in milestone_data %}                   
+                                {% if milestone.Goal_ID == goal.goal_id %} 
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:center">{{milestone.Name}}</td>
+                                </tr>
+                                {% endif %} 
+                            {% endfor %}
                         {% endfor %}
                     </table>
                 </div>

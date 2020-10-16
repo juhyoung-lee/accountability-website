@@ -88,15 +88,20 @@ def registration():
 
 @ app.route('/view-client')
 def view_client():
-    return render_template('view-client.html')
+    usr = session['email']
+    results = db.session.query(models.Client) \
+                        .filter(models.Client.email_id == usr).one()
+    return render_template('view-client.html', usr=usr, data=results)
 
 
 @app.route('/view-goal')
 def view_goal():
     usr = session['email']
-    results = db.session.query(models.Goal) \
+    goal_results = db.session.query(models.Goal) \
                         .filter(models.Goal.email_id == usr).all()
-    return render_template('view-goal.html', usr=usr, data=results)
+    milestone_results = db.session.query(models.Milestone) \
+                        .filter(models.Milestone.Email_ID == usr).all()
+    return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
 
 
 @ app.route('/edit-goal')
