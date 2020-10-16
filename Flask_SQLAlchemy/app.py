@@ -52,7 +52,6 @@ def login():
             return redirect(url_for('loggedin'))
         else:
             return redirect(url_for('login'))
-
     else:
         if 'email' in session:
             return redirect(url_for('index'))
@@ -61,12 +60,36 @@ def login():
 
 @ app.route('/registration', methods=['POST', 'GET'])
 def registration():
-    return render_template('registration.html')
+    form = forms.AddClientForm()
+    if form.validate_on_submit():
+        email_id = request.form['email']
+        password = request.form['psw']
+        password_rpt = request.form['psw-repeat']
+        name = request.form['name']
+        phone_number = request.form['phone']
+        timezone = request.form['time']
+        year = request.form['year']
+        major_minor = request.form['major']
+        classes = request.form['courses']
+        partner_request = request.form['partner']
+        priorities = request.form['priority']
+        aim = request.form['hope']
+        user = models.User(email_id, password, name)
+        client = models.Client(email_id, phone_number, timezone, year,
+                               major_minor, classes, partner_request, priorities, aim)
+        db.session.add(user)
+        db.session.add(client)
+        db.session.commit()
+        session['email'] = email_id
+        return render_template('view-goal.html')
+    else:
+        return render_template('registration.html')
 
 
 @ app.route('/view-client')
 def view_client():
     return render_template('view-client.html')
+
 
 @app.route('/view-goal')
 def view_goal():
@@ -74,6 +97,7 @@ def view_goal():
     results = db.session.query(models.Goal) \
                         .filter(models.Goal.email_id == usr).all()
     return render_template('view-goal.html', usr=usr, data=results)
+
 
 @ app.route('/edit-goal')
 def edit_goal():

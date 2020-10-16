@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body%}
-<form action="/action_page.php">
+<form >
   <div class="container">
     <h1>Register</h1>
     <p>Please fill in this form to create an account.</p>
@@ -30,7 +30,7 @@
 
     <label for="phone"><b>Cell phone number</b></label>
     <input
-      type="text"
+      type="number"
       placeholder="Enter Phone Number"
       name="phone"
       id="phone"
@@ -39,7 +39,7 @@
 
     <label for="year"><b>Class Year</b></label>
     <input
-      type="text"
+      type="number"
       placeholder="Enter Year"
       name="year"
       id="year"
@@ -50,14 +50,16 @@
     <!--Multiselect drop down-->
     <input
       type="text"
-      placeholder="Enter Major"
+      placeholder="Enter Major/Minor/Concentrations"
       name="major"
       id="major"
       required
     />
-
+    <!--
     <label for="minor"><b>Minor/Concentrations</b></label>
+    -->
     <!--Multiselect drop down-->
+    <!--
     <input
       type="text"
       placeholder="Enter Minor/Concentrations"
@@ -65,6 +67,7 @@
       id="minor"
       required
     />
+    -->
 
     <label for="courses"><b>Current Courses</b></label>
     <!--Multiselect drop down-->
@@ -85,8 +88,8 @@
     <label for="time"><b>Time Zone</b></label>
     <!--Multiselect drop down-->
     <input
-      type="text"
-      placeholder="3 letter designation"
+      type="number"
+      placeholder="UTC timezone from -11 to 12"
       name="time"
       id="time"
       required
