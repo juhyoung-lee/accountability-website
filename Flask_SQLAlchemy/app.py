@@ -1,3 +1,4 @@
+from models import *
 from datetime import datetime, timedelta
 import forms
 import models
@@ -8,7 +9,6 @@ from forms import GoalEditForm
 import sys
 sys.path.append(".")
 
-from models import *
 
 app = Flask(__name__)
 app.secret_key = 'sudeepa'
@@ -114,9 +114,11 @@ def view_goal():
         .filter(models.Milestone.Email_ID == usr).all()
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
 
+
 @ app.route('/edit-goal')
 def edit_goal():
     return render_template('edit-goal.html')
+
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
 def edit_goal(id):
@@ -125,19 +127,21 @@ def edit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     return render_template('edit-goal.html', goal=goal)
     # except con.Error as err: # if error
-        # then display the error in 'database_error.html' page
-        # return render_template('database_error.html', error=err)
+    # then display the error in 'database_error.html' page
+    # return render_template('database_error.html', error=err)
 
     return render_template('edit-goal.html', goal=goal)
 
-@app.route('/submit-goal/<id>', methods = ['POST'])
+
+@app.route('/submit-goal/<id>', methods=['POST'])
 def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
     db.session.commit()
     print('committed')
-    return redirect('/') ##redirect to view-goal
+    return redirect('/')  # redirect to view-goal
+
 
 @ app.route('/edit-client')
 def edit_client1():
