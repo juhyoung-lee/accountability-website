@@ -27,7 +27,11 @@
                             <td>{{goal.name}}</td>
                             <td>{{goal.progress}}</td>
                             <td>{{goal.date_created}}</td>
-                            <td><button type="button">Edit Goal</button></td>
+                            <td>
+                                <form action="/edit-goal/{{goal.goal_id}}" method="post">
+                                    <input type="submit" value="Edit Goal" name="edit-goal"/>
+                                </form>
+                            </td>
                         </tr>
                         <tr>   
                             <td></td>
