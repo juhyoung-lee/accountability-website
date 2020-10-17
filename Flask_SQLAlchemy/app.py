@@ -1,12 +1,7 @@
 from datetime import datetime, timedelta
 import forms
-<<<<<<< HEAD
-
-from flask import Flask, url_for, redirect, render_template
-=======
 import models
 from flask import Flask, redirect, render_template, url_for, request, session
->>>>>>> c44bc8460fe48afd61d82ed5f5a083cb16abecc1
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import GoalEditForm
@@ -87,7 +82,6 @@ def view_goal():
                         .filter(models.Goal.email_id == usr).all()
     return render_template('view-goal.html', usr=usr, data=results)
 
-<<<<<<< HEAD
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
 def edit_goal(id):
@@ -100,12 +94,15 @@ def edit_goal(id):
         # return render_template('database_error.html', error=err)
 
     return render_template('edit-goal.html', goal=goal)
-=======
-@ app.route('/edit-goal')
-def edit_goal():
-    return render_template('edit-goal.html')
->>>>>>> c44bc8460fe48afd61d82ed5f5a083cb16abecc1
 
+@app.route('/submit-goal/<id>', methods = ['POST'])
+def submit_goal(id):
+    goal = Goal.query.filter_by(goal_id=id).first_or_404()
+    goal.name = request.form['name']
+    goal.progress = request.form['progress']
+    db.session.commit()
+    print('committed')
+    return redirect('/') ##redirect to view-goal
 
 @ app.route('/edit-client')
 def edit_client1():

@@ -1,11 +1,12 @@
 {% extends 'layout.html' %}
+{from flask import url_for}
 {% block head%}
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../static/css/editgoals.css" />
 {% endblock %}
 
 {% block content %}
-  <form method='post'>
+  <form action='/submit-goal/{{ goal.goal_id }}' method='post'>
     <div class="container">
       <h1>Edit Goal</h1>
       <hr />
@@ -22,12 +23,12 @@
       <label for="progress"><b>Goal progress</b></label>
       <input
         type="number"
-        placeholder="Update goal progress"
+        placeholder={{goal.progress}}
         name="progress"
         id="progress"
       />
+      <a href="{{ url_for('index') }}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->
       <button type="submit" class="submitbtn">Save changes</button>
-      <button type="cancel" class="cancelbtn">Cancel</button>
     </div>
 
 </form>
