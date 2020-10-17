@@ -3,16 +3,15 @@ import forms
 import models
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import CsrfProtect
 
 app = Flask(__name__)
 app.secret_key = 'sudeepa'
-csrf = CsrfProtect()
-csrf.init_app(app)
+
 app.permanent_session_lifetime = timedelta(days=3)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.config['WTF_CSRF_ENABLED'] = False
 
 db = SQLAlchemy(app)
 
@@ -78,16 +77,16 @@ def registration():
         priorities = request.form['priorities']
         aim = request.form['aim']
         user = models.User(email_id, password, name)
+        db.session.add(user)
         client = models.Client(email_id, phone_number, timezone, year,
                                major_minor, classes, partner_request, priorities, aim)
-        db.session.add(user)
         db.session.add(client)
         db.session.commit()
         session['email'] = email_id
         return render_template('view-goal.html')
     else:
         error = form.errors.items()
-        flash('wrong')
+        flash(f'{error}')
         print(error)
         return render_template('registration.html')
 
