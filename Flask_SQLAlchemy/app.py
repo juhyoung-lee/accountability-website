@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta
 import forms
 import models
-from flask import Flask, redirect, render_template, url_for, request, session
+from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CsrfProtect
 
 app = Flask(__name__)
 app.secret_key = 'sudeepa'
+csrf = CsrfProtect()
+csrf.init_app(app)
 app.permanent_session_lifetime = timedelta(days=3)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -62,18 +65,18 @@ def login():
 def registration():
     form = forms.AddClientForm()
     if form.validate_on_submit():
-        email_id = request.form['email']
-        password = request.form['psw']
-        password_rpt = request.form['psw-repeat']
+        email_id = request.form['email_id']
+        password = request.form['password']
+        password_rpt = request.form['password_rpt']
         name = request.form['name']
-        phone_number = request.form['phone']
-        timezone = request.form['time']
+        phone_number = request.form['phone_number']
+        timezone = request.form['timezone']
         year = request.form['year']
-        major_minor = request.form['major']
-        classes = request.form['courses']
-        partner_request = request.form['partner']
-        priorities = request.form['priority']
-        aim = request.form['hope']
+        major_minor = request.form['major_minor']
+        classes = request.form['classes']
+        partner_request = request.form['partner_request']
+        priorities = request.form['priorities']
+        aim = request.form['aim']
         user = models.User(email_id, password, name)
         client = models.Client(email_id, phone_number, timezone, year,
                                major_minor, classes, partner_request, priorities, aim)
@@ -83,6 +86,9 @@ def registration():
         session['email'] = email_id
         return render_template('view-goal.html')
     else:
+        error = form.errors.items()
+        flash('wrong')
+        print(error)
         return render_template('registration.html')
 
 
@@ -98,9 +104,9 @@ def view_client():
 def view_goal():
     usr = session['email']
     goal_results = db.session.query(models.Goal) \
-                        .filter(models.Goal.email_id == usr).all()
+        .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
-                        .filter(models.Milestone.Email_ID == usr).all()
+        .filter(models.Milestone.Email_ID == usr).all()
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
 
 
