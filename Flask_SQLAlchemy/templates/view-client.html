@@ -5,62 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 {% endblock %} 
 {% block content%}
-<body>
-    <header>Personal Info</header>
-
-        <div class="row" style = "background-color: purple;"> 
-        <div class="column" style="background-color:rgb(164, 173, 123);">
-            <h2>Name</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Email</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Cell Phone Number</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Class Year</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Major</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Minor/Concentration</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Current Courses</h2>
-            <section>Course 1: </section>
-            <section>Course 2:</section>
-            <section>Course 3:</section>
-            <section>Course 4:</section>
-            <section>Course 5:</section>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>What do you hope to get out of having a partner?</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123)a;">
-            <h2>Time Zone</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Requested Partner(if applicable)</h2>
-            <p>something</p>
-        </div>
-        <div class="column" style="background-color: rgb(164, 173, 123);">
-            <h2>Matching Priorities</h2>
-            <section>Preference 1: </section>
-            <section>Preference 2:</section>
-            <section>Preference 3:</section>
-            <section>Preference 4:</section>
-            <section>Preference 5:</section>
-        </div>
-        </div>
-</body>
+    <body>
+            <div class="row">
+                <div class="column" style="background-color:#bbb;">
+                    <h2>{{usr}}'s Personal Info</h2>
+                    <table>
+                        <tr>
+                            <td>Email</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.email_id}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Cell Phone Number</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.phone_number}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Class Year</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.year}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Major</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.major_minor}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Current Course</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.classes}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>What do You Hope to Get Out of Having a Partner?</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.aim}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Time Zone</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.timezone}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Requested Partner</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.partner_request}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>Matching Priority</td>
+                        </tr>
+                        <tr>
+                            <td>{{data.priorities}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <button type="button">Edit Personal Info</button>
+                </div>
+            </div>
+    </body>
 {% endblock %}
