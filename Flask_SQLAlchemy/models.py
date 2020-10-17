@@ -11,6 +11,11 @@ class User(db.Model):
     name = db.Column(db.String(100))
     date_created = db.Column(db.DateTime, default=datetime.now)
 
+    def __init__(self, email_id, password, name):
+        self.email_id = email_id
+        self.password = password
+        self.name = name
+
 
 class Client(db.Model):
     email_id = db.Column(db.String(100), db.ForeignKey(
@@ -25,6 +30,17 @@ class Client(db.Model):
     aim = db.Column(db.String(500))
 
     goals = db.relationship('Goal', backref='client')
+
+    def __init__(self, email, phone, time, year, major, classes, partner, prio, aim):
+        self.email_id = email
+        self.phone_number = phone
+        self.timezone = time
+        self.year = year
+        self.major_minor = major
+        self.classes = classes
+        self.partner_request = partner
+        self.priorities = prio
+        self.aim = aim
 
 
 class Goal(db.Model):

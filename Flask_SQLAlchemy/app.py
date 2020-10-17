@@ -1,15 +1,17 @@
 from datetime import datetime, timedelta
 import forms
 import models
-from flask import Flask, redirect, render_template, url_for, request, session
+from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'sudeepa'
+
 app.permanent_session_lifetime = timedelta(days=3)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.config['WTF_CSRF_ENABLED'] = False
 
 db = SQLAlchemy(app)
 
@@ -45,15 +47,13 @@ def login():
     if request.method == 'POST':
         email = request.form['uname']
         psw = request.form['psw']
-        # db.session.query(user)
-        if models.User.query.filter_by(email_id=email, password=psw).first():
+        if db.session.query(models.User).filter(models.User.email_id == email and models.User.password == psw).first():
             session['email'] = email
             if request.form.get('remember') != None:
                 session.permanent = True
             return redirect(url_for('loggedin'))
         else:
             return redirect(url_for('login'))
-
     else:
         if 'email' in session:
             return redirect(url_for('index'))
@@ -62,7 +62,33 @@ def login():
 
 @ app.route('/registration', methods=['POST', 'GET'])
 def registration():
-    return render_template('registration.html')
+    form = forms.AddClientForm()
+    if form.validate_on_submit():
+        email_id = request.form['email_id']
+        password = request.form['password']
+        password_rpt = request.form['password_rpt']
+        name = request.form['name']
+        phone_number = request.form['phone_number']
+        timezone = request.form['timezone']
+        year = request.form['year']
+        major_minor = request.form['major_minor']
+        classes = request.form['classes']
+        partner_request = request.form['partner_request']
+        priorities = request.form['priorities']
+        aim = request.form['aim']
+        user = models.User(email_id, password, name)
+        db.session.add(user)
+        client = models.Client(email_id, phone_number, timezone, year,
+                               major_minor, classes, partner_request, priorities, aim)
+        db.session.add(client)
+        db.session.commit()
+        session['email'] = email_id
+        return render_template('view-goal.html')
+    else:
+        error = form.errors.items()
+        flash(f'{error}')
+        print(error)
+        return render_template('registration.html')
 
 
 @ app.route('/view-client')
@@ -72,14 +98,16 @@ def view_client():
                         .filter(models.Client.email_id == usr).one()
     return render_template('view-client.html', usr=usr, data=results)
 
+
 @app.route('/view-goal')
 def view_goal():
     usr = session['email']
     goal_results = db.session.query(models.Goal) \
-                        .filter(models.Goal.email_id == usr).all()
+        .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
-                        .filter(models.Milestone.Email_ID == usr).all()
+        .filter(models.Milestone.Email_ID == usr).all()
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
+
 
 @ app.route('/edit-goal')
 def edit_goal():
