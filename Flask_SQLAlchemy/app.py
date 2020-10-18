@@ -191,6 +191,7 @@ def edit_client(e_id):
     client.partner_request = request.form['partner_request']
     client.priorities = request.form['priorities']
     client.aim = request.form['aim']
+    db.session.merge(client)
     db.session.commit()
     print('committed')
     return redirect('/view-client') ##redirect to view-goal
