@@ -135,6 +135,8 @@ def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
+    print(goal.name + goal.progress)
+    db.session.merge(goal)
     db.session.commit()
     print('committed')
     return redirect('/') ##redirect to view-goal
@@ -189,6 +191,7 @@ def edit_client(e_id):
     client.partner_request = request.form['partner_request']
     client.priorities = request.form['priorities']
     client.aim = request.form['aim']
+    db.session.merge(client)
     db.session.commit()
     print('committed')
     return redirect('/view-client') ##redirect to view-goal
