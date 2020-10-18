@@ -5,7 +5,7 @@ import models
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import GoalEditForm
+# from forms import GoalEditForm
 import sys
 sys.path.append(".")
 
@@ -115,9 +115,9 @@ def view_goal():
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
 
 
-@ app.route('/edit-goal')
-def edit_goal():
-    return render_template('edit-goal.html')
+# @ app.route('/edit-goal')
+# def edit_goal():
+#     return render_template('edit-goal.html')
 
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
