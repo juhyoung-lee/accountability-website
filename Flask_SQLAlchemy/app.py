@@ -5,7 +5,11 @@ import models
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
+<<<<<<< HEAD
 # from forms import GoalEditForm
+=======
+#from forms import GoalEditForm
+>>>>>>> 13cee07717cef2a3f1517502ab4f60b25da6d6bc
 import sys
 sys.path.append(".")
 
@@ -114,11 +118,17 @@ def view_goal():
         .filter(models.Milestone.Email_ID == usr).all()
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
 
+<<<<<<< HEAD
 
 # @ app.route('/edit-goal')
 # def edit_goal():
 #     return render_template('edit-goal.html')
 
+=======
+@ app.route('/edit-goal')
+def edit_goal1():
+    return render_template('edit-goal.html')
+>>>>>>> 13cee07717cef2a3f1517502ab4f60b25da6d6bc
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
 def edit_goal(id):
@@ -138,36 +148,43 @@ def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
+    print(goal.name + goal.progress)
+    db.session.merge(goal)
     db.session.commit()
     print('committed')
     return redirect('/')  # redirect to view-goal
 
 
+
 @ app.route('/edit-client')
 def edit_client1():
-    return render_template('edit-client.html')
+    usr = session['email']
+    user = db.session.query(models.Client) \
+                        .filter(models.Client.email_id == usr).one()
+    return render_template('edit-client.html', Client = user)
 
+@ app.route('/edit-client/<e_id>', methods=['GET', 'POST'])
 
-@ app.route('/edit-client/<email_id>', methods=['GET', 'POST'])
-def edit_client(email_id):
+def edit_client(e_id):
+    '''
     client = db.session.query(models.Client).filter(
-        models.Client.email_id == email_id).one()
-    phone_number = db.session.query(client.phone_number).one()
-    timezone = db.session.query(client.timezone).one()
-    year = db.session.query(client.year).one()
-    major_minor = db.session.query(client.major_minor).one()
-    classes = db.session.query(client.classes).one()
-    partner_request = db.session.query(client.partner_request).one()
-    priorities = db.session.query(client.priorities).one()
-    aim = db.session.query(client.aim).one()
+        models.Client.email_id == e_id).first()
+    phone_number = db.session.query(client.phone_number).first()
+    timezone = db.session.query(client.timezone).first()
+    year = db.session.query(client.year).first()
+    major_minor = db.session.query(client.major_minor).first()
+    classes = db.session.query(client.classes).first()
+    partner_request = db.session.query(client.partner_request).first()
+    priorities = db.session.query(client.priorities).first()
+    aim = db.session.query(client.aim).first()
 
-    form = forms.ClientEditForm(client, phone_number, timezone, year, major_minor, classes,
-                                partner_request, priorities, aim)
-
+    #form = forms.ClientEditForm(client, phone_number, timezone, year, major_minor, classes,
+                                #partner_request, priorities, aim)
+   
     if form.validate_on_submit():
         try:
             form.errors.pop('database', None)
-            models.Drinker.edit(email_id, form.phone_number.data, form.timezone.data,
+            models.Client.edit(email_id, form.phone_number.data, form.timezone.data,
                                 form.year.data, form.major_minor.data, form.classes.data,
                                 form.partner_request.data, form.priorities.data, form.aim.data)
             return redirect(url_for('clientdisplay', email_id=form.email_id.data))
@@ -176,6 +193,22 @@ def edit_client(email_id):
             return render_template('edit-client.html', Client=client, form=form)
     else:
         return render_template('edit-client.html', Client=client, form=form)
+    '''
+    client = Client.query.filter_by(email_id=e_id).first_or_404()
+    #form = forms.ClientEditForm(client, phone_number, timezone, year, major_minor, classes,
+                                #partner_request, priorities, aim)
+    client.phone_number = request.form['phone_number']
+    client.timezone = request.form['timezone']
+    client.year = request.form['year']
+    client.major_minor = request.form['major_minor']
+    client.classes = request.form['classes']
+    client.partner_request = request.form['partner_request']
+    client.priorities = request.form['priorities']
+    client.aim = request.form['aim']
+    db.session.merge(client)
+    db.session.commit()
+    print('committed')
+    return redirect('/view-client') ##redirect to view-goal
 
 
 if __name__ == '__main__':

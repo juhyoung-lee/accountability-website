@@ -1,85 +1,80 @@
 {% extends 'layout.html' %}
 {% block heading %}Edit Personal Information: {{Client.email_id}}{% endblock %}
 {% block content %}
-<form action="{{url_for('edit_client', email_id=Client.email_id)}}" method="POST">
-  {{form.csrf_token}}
+<form action="{{url_for('edit_client', e_id=Client.email_id)}}" method="POST">
 
   <h3>
     Email ID: {{Client.email_id}}
-    {% if form.email_id.errors %}
-    <ul>{% for error in form.email_id.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
   </h3>
 
-
   <label for = "phone_number">
-    Phone number: {{form.phone_number}}
-    {% if form.phone_number.errors %}
-    <ul>{% for error in form.phone_number.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Phone number:
   </label>
   <input type="number" placeholder="Enter phone number" name="phone_number" id="phone_number" value="{{Client.phone_number}}" required>
 
+  <br>
+  <br>
+
   <label for = "timezone">
-    Timezone: {{form.timezone}}
-    {% if form.timezone.errors %}
-    <ul>{% for error in form.timezone.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Timezone: 
+
   </label>
   <input type="number" placeholder="Enter timezone" name="timezone" id="timezone" value="{{Client.timezone}}" required>
+  
+  <br>
+  <br>
 
   <label for = "year">
-    Year: {{form.year}}
-    {% if form.year.errors %}
-    <ul>{% for error in form.year.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Year: 
+
   </label>
   <input type="number" placeholder="Enter year" name="year" id="year" value="{{Client.year}}" required>
 
+  <br>
+  <br>
+
   <label for = "major_minor">
-    Major and minor: {{form.major_minor}}
-    {% if form.major_minor.errors %}
-    <ul>{% for error in form.major_minor.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Major and minor: 
   </label>
   <input type="text" placeholder="Enter major and minor" name="major_minor" id="major_minor" value="{{Client.major_minor}}" required>
 
+  <br>
+  <br>
+
   <label for = "classes">
-    Classes: {{form.classes}}
-    {% if form.classes.errors %}
-    <ul>{% for error in form.classes.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Classes: 
   </label>
   <input type="text" placeholder="Enter classes taking" name="classes" id="classes" value="{{Client.classes}}" required>
 
-  <label for = "partner">
-    Partner request: {{form.partner}}
-    {% if form.partner.errors %}
-    <ul>{% for error in form.partner.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+  <br>
+  <br>
+
+  <label for = "partner_request">
+    Partner request: 
   </label>
-  <input type="text" placeholder="Enter preferred partner" name="partner" id="partner" value="{{Client.partner}}" required>
+  <input type="text" placeholder="Enter preferred partner" name="partner_request" id="partner_request" value="{{Client.partner_request}}" required>
+
+  <br>
+  <br>
 
   <label for = "priorities">
-    Priorities: {{form.priorities}}
-    {% if form.priorities.errors %}
-    <ul>{% for error in form.priorities.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Priorities: 
   </label>
   <input type="text" placeholder="Enter priorities" name="priorities" id="priorities" value="{{Client.priorities}}" required>
 
+  <br>
+  <br>
+
   <label for = "aim">
-    Aim: {{form.aim}}
-    {% if form.aim.errors %}
-    <ul>{% for error in form.aim.errors %}<li>{{error}}</li>{% endfor %}</ul>
-    {% endif %}
+    Aim: 
   </label>
   <input type="text" placeholder="Enter aim(s)" name="aim" id="aim" value="{{Client.aim}}" required>
 
+  <br>
+  <br>
 
   <hr/>
   <input type="reset" value="Reset"/>
   <input type="submit" value="Submit"/>
-  {% if 'database' in form.errors %}<p>{{form.errors['database']}}</p>{% endif %}
 </form>
 {% endblock %}
