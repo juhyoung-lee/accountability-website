@@ -109,16 +109,10 @@ def view_client():
 def view_goal():
     usr = session['email']
     goal_results = db.session.query(models.Goal) \
-        .filter(models.Goal.email_id == usr).all()
+    .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
-        .filter(models.Milestone.Email_ID == usr).all()
+    .filter(models.Milestone.Email_ID == usr).all()
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
-
-
-@ app.route('/edit-goal')
-def edit_goal1():
-    return render_template('edit-goal.html')
-
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
 def edit_goal(id):
@@ -130,19 +124,14 @@ def edit_goal(id):
     # then display the error in 'database_error.html' page
     # return render_template('database_error.html', error=err)
 
-    return render_template('edit-goal.html', goal=goal)
-
-
-@app.route('/submit-goal/<id>', methods=['POST'])
+@app.route('/submit-goal/<id>', methods = ['POST'])
 def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
-    print(goal.name + goal.progress)
     db.session.merge(goal)
     db.session.commit()
-    print('committed')
-    return redirect('/')  # redirect to view-goal
+    return redirect('/view-goal')
 
 
 @ app.route('/edit-client')

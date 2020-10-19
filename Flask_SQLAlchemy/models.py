@@ -51,10 +51,10 @@ class Goal(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.now)
     date_completed = db.Column(db.DateTime)
     progress = db.Column(db.Integer, default=0)
-
     milestones = db.relationship('Milestone', backref='goal')
-
-
+    def __hash__(self):
+        return hash(self)
+        
 class Milestone(db.Model):
     Milestone_ID = db.Column(db.Integer, primary_key=True)
     Goal_ID = db.Column(db.String(100), db.ForeignKey(
