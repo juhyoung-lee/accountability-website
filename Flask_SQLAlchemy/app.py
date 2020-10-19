@@ -6,11 +6,7 @@ import models
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
-<< << << < HEAD
 # from forms import GoalEditForm
-== == == =
-#from forms import GoalEditForm
->>>>>> > 13cee07717cef2a3f1517502ab4f60b25da6d6bc
 sys.path.append(".")
 
 
