@@ -1,0 +1,50 @@
+{% extends 'layout.html'%} 
+{% block head %}
+    <title>View Partner's Goals</title>
+    <link rel="stylesheet" href="/static/css/viewpartnergoals.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block content%}
+    <body>
+        <header>{{usr}}'s Personal Goals</header>
+
+            <div class="row">
+                <div class="column" style="background-color:#aaa;">
+                    <h2>Overall Progress</h2>
+                    <p>Some text/figure..</p>
+                </div>
+                <div class="column" style="background-color:#bbb;">
+                    <h2>Goals</h2>
+                    <table>                                         
+                        <tr>                                                        <!--top labels for the table--> 
+                            <th>Goal Name</th>
+                            <th>Progress</th>
+                            <th>Date Created</th>
+                        </tr>
+                        {% for goal in goal_data %}                                 <!--prints out all the goals--> 
+                        <tr>
+                            <td>{{goal.name}}</td>
+                            <td>{{goal.progress}}</td>
+                            <td>{{goal.date_created}}</td>
+                        </tr>
+                        <tr>   
+                            <td></td>
+                            <td></td> 
+                            <th>Milestones</th>                                     <!--for each goal, display the corresponding milestones-->
+                        </tr>
+                            {% for milestone in milestone_data %}                   
+                                {% if milestone.Goal_ID == goal.goal_id %} 
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:center">{{milestone.Name}}</td>
+                                </tr>
+                                {% endif %} 
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+    </body>
+{% endblock %}
