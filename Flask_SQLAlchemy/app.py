@@ -109,10 +109,21 @@ def view_client():
 def view_goal():
     usr = session['email']
     goal_results = db.session.query(models.Goal) \
-    .filter(models.Goal.email_id == usr).all()
+                        .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
-    .filter(models.Milestone.Email_ID == usr).all()
+                        .filter(models.Milestone.Email_ID == usr).all()
+    
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
+
+@app.route('/view-partner-goal')
+def view_partner_goal():
+    usr = 'fwhite@davis.org' #hardcoded partner for now
+    goal_results = db.session.query(models.Goal) \
+                        .filter(models.Goal.email_id == usr).all()
+    milestone_results = db.session.query(models.Milestone) \
+                        .filter(models.Milestone.Email_ID == usr).all()
+    
+    return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
 def edit_goal(id):
