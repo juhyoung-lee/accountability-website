@@ -46,13 +46,13 @@ def add_goals():
     clients = Client.query.all()
     for client in clients:
         for num in range(random.randint(0, 6)):
-            date=fake.date_time_this_year()
+            date=fake.date_this_year()
             goal = Goal(
                 goal_id=''.join(random.choice(letters) for i in range(10)),
                 email_id=client.email_id,
                 name=fake.color_name(),
                 date_created=date,
-                deadline=date#random.choices([None, fake.date_time_between(start_date=date)], [10, 90])[0]
+                deadline=fake.date_between(start_date=date)
             )
             db.session.add(goal)
     db.session.commit()

@@ -184,12 +184,14 @@
                             <th>Goal Name</th>
                             <th>Progress</th>
                             <th>Date Created</th>
+                            <th>Deadline</th>
                         </tr>
                         {% for goal in goal_data %}                                 <!--prints out all the goals--> 
                         <tr>
                             <td>{{goal.name}}</td>
                             <td>{{goal.progress}}</td>
                             <td>{{goal.date_created}}</td>
+                            <td>{{goal.deadline}}</td>
                             <td>
                                 <form action="/edit-goal/{{goal.goal_id}}" method="post">
                                     <input type="submit" value="Edit Goal" name="edit-goal"/>
