@@ -48,7 +48,9 @@ class Goal(db.Model):
     email_id = db.Column(db.String(100), db.ForeignKey(
         'client.email_id'), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.now)
+    #date_created = db.Column(db.DateTime, default=datetime.now)
+    date_created = db.Column(db.DateTime)
+    deadline = db.Column(db.DateTime)
     date_completed = db.Column(db.DateTime)
     progress = db.Column(db.Integer, default=0)
     milestones = db.relationship('Milestone', backref='goal')
