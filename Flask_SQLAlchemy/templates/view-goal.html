@@ -1,8 +1,122 @@
 {% extends 'layout.html'%} 
 {% block head %}
     <title>View Goals</title>
-    <link rel="stylesheet" href="/static/css/viewgoals.css">
+    <!--<link rel="stylesheet" href="/static/css/viewgoals.css">-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background: rgb(195, 226, 255);
+        }
+        header {
+            background: rgb(0, 122, 236);
+            padding: 20px;
+            font-size: 65px;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          
+          section {
+            background: rgb(0, 122, 236);
+            padding: 20px;
+            font-size: 25px;
+            margin-top: 10px;
+          }
+          
+          h2 {
+            font-size: 30px;
+          }
+          
+          * {
+            box-sizing: border-box;
+          }
+          
+          .row {
+            display: flex;
+          }
+          
+          /* Create two equal columns that sits next to each other */
+          .column {
+            flex: 50%;
+            padding: 10px;
+            margin-right: 10px;
+            height: 600px; 
+            background: rgb(0, 122, 236);
+          }
+        
+          ul {list-style-type: none;}
+        body {font-family: Verdana, sans-serif;}
+        
+        /* Month header */
+        .month {
+          padding: 70px 25px;
+          width: 100%;
+          background: rgb(0, 122, 236);
+          text-align: center;
+        }
+        
+        /* Month list */
+        .month ul {
+          margin: 0;
+          padding: 0;
+        }
+        
+        .month ul li {
+          color: white;
+          font-size: 20px;
+          text-transform: uppercase;
+          letter-spacing: 3px;
+        }
+        
+        /* Previous button inside month header */
+        .month .prev {
+          float: left;
+          padding-top: 10px;
+        }
+        
+        /* Next button */
+        .month .next {
+          float: right;
+          padding-top: 10px;
+        }
+        
+        /* Weekdays (Mon-Sun) */
+        .weekdays {
+          margin: 0;
+          padding: 10px 0;
+          background-color:#ddd;
+        }
+        
+        .weekdays li {
+          display: inline-block;
+          width: 13.6%;
+          color: #666;
+          text-align: center;
+        }
+        
+        /* Days (1-31) */
+        .days {
+          padding: 10px 0;
+          background: #eee;
+          margin: 0;
+        }
+        
+        .days li {
+          list-style-type: none;
+          display: inline-block;
+          width: 13.6%;
+          text-align: center;
+          margin-bottom: 5px;
+          font-size:12px;
+          color: #777;
+        }
+        
+        /* Highlight the "current" day */
+        .days li .active {
+          padding: 5px;
+          background: #1abc9c;
+          color: white !important
+        }
+    </style>
 {% endblock %}
 
 {% block content%}
@@ -11,8 +125,57 @@
 
             <div class="row">
                 <div class="column" style="background-color:#aaa;">
-                    <h2>Overall Progress</h2>
-                    <p>Some text/figure..</p>
+                    <div class="month">
+                        <ul>
+                          <li class="prev">&#10094;</li>
+                          <li class="next">&#10095;</li>
+                          <li>October<br><span style="font-size:18px">2020</span></li>
+                        </ul>
+                      </div>
+                      
+                      <ul class="weekdays">
+                        <li>Mo</li>
+                        <li>Tu</li>
+                        <li>We</li>
+                        <li>Th</li>
+                        <li>Fr</li>
+                        <li>Sa</li>
+                        <li>Su</li>
+                      </ul>
+                      
+                      <ul class="days">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li>10</li>
+                        <li>11</li>
+                        <li>12</li>
+                        <li>13</li>
+                        <li>14</li>
+                        <li>15</li>
+                        <li>16</li>
+                        <li>17</li>
+                        <li>18</li>
+                        <li>19</li>
+                        <li>20</li>
+                        <li>21</li>
+                        <li>22</li>
+                        <li>23</li>
+                        <li>24</li>
+                        <li>25</li>
+                        <li>26</li>
+                        <li>27</li>
+                        <li>28</li>
+                        <li>29</li>
+                        <li>30</li>
+                        <li><span class="active">31</span></li>
+                      </ul>
                 </div>
                 <div class="column" style="background-color:#bbb;">
                     <h2>Goals</h2>

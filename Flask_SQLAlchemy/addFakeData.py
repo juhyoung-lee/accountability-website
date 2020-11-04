@@ -26,15 +26,15 @@ def add_clients():
     letters = string.ascii_lowercase
     for user in users:
         client = Client(
-            email_id=user.email_id,
-            phone_number=random.randint(10000000000, 99999999999),
+            email=user.email_id,
+            phone=random.randint(10000000000, 99999999999),
             # choose one of the one-hour time zone randomly
-            timezone=random.randint(0, 23),
+            time=random.randint(0, 23),
             year=random.randint(2021, 2024),  # or can be a bigger range
-            major_minor=''.join(random.choice(letters) for _ in range(30)),
+            major=''.join(random.choice(letters) for _ in range(30)),
             classes=''.join(random.choice(letters) for _ in range(50)),
-            partner_request=fake.name(),
-            priorities=fake.sentence(),
+            partner=fake.name(),
+            prio=fake.sentence(),
             aim=fake.sentence()
         )
         db.session.add(client)
@@ -46,10 +46,13 @@ def add_goals():
     clients = Client.query.all()
     for client in clients:
         for num in range(random.randint(0, 6)):
+            date=fake.date_time_this_year()
             goal = Goal(
                 goal_id=''.join(random.choice(letters) for i in range(10)),
                 email_id=client.email_id,
-                name=fake.color_name()
+                name=fake.color_name(),
+                date_created=date,
+                deadline=date#random.choices([None, fake.date_time_between(start_date=date)], [10, 90])[0]
             )
             db.session.add(goal)
     db.session.commit()
