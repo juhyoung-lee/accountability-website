@@ -3,6 +3,12 @@
     <title>View Partner's Goals</title>
     <link rel="stylesheet" href="/static/css/viewpartnergoals.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .button {
+            background-color: red;
+            color: black;
+        }
+    </style>
 {% endblock %}
 
 {% block content%}
@@ -21,12 +27,17 @@
                             <th>Goal Name</th>
                             <th>Progress</th>
                             <th>Date Created</th>
+                            <th>Deadline</th>
+                            <td>
+                                <button type="button" id="button" class="button" onclick="setColor('button', '#39FF14')";>Checked In</button>
+                            </td>
                         </tr>
                         {% for goal in goal_data %}                                 <!--prints out all the goals--> 
                         <tr>
                             <td>{{goal.name}}</td>
                             <td>{{goal.progress}}</td>
                             <td>{{goal.date_created}}</td>
+                            <td>{{goal.deadline}}</td>
                         </tr>
                         <tr>   
                             <td></td>
@@ -46,5 +57,15 @@
                     </table>
                 </div>
             </div>
+            <script>
+                function setColor(btn, color) {
+                    var property = document.getElementById(btn);
+                    property.style.backgroundColor = color
+
+                    setTimeout(() => {
+                        property.style.backgroundColor = 'red'
+                    }, 5000);
+                }
+            </script>
     </body>
 {% endblock %}

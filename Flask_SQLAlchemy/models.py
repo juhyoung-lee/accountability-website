@@ -49,9 +49,9 @@ class Goal(db.Model):
         'client.email_id'), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     #date_created = db.Column(db.DateTime, default=datetime.now)
-    date_created = db.Column(db.DateTime)
-    deadline = db.Column(db.DateTime)
-    date_completed = db.Column(db.DateTime)
+    date_created = db.Column(db.Date)
+    deadline = db.Column(db.Date)
+    date_completed = db.Column(db.Date)
     progress = db.Column(db.Integer, default=0)
     milestones = db.relationship('Milestone', backref='goal')
     def __hash__(self):
