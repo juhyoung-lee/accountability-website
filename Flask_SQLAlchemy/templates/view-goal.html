@@ -197,6 +197,11 @@
                                     <input type="submit" value="Edit Goal" name="edit-goal"/>
                                 </form>
                             </td>
+                            <td>
+                                <form action="/delete-goal/{{goal.goal_id}}" method="post">
+                                    <input type="submit" value="Delete" name="delete-goal"/>
+                                </form>
+                            </td>
                         </tr>
                         <tr>   
                             <td></td>
@@ -214,6 +219,7 @@
                             {% endfor %}
                         {% endfor %}
                     </table>
+                    <a href='/add-goal'>Add Goal</a>
                 </div>
             </div>
     </body>

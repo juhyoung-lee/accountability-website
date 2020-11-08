@@ -1,8 +1,8 @@
 import sys
 from models import *
+import models
 from datetime import datetime, timedelta
 import forms
-import models
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
@@ -89,7 +89,7 @@ def registration():
         db.session.add(client)
         db.session.commit()
         session['email'] = email_id
-        return render_template('view-goal.html')
+        return redirect(url_for('view_goal'))
     else:
         error = form.errors.items()
         flash(f'{error}')
@@ -109,21 +109,49 @@ def view_client():
 def view_goal():
     usr = session['email']
     goal_results = db.session.query(models.Goal) \
-                        .filter(models.Goal.email_id == usr).all()
+        .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
-                        .filter(models.Milestone.Email_ID == usr).all()
-    
+        .filter(models.Milestone.Email_ID == usr).all()
     return render_template('view-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
+
+
+@app.route('/delete-goal/<id>', methods=['POST', 'GET'])
+def delete_goal(id):
+    goal = db.session.query(Goal).filter_by(goal_id=id).first()
+    db.session.delete(goal)
+    db.session.commit()
+    return redirect(url_for('view_goal'))
+
+
+@app.route('/add-goal', methods=['POST', 'GET'])
+def add_goal():
+    form = forms.AddGoalForm()
+    if form.validate_on_submit():
+        email = session['email']
+        name = request.form['name']
+        deadline = request.form['deadline']
+        if deadline == '':
+            deadline = None
+        goal = models.Goal(email, name, deadline)
+        db.session.add(goal)
+        db.session.commit()
+        return redirect(url_for('view_goal'))
+    else:
+        error = form.errors.items()
+        print(error)
+        return render_template('add-goal.html')
+
 
 @app.route('/view-partner-goal')
 def view_partner_goal():
-    usr = 'fwhite@davis.org' #hardcoded partner for now
+    usr = 'fwhite@davis.org'  # hardcoded partner for now
     goal_results = db.session.query(models.Goal) \
-                        .filter(models.Goal.email_id == usr).all()
+        .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
-                        .filter(models.Milestone.Email_ID == usr).all()
-    
+        .filter(models.Milestone.Email_ID == usr).all()
+
     return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
+
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
 def edit_goal(id):
@@ -135,7 +163,8 @@ def edit_goal(id):
     # then display the error in 'database_error.html' page
     # return render_template('database_error.html', error=err)
 
-@app.route('/submit-goal/<id>', methods = ['POST'])
+
+@app.route('/submit-goal/<id>', methods=['POST'])
 def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']

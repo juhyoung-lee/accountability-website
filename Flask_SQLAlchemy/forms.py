@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, IntegerField, TextField
+from wtforms import StringField, BooleanField, IntegerField, TextField, DateField
 from wtforms import SelectField, SubmitField
-from wtforms.validators import DataRequired, Length, Regexp, AnyOf, NumberRange, EqualTo, DataRequired
+from wtforms.validators import DataRequired, Length, Regexp, AnyOf, NumberRange, EqualTo, DataRequired, Optional
 
 
 class ClientEditForm:
@@ -51,3 +51,10 @@ class AddClientForm(FlaskForm):
     priorities = StringField('priorities', [DataRequired()])
     aim = StringField('aim', [DataRequired()])
     submit = SubmitField('register')
+
+
+class AddGoalForm(FlaskForm):
+    name = StringField('name', [DataRequired()])
+    # add date must be after or today
+    deadline = DateField('deadline', validators=(Optional(),))
+    submit = SubmitField('submit')
