@@ -14,7 +14,7 @@
       <label for="name"><b>Goal name</b></label>
       <input
         type="text"
-        placeholder={{goal.name}}
+        value={{goal.name}}
         name="name"
         id="name"
         required
@@ -23,13 +23,19 @@
       <label for="progress"><b>Goal progress</b></label>
       <input
         type="number"
-        placeholder={{goal.progress}}
+        value={{goal.progress}}
         name="progress"
         id="progress"
       />
       <a href="{{ url_for('view_goal') }}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->
       <button type="submit" class="submitbtn">Save changes</button>
+      <input type="hidden" name="del" value=0>
     </div>
-
 </form>
+
+<form method="POST">
+<button type="submit" class="submitbtn" name="delete">Delete</button>
+<input type="hidden" name="del" value=1>
+</form>   
 {% endblock %}
+ 
