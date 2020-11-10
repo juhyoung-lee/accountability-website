@@ -4,33 +4,89 @@
     <link rel="stylesheet" href="/static/css/viewpartnergoals.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        body {
+            background: #8ecae6;
+            font-family: Georgia, serif;
+        }
+
         .button {
             background-color: red;
             color: black;
+            border: none;
+            display: inline-block;
+            padding: 13px 30px;
+            font-size: medium;
+            font-weight: 700;
+            margin: 0 auto;
+            width: 100%;
         }
+
+        header {
+            background: #219ebc;
+            padding: 20px;
+            font-size: 55px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000000;
+            font-family: Apple Chancery, cursive;
+          }
+  
+        section {
+            background: rgb(0, 122, 236);
+            padding: 20px;
+            font-size: 25px;
+            margin-top: 10px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        .row {
+            display: flex;
+        }
+        
+        /* Create two equal columns that sits next to each other */
+        .column {
+            flex: 50%;
+            padding: 10px;
+            margin-right: 10px;
+            height: 800px; 
+            background-color:#219ebc;
+        }
+
+        .subtitle {
+            font-size: 30px;
+            color: black;
+            text-align: center;
+          }
+
+        table {
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+          }
     </style>
 {% endblock %}
 
 {% block content%}
     <body>
-        <header>{{usr}}'s Personal Goals</header>
+        <header>Partner's Personal Goals</header>
 
             <div class="row">
-                <div class="column" style="background-color:#aaa;">
+                <div class="column">
                     <h2>Overall Progress</h2>
                     <p>Some text/figure..</p>
                 </div>
-                <div class="column" style="background-color:#bbb;">
-                    <h2>Goals</h2>
+                <div class="column">
+                    <h2 class="subtitle" id="subtitle">{{usr}}'s Goals</h2>
                     <table>                                         
                         <tr>                                                        <!--top labels for the table--> 
                             <th>Goal Name</th>
                             <th>Progress</th>
                             <th>Date Created</th>
                             <th>Deadline</th>
-                            <td>
-                                <button type="button" id="button" class="button" onclick="setColor('button', '#39FF14')";>Checked In</button>
-                            </td>
                         </tr>
                         {% for goal in goal_data %}                                 <!--prints out all the goals--> 
                         <tr>
@@ -55,6 +111,7 @@
                             {% endfor %}
                         {% endfor %}
                     </table>
+                    <button type="button" id="button" class="button" onclick="setColor('button', '#39FF14')";>Checked In</button>
                 </div>
             </div>
             <script>
@@ -64,7 +121,7 @@
 
                     setTimeout(() => {
                         property.style.backgroundColor = 'red'
-                    }, 5000);
+                    }, 5000);                                               /*In milliseconds, can be set to larger numbers*/
                 }
             </script>
     </body>
