@@ -3,6 +3,8 @@ from app import db
 from datetime import datetime, timedelta
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import string
+import random
 
 
 class User(db.Model):
@@ -48,15 +50,23 @@ class Goal(db.Model):
     email_id = db.Column(db.String(100), db.ForeignKey(
         'client.email_id'), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    #date_created = db.Column(db.DateTime, default=datetime.now)
-    date_created = db.Column(db.DateTime)
-    deadline = db.Column(db.DateTime)
-    date_completed = db.Column(db.DateTime)
+    date_created = db.Column(db.Date, default=datetime.now().date())
+    deadline = db.Column(db.Date)
+    date_completed = db.Column(db.Date)
     progress = db.Column(db.Integer, default=0)
     milestones = db.relationship('Milestone', backref='goal')
+
     def __hash__(self):
         return hash(self)
-        
+
+    def __init__(self, email, name, deadline):
+        self.goal_id = ''.join(random.choices(
+            string.ascii_uppercase + string.digits, k=10))
+        self.email_id = email
+        self.name = name
+        self.deadline = datetime.strptime(deadline, '%Y-%m-%d')
+
+
 class Milestone(db.Model):
     Milestone_ID = db.Column(db.Integer, primary_key=True)
     Goal_ID = db.Column(db.String(100), db.ForeignKey(
