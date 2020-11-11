@@ -48,7 +48,6 @@ def add_goals():
         for num in range(random.randint(0, 6)):
             date=fake.date_this_year()
             goal = Goal(
-                goal_id=''.join(random.choice(letters) for i in range(10)),
                 email_id=client.email_id,
                 name=fake.color_name(),
                 date_created=date,

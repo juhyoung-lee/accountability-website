@@ -117,6 +117,9 @@ def view_goal():
 
 @app.route('/delete-goal/<id>', methods=['POST', 'GET'])
 def delete_goal(id):
+    while db.session.query(Milestone).filter_by(Goal_ID=id).first() != None:
+        ms = db.session.query(Milestone).filter_by(Goal_ID=id).first()
+        db.session.delete(ms)
     goal = db.session.query(Goal).filter_by(goal_id=id).first()
     db.session.delete(goal)
     db.session.commit()
@@ -132,6 +135,7 @@ def add_goal():
         deadline = request.form['deadline']
         if deadline == '':
             deadline = None
+        print(deadline)
         goal = models.Goal(email, name, deadline)
         db.session.add(goal)
         db.session.commit()
