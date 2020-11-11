@@ -7,7 +7,14 @@
 } */
 
 section {
-  background: rgb(255, 255, 255);
+  background: rgb(0, 204, 255);
+  padding: 20px;
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.header {
+  background: rgb(255, 172, 172);
   padding: 20px;
   font-size: 25px;
   margin-top: 10px;
@@ -19,6 +26,32 @@ h2 {
 
 * {
   box-sizing: border-box;
+}
+
+.navbar {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+}
+
+/* Navbar links */
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+  background-color: #000;
+}
+
+/* Current/active navbar link */
+.active {
+  background-color: #4CAF50;
 }
 
 .row {

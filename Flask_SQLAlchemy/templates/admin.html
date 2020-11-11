@@ -8,9 +8,15 @@
 {% block content %}
 <body>
     <div class="row">
-        <div class="column" style="background-color:#bbb;">
-            <h2>All users</h2>
-            <p>View and match users</p>
+        <div class="column">
+            <div class="header">
+                <h2>All users</h2>
+                <p>View and match users</p>
+                <div class="navbar">
+                    <a class="active" href="#"><i class="unmatched"></i>Unmatched</a>
+                    <a href="#"><i class="matched"></i>Matched</a>
+                </div>
+            </div>
         </div>
         <div class="column" style="background-color:#bbb;">
             <h2>Recommended pairings</h2>
