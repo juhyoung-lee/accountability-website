@@ -26,7 +26,6 @@ db = SQLAlchemy(app)
 def index():
     return render_template('index.html')
 
-
 @app.route('/layout')
 def layout():
     return render_template('layout.html')
@@ -96,7 +95,10 @@ def registration():
         print(error)
         return render_template('registration.html')
 
-
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+    
 @ app.route('/view-client')
 def view_client():
     usr = session['email']
