@@ -26,6 +26,7 @@ db = SQLAlchemy(app)
 def index():
     return render_template('index.html')
 
+
 @app.route('/layout')
 def layout():
     return render_template('layout.html')
@@ -50,7 +51,9 @@ def login():
     if request.method == 'POST':
         email = request.form['uname']
         psw = request.form['psw']
-        if db.session.query(models.User).filter(models.User.email_id == email and models.User.password == psw).first():
+        person = db.session.query(models.User).filter(
+            models.User.email_id == email).first()
+        if person != None and person.password == psw:
             session['email'] = email
             if request.form.get('remember') != None:
                 session.permanent = True
@@ -92,10 +95,13 @@ def registration():
         print(error)
         return render_template('registration.html')
 
+
 @app.route('/admin')
 def admin():
-    unmatched = Goal.query.filter_by(goal_id=id).first_or_404()
-    return render_template('admin.html', unmatched=unmatched, matched=matched)
+    # unmatched = Goal.query.filter_by(goal_id=id).first_or_404()
+    # return render_template('admin.html', unmatched=unmatched, matched=matched)
+    return render_template('admin.html')
+
     
 @ app.route('/view-client')
 def view_client():
@@ -135,7 +141,6 @@ def add_goal():
         deadline = request.form['deadline']
         if deadline == '':
             deadline = None
-        print(deadline)
         goal = models.Goal(email, name, deadline)
         db.session.add(goal)
         db.session.commit()
@@ -173,6 +178,7 @@ def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
+    goal.deadline = request.form['deadline']
     db.session.merge(goal)
     db.session.commit()
     return redirect('/view-goal')
