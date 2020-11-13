@@ -53,6 +53,14 @@
             height: 800px; 
             background-color:#219ebc;
           }
+
+          .add_goal {
+            background-color: #023047;;
+            color: white;
+            padding: 1em 1.5em;
+            text-decoration: none;
+            text-transform: uppercase;
+          }
         
           ul {list-style-type: none;}
         body {font-family: Georgia, serif;}
@@ -135,7 +143,7 @@
         <header>Personal Goals</header>
 
             <div class="row">
-                <div class="column">
+                <!--<div class="column">
                     <div class="month">
                         <ul>
                           <li class="prev">&#10094;</li>
@@ -187,7 +195,7 @@
                         <li>30</li>
                         <li><span class="active">31</span></li>
                       </ul>
-                </div>
+                </div>-->
                 <div class="column">
                     <h2 class="subtitle" id="subtitle">{{usr}}'s Goals</h2>
                     <table>                                         
@@ -230,7 +238,7 @@
                             {% endfor %}
                         {% endfor %}
                     </table>
-                    <a href='/add-goal'>Add Goal</a>
+                    <a class="add_goal" id="add_goal" href='/add-goal'>Add Goal</a>
                 </div>
             </div>
     </body>

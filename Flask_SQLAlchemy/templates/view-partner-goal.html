@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
-            background: #8ecae6;
+            background: #023047;
             font-family: Georgia, serif;
         }
 
@@ -15,7 +15,7 @@
             border: none;
             display: inline-block;
             padding: 13px 30px;
-            font-size: medium;
+            font-size: large;
             font-weight: 700;
             margin: 0 auto;
             width: 100%;
@@ -75,11 +75,12 @@
         <header>Partner's Personal Goals</header>
 
             <div class="row">
-                <div class="column">
+                <!--<div class="column">
                     <h2>Overall Progress</h2>
                     <p>Some text/figure..</p>
-                </div>
+                </div>-->
                 <div class="column">
+                    <button type="button" id="button" class="button" onclick="setColor('button', '#39FF14')";>Checked In</button>
                     <h2 class="subtitle" id="subtitle">{{usr}}'s Goals</h2>
                     <table>                                         
                         <tr>                                                        <!--top labels for the table--> 
@@ -111,7 +112,6 @@
                             {% endfor %}
                         {% endfor %}
                     </table>
-                    <button type="button" id="button" class="button" onclick="setColor('button', '#39FF14')";>Checked In</button>
                 </div>
             </div>
             <script>
