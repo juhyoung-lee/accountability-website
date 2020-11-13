@@ -157,7 +157,7 @@ def add_goal():
 
 @app.route('/view-partner-goal')
 def view_partner_goal():
-    usr = 'fwhite@davis.org'  # hardcoded partner for now
+    usr = 'dorseyandrew@smith-clarke.biz'  # hardcoded partner for now
     goal_results = db.session.query(models.Goal) \
         .filter(models.Goal.email_id == usr).all()
     milestone_results = db.session.query(models.Milestone) \
