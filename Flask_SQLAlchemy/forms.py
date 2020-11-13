@@ -41,8 +41,7 @@ class AddClientForm(FlaskForm):
     phone_number = IntegerField('phone_number', [DataRequired(), NumberRange(
         min=0000000000, max=9999999999, message='########## format required')])
     timezone = IntegerField(
-        'timezone', [DataRequired(), NumberRange(
-            min=-11, max=12, message='Choose UTC time from -11 to 12')])
+        'timezone')
     year = IntegerField('year', [DataRequired(), NumberRange(
         min=2021, max=2024, message='2021-2024')])
     major_minor = StringField('major_minor', [DataRequired()])
