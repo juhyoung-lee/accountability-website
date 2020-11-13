@@ -99,6 +99,13 @@ def registration():
 def admin():
     return render_template('admin.html')
     
+@app.route('/admin-view-users')
+def view_users():
+    x = document.getElementsByClassName("city")
+    for i in range(0, len(x)):
+        x[i].style.display = "none"
+        document.getElementById(cityName).style.display = "block"
+
 @ app.route('/view-client')
 def view_client():
     usr = session['email']

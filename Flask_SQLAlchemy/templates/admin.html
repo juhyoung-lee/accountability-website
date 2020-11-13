@@ -3,7 +3,75 @@
   <title>Admin page</title>
   <link rel="stylesheet" href="../static/css/admin.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+      /* header {
+  background: rgb(177, 177, 177);
+  padding: 20px;
+  font-size: 65px;
+  text-align: center;
+  margin-bottom: 20px;
+} */
 
+section {
+  background: rgb(0, 204, 255);
+  padding: 20px;
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.header {
+  background: rgb(255, 172, 172);
+  padding: 20px;
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.navbar {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+}
+
+/* Navbar links */
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+  background-color: #000;
+}
+
+/* Current/active navbar link */
+.active {
+  background-color: #4CAF50;
+}
+
+.row {
+  display: flex;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 10px;
+  margin-right: 10px;
+  height: 600px; /* Should be removed. Only for demonstration */
+}
+  </style>
 {% endblock %}
 
 {% block content %}
