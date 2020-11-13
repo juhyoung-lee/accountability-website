@@ -27,15 +27,21 @@
         name="progress"
         id="progress"
       />
+
+      <label for="deadline"><b>Deadline</b></label>
+      <input
+        type="date"
+        value={{goal.deadline}}
+        name="deadline"
+        id="deadline"
+      />
+
+      <br><br>
+
       <a href="{{ url_for('view_goal') }}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->
       <button type="submit" class="submitbtn">Save changes</button>
       <input type="hidden" name="del" value=0>
     </div>
 </form>
-
-<form method="POST">
-<button type="submit" class="submitbtn" name="delete">Delete</button>
-<input type="hidden" name="del" value=1>
-</form>   
 {% endblock %}
  
