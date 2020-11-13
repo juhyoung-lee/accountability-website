@@ -142,7 +142,6 @@ def add_goal():
         deadline = request.form['deadline']
         if deadline == '':
             deadline = None
-        print(deadline)
         goal = models.Goal(email, name, deadline)
         db.session.add(goal)
         db.session.commit()
@@ -180,6 +179,7 @@ def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
+    goal.deadline = request.form['deadline']
     db.session.merge(goal)
     db.session.commit()
     return redirect('/view-goal')

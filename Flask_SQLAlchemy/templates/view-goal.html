@@ -1,150 +1,158 @@
-{% extends 'layout.html'%} 
+{% extends 'layout.html'%}
 {% block head %}
-    <title>View Goals</title>
-    <!--<link rel="stylesheet" href="/static/css/viewgoals.css">-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            background: #023047;
-            font-size: 20px;
-        }
-        header {
-            background: #219ebc;
-            padding: 20px;
-            font-size: 55px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #000000;
-            font-family: Apple Chancery, cursive;
-          }
-          
-          section {
-            background: rgb(0, 122, 236);
-            padding: 20px;
-            font-size: 25px;
-            margin-top: 10px;
-          }
+<title>View Goals</title>
+<!--<link rel="stylesheet" href="/static/css/viewgoals.css">-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    background: #023047;
+    font-size: 20px;
+  }
 
-          table {
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-          }
-          
-          .subtitle {
-            font-size: 30px;
-            color: black;
-            text-align: center;
-          }
-          
-          * {
-            box-sizing: border-box;
-          }
-          
-          .row {
-            display: flex;
-          }
-          
-          /* Create two equal columns that sits next to each other */
-          .column {
-            flex: 50%;
-            padding: 10px;
-            margin-right: 10px;
-            height: 1000px; 
-            background-color:#219ebc;
-          }
+  header {
+    background: #219ebc;
+    padding: 20px;
+    font-size: 55px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000;
+    font-family: Apple Chancery, cursive;
+  }
 
-          .add_goal {
-            background-color: #023047;;
-            color: white;
-            padding: 1em 1.5em;
-            text-decoration: none;
-            text-transform: uppercase;
-          }
-        
-          ul {list-style-type: none;}
-        body {font-family: Georgia, serif;}
-        
-        /* Month header */
-        .month {
-          padding: 70px 25px;
-          width: 100%;
-          background: #023047;
-          text-align: center;
-        }
-        
-        /* Month list */
-        .month ul {
-          margin: 0;
-          padding: 0;
-        }
-        
-        .month ul li {
-          color: white;
-          font-size: 20px;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-        }
-        
-        /* Previous button inside month header */
-        .month .prev {
-          float: left;
-          padding-top: 10px;
-        }
-        
-        /* Next button */
-        .month .next {
-          float: right;
-          padding-top: 10px;
-        }
-        
-        /* Weekdays (Mon-Sun) */
-        .weekdays {
-          margin: 0;
-          padding: 10px 0;
-          background-color:#ddd;
-        }
-        
-        .weekdays li {
-          display: inline-block;
-          width: 13.6%;
-          color: #666;
-          text-align: center;
-        }
-        
-        /* Days (1-31) */
-        .days {
-          padding: 10px 0;
-          background: #eee;
-          margin: 0;
-        }
-        
-        .days li {
-          list-style-type: none;
-          display: inline-block;
-          width: 13.6%;
-          text-align: center;
-          margin-bottom: 5px;
-          font-size:12px;
-          color: #777;
-        }
-        
-        /* Highlight the "current" day */
-        .days li .active {
-          padding: 5px;
-          background: #023047;
-          color: white !important
-        }
-    </style>
+  section {
+    background: rgb(0, 122, 236);
+    padding: 20px;
+    font-size: 25px;
+    margin-top: 10px;
+  }
+
+  table {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .subtitle {
+    font-size: 30px;
+    color: black;
+    text-align: center;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  /* Create two equal columns that sits next to each other */
+  .column {
+    flex: 50%;
+    padding: 10px;
+    margin-right: 10px;
+    height: 1000px;
+    background-color: #219ebc;
+  }
+
+  .add_goal {
+    background-color: #023047;
+    ;
+    color: white;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  body {
+    font-family: Georgia, serif;
+  }
+
+  /* Month header */
+  .month {
+    padding: 70px 25px;
+    width: 100%;
+    background: #023047;
+    text-align: center;
+  }
+
+  /* Month list */
+  .month ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .month ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+
+  /* Previous button inside month header */
+  .month .prev {
+    float: left;
+    padding-top: 10px;
+  }
+
+  /* Next button */
+  .month .next {
+    float: right;
+    padding-top: 10px;
+  }
+
+  /* Weekdays (Mon-Sun) */
+  .weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+  }
+
+  .weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+  }
+
+  /* Days (1-31) */
+  .days {
+    padding: 10px 0;
+    background: #eee;
+    margin: 0;
+  }
+
+  .days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #777;
+  }
+
+  /* Highlight the "current" day */
+  .days li .active {
+    padding: 5px;
+    background: #023047;
+    color: white !important
+  }
+</style>
 {% endblock %}
 
 {% block content%}
-    <body>
-        <header>Personal Goals</header>
 
-            <div class="row">
-                <!--<div class="column">
+<body>
+  <header>Personal Goals</header>
+
+  <div class="row">
+    <!--<div class="column">
                     <div class="month">
                         <ul>
                           <li class="prev">&#10094;</li>
@@ -197,58 +205,48 @@
                         <li><span class="active">31</span></li>
                       </ul>
                 </div>-->
-                <div class="column">
-                    <h2 class="subtitle" id="subtitle">{{usr}}'s Goals</h2>
-                    <table>                                         
-                        <tr>                                                        <!--top labels for the table--> 
-                            <th>Goal Name</th>
-                            <th>Progress</th>
-                            <th>Date Created</th>
-                            <th>Deadline</th>
-                        </tr>
-                        {% for goal in goal_data %}                                 <!--prints out all the goals--> 
-                        <tr>
-                            <td>{{goal.name}}</td>
-                            <td>{{goal.progress}}</td>
-                            <td>{{goal.date_created}}</td>
-                            <td>{{goal.deadline}}</td>
-                            <td>
-                                <form action="/edit-goal/{{goal.goal_id}}" method="post">
-                                    <input type="submit" value="Edit Goal" name="edit-goal"/>
-                                </form>
-                            </td>
-                            <td>
-                                <form action="/delete-goal/{{goal.goal_id}}" method="post">
-                                    <input type="submit" value="Delete" name="delete-goal"/>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>   
-                            <td></td>
-                            <td></td> 
-                            <th>Milestones</th>                                     <!--for each goal, display the corresponding milestones-->
-                        </tr>
-                            {% for milestone in milestone_data %}                   
-                                {% if milestone.Goal_ID == goal.goal_id %} 
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td style="text-align:center">{{milestone.Name}}</td>
-                                </tr>
-                                {% endif %} 
-                            {% endfor %}
-                        {% endfor %}
-                    </table>
-                    <a class="add_goal" id="add_goal" href='/add-goal'>Add Goal</a>
-                </div>
-            </div>
-    </body>
+    <div class="column">
+      <h2 class="subtitle" id="subtitle">{{usr}}'s Goals</h2>
+      <table>
+        <tr>
+          <!--top labels for the table-->
+          <th>Goal Name</th>
+          <th>Milestones</th>
+          <th>Date Created</th>
+          <th>Deadline</th>
+        </tr>
+        {% for goal in goal_data %}
+        <!--prints out all the goals-->
+        <tr>
+          <td>{{goal.name}}</td>
+          <td>
+            <table>
+            {% for milestone in milestone_data %}
+            {% if milestone.Goal_ID == goal.goal_id %}
+            <tr>
+              <td style="text-align:center">{{milestone.Name}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </table>
+          </td>
+          <td>{{goal.date_created}}</td>
+          <td>{{goal.deadline}}</td>
+          <td>
+            <form action="/edit-goal/{{goal.goal_id}}" method="post">
+              <input type="submit" value="Edit Goal" name="edit-goal" />
+            </form>
+          </td>
+          <td>
+            <form action="/delete-goal/{{goal.goal_id}}" method="post">
+              <input type="submit" value="Delete" name="delete-goal" />
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <a class="add_goal" id="add_goal" href='/add-goal'>Add Goal</a>
+    </div>
+  </div>
+</body>
 {% endblock %}
-
-
-
-
-
-
-    
-
