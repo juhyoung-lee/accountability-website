@@ -30,10 +30,10 @@ class Client(db.Model):
     partner_request = db.Column(db.String(100))
     priorities = db.Column(db.String(500))
     aim = db.Column(db.String(500))
-
+    matched = db.Column(db.Integer)
     goals = db.relationship('Goal', backref='client')
 
-    def __init__(self, email, phone, time, year, major, classes, partner, prio, aim):
+    def __init__(self, email, phone, time, year, major, classes, partner, prio, aim, matched):
         self.email_id = email
         self.phone_number = phone
         self.timezone = time
@@ -43,6 +43,7 @@ class Client(db.Model):
         self.partner_request = partner
         self.priorities = prio
         self.aim = aim
+        self.matched = matched
 
 
 class Goal(db.Model):
@@ -59,12 +60,13 @@ class Goal(db.Model):
     def __hash__(self):
         return hash(self)
 
-    def __init__(self, email, name, deadline):
+    def __init__(self, email, name, date_created, deadline):
         self.goal_id = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.email_id = email
         self.name = name
-        self.deadline = datetime.strptime(deadline, '%Y-%m-%d')
+        self.date_created = date_created
+        self.deadline = datetime.strptime(str(deadline), '%Y-%m-%d')
 
 
 class Milestone(db.Model):
