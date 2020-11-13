@@ -1,17 +1,85 @@
 {% extends 'layout.html'%} 
-{% block heading %}
+{% block head %}
     <title>View Client</title>
     <link rel="stylesheet" href="/static/css/viewclient.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-{% endblock %} 
+    <style>
+        body {
+            background: #023047;
+            font-size: 20px;
+            font-weight: 500;
+
+        }
+
+        table {
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            background: #219ebc;
+            padding: 20px;
+            font-size: 55px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000000;
+            font-family: Apple Chancery, cursive;
+          }
+          
+          section {
+            background: rgb(0, 122, 236);
+            padding: 20px;
+            font-size: 25px;
+            margin-top: 10px;
+          }
+          
+          .subtitle {
+            font-size: 25px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+          }
+          
+          * {
+            box-sizing: border-box;
+          }
+          
+          .row {
+            display: flex;
+          }
+          
+          /* Create two equal columns that sits next to each other */
+          .column {
+            flex: 50%;
+            padding: 10px;
+            margin-right: 10px;
+            height: 1000px; 
+            background-color:#219ebc;
+          }
+        
+          ul {list-style-type: none;}
+        body {font-family: Georgia, serif;}
+
+        button {
+            background-color: #023047;;
+            color: white;
+            padding: 1em 1.5em;
+            text-decoration: none;
+            text-transform: uppercase;
+          }
+    </style>
+{% endblock %}
+
 {% block content%}
-    <body>
+    <body >
+        <header>{{usr}}'s Personal Info</header>
             <div class="row">
-                <div class="column" style="background-color:#bbb;">
-                    <h2>{{usr}}'s Personal Info</h2>
+                <div class="column">
                     <table>
                         <tr>
-                            <td>Email</td>
+                            <td id="subtitle" class="subtitle">Email</td>
                         </tr>
                         <tr>
                             <td>{{data.email_id}}</td>
@@ -20,7 +88,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Cell Phone Number</td>
+                            <td id="subtitle" class="subtitle">Cell Phone Number</td>
                         </tr>
                         <tr>
                             <td>{{data.phone_number}}</td>
@@ -29,7 +97,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Class Year</td>
+                            <td id="subtitle" class="subtitle">Class Year</td>
                         </tr>
                         <tr>
                             <td>{{data.year}}</td>
@@ -38,7 +106,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Major</td>
+                            <td id="subtitle" class="subtitle">Major</td>
                         </tr>
                         <tr>
                             <td>{{data.major_minor}}</td>
@@ -47,7 +115,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Current Course</td>
+                            <td id="subtitle" class="subtitle">Current Course</td>
                         </tr>
                         <tr>
                             <td>{{data.classes}}</td>
@@ -56,7 +124,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>What do You Hope to Get Out of Having a Partner?</td>
+                            <td id="subtitle" class="subtitle">What do You Hope to Get Out of Having a Partner?</td>
                         </tr>
                         <tr>
                             <td>{{data.aim}}</td>
@@ -65,7 +133,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Time Zone</td>
+                            <td id="subtitle" class="subtitle">Time Zone</td>
                         </tr>
                         <tr>
                             <td>{{data.timezone}}</td>
@@ -74,7 +142,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Requested Partner</td>
+                            <td id="subtitle" class="subtitle">Requested Partner</td>
                         </tr>
                         <tr>
                             <td>{{data.partner_request}}</td>
@@ -83,7 +151,7 @@
                     <br>
                     <table>
                         <tr>
-                            <td>Matching Priority</td>
+                            <td id="subtitle" class="subtitle">Matching Priority</td>
                         </tr>
                         <tr>
                             <td>{{data.priorities}}</td>
