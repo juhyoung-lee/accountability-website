@@ -62,12 +62,12 @@ class Goal(db.Model):
     def __hash__(self):
         return hash(self)
 
-    def __init__(self, email, name, deadline, date_created):
+    def __init__(self, email, name, deadline):
         self.goal_id = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.email_id = email
         self.name = name
-        self.date_created = date_created
+        # self.date_created = date_created #to add fake goals, uncomment this line and add param date_created to init 
         self.deadline = datetime.strptime(str(deadline), '%Y-%m-%d')
 
 
