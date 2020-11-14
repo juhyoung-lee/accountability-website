@@ -30,10 +30,10 @@ class Client(db.Model):
     partner_request = db.Column(db.String(100))
     priorities = db.Column(db.String(500))
     aim = db.Column(db.String(500))
-
+    matched = db.Column(db.Integer)
     goals = db.relationship('Goal', backref='client')
 
-    def __init__(self, email, phone, time, year, major, classes, partner, prio, aim):
+    def __init__(self, email, phone, time, year, major, classes, partner, prio, aim, matched):
         self.email_id = email
         self.phone_number = phone
         self.timezone = time
@@ -43,6 +43,7 @@ class Client(db.Model):
         self.partner_request = partner
         self.priorities = prio
         self.aim = aim
+        self.matched = matched
 
 
 class Goal(db.Model):
@@ -59,15 +60,13 @@ class Goal(db.Model):
     def __hash__(self):
         return hash(self)
 
-    def __init__(self, email, name, deadline):
+    def __init__(self, email, name, date_created, deadline):
         self.goal_id = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.email_id = email
         self.name = name
-        if deadline == None:
-            self.deadline = None
-        else:
-            self.deadline = datetime.strptime(deadline, '%Y-%m-%d')
+        self.date_created = date_created
+        self.deadline = datetime.strptime(str(deadline), '%Y-%m-%d')
 
 
 class Milestone(db.Model):
@@ -78,12 +77,14 @@ class Milestone(db.Model):
         'client.email_id'), primary_key=True)
     Name = db.Column(db.String(100), nullable=False)
     Deadline = db.Column(db.DateTime)
+    Completed = db.Column(db.Integer)
     Date_Completed = db.Column(db.DateTime)
 
     def __init__(self, milestone_id, goal_id, email_id, name, deadline, completed, date_completed):
-        Milestone_ID = milestone_id
-        Goal_ID = goal_id
-        Email_ID = email_id
-        Name = name
-        Deadline = deadline
-        Date_Completed = date_completed
+        self.Milestone_ID = milestone_id
+        self.Goal_ID = goal_id
+        self.Email_ID = email_id
+        self.Name = name
+        self.Deadline = deadline
+        self.Completed = completed
+        self.Date_Completed = date_completed

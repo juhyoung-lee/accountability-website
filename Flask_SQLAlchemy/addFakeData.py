@@ -35,7 +35,8 @@ def add_clients():
             classes=''.join(random.choice(letters) for _ in range(50)),
             partner=fake.name(),
             prio=fake.sentence(),
-            aim=fake.sentence()
+            aim=fake.sentence(),
+            matched=random.randint(0, 1)
         )
         db.session.add(client)
     db.session.commit()
@@ -48,7 +49,7 @@ def add_goals():
         for num in range(random.randint(0, 6)):
             date=fake.date_this_year()
             goal = Goal(
-                email_id=client.email_id,
+                email=client.email_id,
                 name=fake.color_name(),
                 date_created=date,
                 deadline=fake.date_between(start_date=date)
@@ -64,12 +65,14 @@ def add_milestones():
         for goal in client.goals:
             for num in range(random.randint(0, 3)):
                 milestone = Milestone(
-                    Milestone_ID=num,
-                    Goal_ID=goal.goal_id,
-                    Email_ID=client.email_id,
-                    Name=''.join(random.choice(letters) for i in range(8)),
-                    Deadline=fake.date_time_this_year()
-                )
+                    milestone_id=num,
+                    goal_id=goal.goal_id,
+                    email_id=client.email_id,
+                    name=''.join(random.choice(letters) for i in range(8)),
+                    deadline=fake.date_time_this_year(),
+                    completed=random.randint(0,1),
+                    date_completed=fake.date_time_this_year()
+                )   
                 db.session.add(milestone)
     db.session.commit()
 

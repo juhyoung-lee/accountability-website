@@ -3,7 +3,72 @@
   <title>Admin page</title>
   <link rel="stylesheet" href="../static/css/admin.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    section {
+      background: rgb(0, 204, 255);
+      padding: 20px;
+      font-size: 25px;
+      margin-top: 10px;
+    }
 
+    .header {
+      background: rgb(244, 255, 86);
+      padding: 20px;
+      font-size: 25px;
+      margin-top: 10px;
+    }
+
+    h2 {
+      font-size: 30px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .row {
+      display: flex;
+    }
+
+    /* Create two equal columns that sits next to each other */
+    .column {
+      flex: 50%;
+      padding: 10px;
+      margin-right: 10px;
+      height: 600px; /* Should be removed. Only for demonstration */
+    }
+    
+    .bar {
+      display:inline-block;
+      width:auto
+    }
+
+    .bar-item {
+      background-color: black;
+      color: white;
+      padding:8px 16px;
+      float:left;
+      width:auto;
+      border:none;
+      display:block;
+      outline:0
+    }
+
+    .bar-item:hover {
+      background-color: cornsilk;
+      color: black;
+    }
+
+    .active-item {
+      color:#fff!important;
+      background-color:#f44336!important
+    }
+
+    .users-container {
+      background-color: white;
+      padding:0.01em 16px
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -13,9 +78,17 @@
             <div class="header">
                 <h2>All users</h2>
                 <p>View and match users</p>
-                <div class="navbar">
-                    <a class="active" href="#"><i class="unmatched"></i>Unmatched</a>
-                    <a href="#"><i class="matched"></i>Matched</a>
+                <div class="bar">
+                  <button class="bar-item button tablink active-item" onclick="openCity(event,'unmatched')">London</button>
+                  <button class="bar-item button tablink" onclick="openCity(event,'matched')">Paris</button>
+                </div>
+                <div id="unmatched" class="users-container">
+                  <h2>Unmatched</h2>
+                  <p>Blah.</p>
+                </div>
+                <div id="matched" class="users-container" style="display:none">
+                  <h2>Matched</h2>
+                  <p>Blah blah blah.</p>
                 </div>
             </div>
         </div>
@@ -23,5 +96,20 @@
             <h2>Recommended pairings</h2>
         </div>
     </div>
+    <script>
+      function openCity(evt, tabName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("users-container");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active-item", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active-item";
+      }
+    </script>
 </body>
 {% endblock %}
