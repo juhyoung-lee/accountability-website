@@ -102,9 +102,9 @@ def registration():
 @app.route('/admin')
 def admin():
     unmatched = db.session.query(models.Client) \
-        .filter(models.Client.matched = 0).all()
+        .filter(models.Client.matched==0).all()
     matched = db.session.query(models.Client) \
-        .filter(models.Client.matched = 1).all()
+        .filter(models.Client.matched==1).all()
     return render_template('admin.html', unmatched=unmatched, matched=matched)
     # return render_template('admin.html')
 
