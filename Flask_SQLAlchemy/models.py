@@ -64,7 +64,10 @@ class Goal(db.Model):
             string.ascii_uppercase + string.digits, k=10))
         self.email_id = email
         self.name = name
-        self.deadline = datetime.strptime(deadline, '%Y-%m-%d')
+        if deadline == None:
+            self.deadline = None
+        else:
+            self.deadline = datetime.strptime(deadline, '%Y-%m-%d')
 
 
 class Milestone(db.Model):
@@ -76,3 +79,11 @@ class Milestone(db.Model):
     Name = db.Column(db.String(100), nullable=False)
     Deadline = db.Column(db.DateTime)
     Date_Completed = db.Column(db.DateTime)
+
+    def __init__(self, milestone_id, goal_id, email_id, name, deadline, completed, date_completed):
+        Milestone_ID = milestone_id
+        Goal_ID = goal_id
+        Email_ID = email_id
+        Name = name
+        Deadline = deadline
+        Date_Completed = date_completed

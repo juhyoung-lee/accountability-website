@@ -4,19 +4,19 @@
 {% endblock %}
 
 {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+{% if messages %}
+<ul class=flashes>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endwith %}
 
 {% block body%}
 {% if error %}
 <p style="color:white;" class=error><strong>Error:</strong> {{ error }}
-{% endif %}
+  {% endif %}
 
 <form method="POST">
   <div class="container">
@@ -25,33 +25,16 @@
     <hr />
 
     <label for="name"><b>Name</b></label>
-    <input
-      type="text"
-      placeholder="Enter Name"
-      name="name"
-      id="name"
-      required
-    />
-
+    <input type="text" placeholder="Enter Name" name="name" id="name" required />
+    <br>
     <label for="email_id"><b>Email</b></label>
-    <input
-      type="text"
-      placeholder="Enter Email"
-      name="email_id"
-      id="email_id"
-      required
-    />
-
+    <input type="text" placeholder="Enter Email" name="email_id" id="email_id" required />
+    <br>
     <label for="phone_number"><b>Cell phone number</b></label>
-    <input
-      type="number"
-      placeholder="Enter Phone Number"
-      name="phone_number"
-      id="phone_number"
-      required
-    />
-
+    <input type="number" placeholder="Enter Phone Number" name="phone_number" id="phone_number" required />
+    <br><br>
     <label for="year"><b>Class Year</b></label>
+<<<<<<< HEAD
     <input
       type="number"
       placeholder="Enter Year"
@@ -119,10 +102,40 @@
     </select>
     
 
+=======
+    <input type="number" placeholder="Enter Year" name="year" id="year" required />
+    <br><br>
+    <label for="major_minor"><b>Major</b></label>
+    <!--Multiselect drop down-->
+    <input type="text" placeholder="Enter Major/Minor/Concentrations" name="major_minor" id="major_minor" required />
+    <!--
+    <label for="minor"><b>Minor/Concentrations</b></label>
+    -->
+    <!--Multiselect drop down-->
+    <!--
+    <input
+      type="text"
+      placeholder="Enter Minor/Concentrations"
+      name="minor"
+      id="minor"
+      required
+    />
+    -->
+    <br>
+    <label for="classes"><b>Current Courses</b></label>
+    <!--Multiselect drop down-->
+    <input type="text" placeholder="Enter Courses" name="classes" id="classes" required />
+    <br>
+    <label for="aim"><b>What do you hope to get out of having a partner?</b></label>
+    <!--Multiselect drop down-->
+    <input type="text" placeholder="" name="aim" id="aim" required />
+    <br>
+>>>>>>> master
     <label for="timezone"><b>Time Zone</b></label>
-    <input type="number" placeholder="UTC timezone from -11 to 12" name="timezone" id="timezone"/>
-
+    <input type="number" placeholder="UTC timezone from -11 to 12" name="timezone" id="timezone" min=-11 max=12/>
+    <br><br>
     <label for="partner_request"><b>Requested Partner (if applicable)</b></label>
+<<<<<<< HEAD
     <input
       type="text"
       placeholder="Lastname, Firstname"
@@ -148,23 +161,19 @@
     </select>
 
 
+=======
+    <input type="text" placeholder="Lastname, Firstname" name="partner_request" id="partner_request" />
+    <br>
+    <label for="priorities"><b>Matching Priorities</b></label>
+    <!--Multiselect drop down-->
+    <input type="text" placeholder="Select Priorities" name="priorities" id="priorities" />
+    <br>
+>>>>>>> master
     <label for="password"><b>Password</b></label>
-    <input
-      type="password"
-      placeholder="Enter Password"
-      name="password"
-      id="password"
-      required
-    />
-
+    <input type="password" placeholder="Enter Password" name="password" id="password" required />
+    <br>
     <label for="password_rpt"><b>Repeat Password</b></label>
-    <input
-      type="password"
-      placeholder="Repeat Password"
-      name="password_rpt"
-      id="password_rpt"
-      required
-    />
+    <input type="password" placeholder="Repeat Password" name="password_rpt" id="password_rpt" required />
     <hr />
 
     <button type="submit" class="registerbtn">Register</button>
