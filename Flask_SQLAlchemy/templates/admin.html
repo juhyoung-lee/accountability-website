@@ -11,8 +11,16 @@
       margin-top: 10px;
     }
 
-    .header {
-      background: rgb(244, 255, 86);
+    .left-header {
+      background: rgb(241, 248, 145);
+      padding: 20px;
+      font-size: 25px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .right-header {
+      background: rgb(152, 240, 232);
       padding: 20px;
       font-size: 25px;
       margin-top: 10px;
@@ -87,6 +95,8 @@
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
       transition: 0.3s;
       margin: 12px;
+      border-radius: 4px;
+      background-color: white;
     }
 
     /* On mouse-over, add a deeper shadow */
@@ -116,8 +126,14 @@
 
     .client-grid-item {
       font-size: 12px;
-      margin-top: 8px;
+      margin-top: 12px;
       margin-right: 12px;
+    }
+
+    .rec-grid-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 12px;
     }
   </style>
 {% endblock %}
@@ -126,7 +142,7 @@
 <body>
     <div class="row">
         <div class="column">
-            <div class="header">
+            <div class="left-header">
                 <h2>All users</h2>
                 <p>View and match users</p>
             </div>
@@ -156,6 +172,7 @@
               </div>
             </div>
             <div id="matched" class="users-container" style="display:none">
+              <div class="grid-container">
               <h3>Matched</h3>
               {% for client in matched %}
                 <div class="card">
@@ -174,10 +191,41 @@
                 </div>
                 {% endfor %}
             </div>
+          </div>
         </div>
-        <div class="column" style="background-color:#bbb;">
+        <div class="column">
+          <div class="right-header">
             <h2>Recommended pairings</h2>
+            <p>Confirm or reject recommended pairings</p>
+            <button>Generate pairs</button>
+            <div class="rec-grid-container">
+              <div class="card">
+                <div class="card-container">
+                  <p><b>Client email</b></p>
+                  <div class="client-grid-item">Timezone: </div>
+                  <div class="client-grid-item">Class year: </div>
+                  <div class="client-grid-item">Major(s)/minor(s): </div>
+                  <div class="client-grid-item">Classes: </div>
+                  <div class="client-grid-item">Partner request: </div>
+                  <div class="client-grid-item">Priorities: </div>
+                  <div class="client-grid-item">Aim: </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-container">
+                  <p><b>Client email</b></p>
+                  <div class="client-grid-item">Timezone: </div>
+                  <div class="client-grid-item">Class year: </div>
+                  <div class="client-grid-item">Major(s)/minor(s): </div>
+                  <div class="client-grid-item">Classes: </div>
+                  <div class="client-grid-item">Partner request: </div>
+                  <div class="client-grid-item">Priorities: </div>
+                  <div class="client-grid-item">Aim: </div>
+                </div>
+              </div>
+            </div>
         </div>
+      </div>
     </div>
     <script>
       function openTab(evt, tabName) {
