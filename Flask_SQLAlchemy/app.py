@@ -1,6 +1,6 @@
 import sys
-# from models import *
-# import models
+from models import *
+import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -40,11 +40,13 @@ def loggedin():
     else:
         return redirect(url_for('login'))
 
+
 @app.route('/logout')
 def logout():
     if 'email' in session:
         session.pop('email', None)
     return redirect(url_for('index'))
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -64,6 +66,7 @@ def login():
         if 'email' in session:
             return redirect(url_for('index'))
         return render_template('login.html')
+
 
 @ app.route('/registration', methods=['POST', 'GET'])
 def registration():
@@ -102,7 +105,7 @@ def admin():
     # return render_template('admin.html', unmatched=unmatched, matched=matched)
     return render_template('admin.html')
 
-    
+
 @ app.route('/view-client')
 def view_client():
     usr = session['email']
