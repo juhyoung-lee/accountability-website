@@ -54,6 +54,7 @@ def add_clients():
             year=random.randint(2021, 2024),  # or can be a bigger range
             major=major,
             classes=class_set,
+            partner_req='',
             partner='',
             prio=random.choice(priorities),
             aim='',
@@ -65,13 +66,25 @@ def add_clients():
 
 def match_clients():
     clients = Client.query.all()
-    for i in range(len(clients)//3):
+    num_clients = len(clients)
+    for i in range(num_clients//10*2):
         client = clients[-1]
         clients.pop()
         partner = random.choice(clients)
         clients.remove(partner)
         client.matched = 1
         partner.matched = 1
+        client.partner_request = partner.email_id
+        client.partner = partner.email_id
+        partner.partner_request = client.email_id
+        partner.partner = client.email_id
+        db.session.merge(client)
+        db.session.merge(partner)
+    for i in range(num_clients//10*2):
+        client = clients[-1]
+        clients.pop()
+        partner = random.choice(clients)
+        clients.remove(partner)
         client.partner_request = partner.email_id
         partner.partner_request = client.email_id
         db.session.merge(client)
