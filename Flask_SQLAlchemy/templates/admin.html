@@ -107,6 +107,18 @@
       grid-template-columns: auto;
       padding: 12px;
     }
+
+    .client-info-grid {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 12px;
+    }
+
+    .client-grid-item {
+      font-size: 12px;
+      margin-top: 8px;
+      margin-right: 12px;
+    }
   </style>
 {% endblock %}
 
@@ -129,16 +141,18 @@
                     <div class="card">
                       <div class="card-container">
                         <p><b>{{client.email_id}}</b></p>
-                        <p>Architect & Engineer</p>
+                        <div class="client-info-grid">
+                          <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+                          <div class="client-grid-item">Class year: {{client.year}}</div>
+                          <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+                          <div class="client-grid-item">Classes: {{client.classes}}</div>
+                          <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+                          <div class="client-grid-item">Priorities: {{client.priorities}}</div>
+                          <div class="client-grid-item">Aim: {{client.aim}}</div>
+                        </div>
                       </div>
                     </div>
                     {% endfor %}
-                    <div class="card">
-                      <div class="card-container">
-                        <p><b>John Doe</b></p>
-                        <p>Architect & Engineer</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div id="matched" class="users-container" style="display:none">

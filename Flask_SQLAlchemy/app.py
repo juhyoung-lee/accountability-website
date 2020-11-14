@@ -1,6 +1,6 @@
 import sys
-# from models import *
-# import models
+from models import *
+import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
