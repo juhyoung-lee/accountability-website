@@ -130,47 +130,57 @@
                 <h2>All users</h2>
                 <p>View and match users</p>
             </div>
-                <div class="bar">
-                  <button class="bar-item button tablink active-item" onclick="openCity(event,'unmatched')">Unmatched</button>
-                  <button class="bar-item button tablink" onclick="openCity(event,'matched')">Matched</button>
-                </div>
-                <div id="unmatched" class="users-container">
-                  <div class="grid-container">
-                    <h3>Unmatched</h3>
-                    {% for client in unmatched %}
-                    <div class="card">
-                      <div class="card-container">
-                        <p><b>{{client.email_id}}</b></p>
-                        <div class="client-info-grid">
-                          <div class="client-grid-item">Timezone: {{client.timezone}}</div>
-                          <div class="client-grid-item">Class year: {{client.year}}</div>
-                          <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
-                          <div class="client-grid-item">Classes: {{client.classes}}</div>
-                          <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
-                          <div class="client-grid-item">Priorities: {{client.priorities}}</div>
-                          <div class="client-grid-item">Aim: {{client.aim}}</div>
-                        </div>
-                      </div>
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <div id="matched" class="users-container" style="display:none">
-                  <h3>Matched</h3>
-                  <div class="card">
-                    <div class="card-container">
-                      <p><b>John Doe</b></p>
-                      <p>Architect & Engineer</p>
+            <div class="bar">
+              <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
+              <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
+            </div>
+            <div id="unmatched" class="users-container">
+              <div class="grid-container">
+                <h3>Unmatched</h3>
+                {% for client in unmatched %}
+                <div class="card">
+                  <div class="card-container">
+                    <p><b>{{client.email_id}}</b></p>
+                    <div class="client-info-grid">
+                      <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+                      <div class="client-grid-item">Class year: {{client.year}}</div>
+                      <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+                      <div class="client-grid-item">Classes: {{client.classes}}</div>
+                      <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+                      <div class="client-grid-item">Priorities: {{client.priorities}}</div>
+                      <div class="client-grid-item">Aim: {{client.aim}}</div>
                     </div>
                   </div>
                 </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div id="matched" class="users-container" style="display:none">
+              <h3>Matched</h3>
+              {% for client in matched %}
+                <div class="card">
+                  <div class="card-container">
+                    <p><b>{{client.email_id}}</b></p>
+                    <div class="client-info-grid">
+                      <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+                      <div class="client-grid-item">Class year: {{client.year}}</div>
+                      <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+                      <div class="client-grid-item">Classes: {{client.classes}}</div>
+                      <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+                      <div class="client-grid-item">Priorities: {{client.priorities}}</div>
+                      <div class="client-grid-item">Aim: {{client.aim}}</div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
         <div class="column" style="background-color:#bbb;">
             <h2>Recommended pairings</h2>
         </div>
     </div>
     <script>
-      function openCity(evt, tabName) {
+      function openTab(evt, tabName) {
         var i, x, tablinks;
         x = document.getElementsByClassName("users-container");
         for (i = 0; i < x.length; i++) {
