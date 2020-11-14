@@ -1,6 +1,6 @@
 import sys
-from models import *
-import models
+# from models import *
+# import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -101,10 +101,12 @@ def registration():
 
 @app.route('/admin')
 def admin():
-    # unmatched = Goal.query.filter_by(goal_id=id).first_or_404()
-    # return render_template('admin.html', unmatched=unmatched, matched=matched)
-    return render_template('admin.html')
-
+    unmatched = db.session.query(models.Client) \
+        .filter(models.Client.matched = 0).all()
+    matched = db.session.query(models.Client) \
+        .filter(models.Client.matched = 1).all()
+    return render_template('admin.html', unmatched=unmatched, matched=matched)
+    # return render_template('admin.html')
 
 @ app.route('/view-client')
 def view_client():

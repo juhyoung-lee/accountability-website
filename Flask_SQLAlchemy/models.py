@@ -44,7 +44,7 @@ class Client(db.Model):
         self.partner_request = partner_req
         self.priorities = prio
         self.aim = aim
-        self.matched = ''
+        self.matched = matched
         self.partner = ''
 
 
@@ -62,12 +62,12 @@ class Goal(db.Model):
     def __hash__(self):
         return hash(self)
 
-    def __init__(self, email, name, deadline):
+    def __init__(self, email, name, deadline, date_created):
         self.goal_id = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.email_id = email
         self.name = name
-        self.date_created = datetime.now().date()
+        self.date_created = date_created
         self.deadline = datetime.strptime(str(deadline), '%Y-%m-%d')
 
 
