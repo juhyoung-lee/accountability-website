@@ -101,10 +101,14 @@ def registration():
 
 @app.route('/admin')
 def admin():
-    # unmatched = Goal.query.filter_by(goal_id=id).first_or_404()
-    # return render_template('admin.html', unmatched=unmatched, matched=matched)
-    return render_template('admin.html')
-
+    unmatched = db.session.query(models.Client) \
+        .filter(models.Client.matched==0).\
+    limit(5).from_self()
+    matched = db.session.query(models.Client) \
+        .filter(models.Client.matched==1).\
+    limit(5).from_self()
+    return render_template('admin.html', unmatched=unmatched, matched=matched)
+    # return render_template('admin.html')
 
 @ app.route('/view-client')
 def view_client():
