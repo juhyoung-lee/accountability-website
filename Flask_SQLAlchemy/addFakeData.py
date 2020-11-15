@@ -12,7 +12,7 @@ fake = Faker()
 
 def add_users():
     emails = {'apple'}
-    for i in range(5000):
+    for i in range(1000):
         fake_email = fake.email()
         curr_len = len(emails)
         emails.add(fake_email)
@@ -97,7 +97,7 @@ def add_goals():
     goal_names = ['HW1', 'HW2', 'HW3', 'HW4', 'HW5', 'HW6', 'HW7', 'HW8', 'HW9', 'HW10', 'Essay 1', 'Essay 2', 'Essay 3', 'Essay 4', 'Essay 5', 'Midterm 1', 'Midterm 2', 'Applications', 'Presentation', 'Call a friend', 'Go to the gym',
                   'Go on a run', 'Interview prep', 'MCAT', 'Lab 1', 'Lab 2', 'Lab 3', 'Lab 4', 'Clean my room', 'Call parents', 'Call grandparents', 'Journal', 'Clean email inbox', 'Event planning', 'GRE', 'Bookbag', 'Take vitamins', 'Buy birthday gift']
     for client in clients:
-        goal_count = random.randint(0, 4)
+        goal_count = random.randint(2, 6)
         goal_set = random.choices(goal_names, k=goal_count)
         for num in range(goal_count):
             date = fake.date_this_year()
