@@ -1,6 +1,6 @@
 import sys
-# from models import *
-# import models
+from models import *
+import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -83,11 +83,10 @@ def registration():
         classes = request.form['classes']
         partner_request = request.form['partner_request']
         priorities = request.form['priorities']
-        aim = request.form['aim']
-        user = models.User(email_id, password, name)
+        user = models.User(email_id, password, name, admin=0)
         db.session.add(user)
         client = models.Client(email_id, phone_number, timezone, year,
-                               major_minor, classes, partner_request, priorities, aim)
+                               major_minor, classes, partner_request, priorities, matched=0, partner='')
         db.session.add(client)
         db.session.commit()
         session['email'] = email_id
@@ -102,13 +101,14 @@ def registration():
 @app.route('/admin')
 def admin():
     unmatched = db.session.query(models.Client) \
-        .filter(models.Client.matched==0).\
-    limit(5).from_self()
+        .filter(models.Client.matched == 0).\
+        limit(5).from_self()
     matched = db.session.query(models.Client) \
-        .filter(models.Client.matched==1).\
-    limit(5).from_self()
+        .filter(models.Client.matched == 1).\
+        limit(5).from_self()
     return render_template('admin.html', unmatched=unmatched, matched=matched)
     # return render_template('admin.html')
+
 
 @ app.route('/view-client')
 def view_client():
@@ -148,7 +148,10 @@ def add_goal():
         deadline = request.form['deadline']
         if deadline == '':
             deadline = None
-        goal = models.Goal(email, name, deadline)
+        else:
+            deadline = datetime.strptime(deadline, '%Y-%m-%d')
+        goal = models.Goal(
+            email, name, date_created=datetime.now().date(), deadline=deadline)
         db.session.add(goal)
         db.session.commit()
         return redirect(url_for('view_goal'))
@@ -189,7 +192,12 @@ def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
-    goal.deadline = request.form['deadline']
+    deadline = request.form['deadline']
+    if deadline == '':
+        deadline = None
+    else:
+        deadline = datetime.strptime(deadline, '%Y-%m-%d')
+    goal.deadline = deadline
     db.session.merge(goal)
     db.session.commit()
     return redirect('/view-goal')
@@ -205,34 +213,6 @@ def edit_client1():
 
 @ app.route('/edit-client/<e_id>', methods=['GET', 'POST'])
 def edit_client(e_id):
-    '''
-    client = db.session.query(models.Client).filter(
-        models.Client.email_id == e_id).first()
-    phone_number = db.session.query(client.phone_number).first()
-    timezone = db.session.query(client.timezone).first()
-    year = db.session.query(client.year).first()
-    major_minor = db.session.query(client.major_minor).first()
-    classes = db.session.query(client.classes).first()
-    partner_request = db.session.query(client.partner_request).first()
-    priorities = db.session.query(client.priorities).first()
-    aim = db.session.query(client.aim).first()
-
-    #form = forms.ClientEditForm(client, phone_number, timezone, year, major_minor, classes,
-                                #partner_request, priorities, aim)
-
-    if form.validate_on_submit():
-        try:
-            form.errors.pop('database', None)
-            models.Client.edit(email_id, form.phone_number.data, form.timezone.data,
-                                form.year.data, form.major_minor.data, form.classes.data,
-                                form.partner_request.data, form.priorities.data, form.aim.data)
-            return redirect(url_for('clientdisplay', email_id=form.email_id.data))
-        except BaseException as e:
-            form.errors['database'] = str(e)
-            return render_template('edit-client.html', Client=client, form=form)
-    else:
-        return render_template('edit-client.html', Client=client, form=form)
-    '''
     client = Client.query.filter_by(email_id=e_id).first_or_404()
     # form = forms.ClientEditForm(client, phone_number, timezone, year, major_minor, classes,
     # partner_request, priorities, aim)
@@ -243,7 +223,7 @@ def edit_client(e_id):
     client.classes = request.form['classes']
     client.partner_request = request.form['partner_request']
     client.priorities = request.form['priorities']
-    client.aim = request.form['aim']
+    # client.aim = request.form['aim']
     db.session.merge(client)
     db.session.commit()
     print('committed')
@@ -251,9 +231,9 @@ def edit_client(e_id):
 
 
 def create_pairings():
-    a = [] 
+    a = []
     unmatched = db.session.query(models.Client) \
-        .filter(models.Client.matched==0, models.Client.partner_request != None ).all()
+        .filter(models.Client.matched == 0, models.Client.partner_request != None).all()
     num_unmatched = len(unmatched)
     for i in range(num_unmatched):
         for j in range(num_unmatched):
@@ -265,23 +245,9 @@ def create_pairings():
                 a.append([unmatched[i].email_id, unmatched[j].email_id])
                # db.session.merge(unmatched[i])
                # db.session.merge(unmatched[j])
-    #db.session.commit()
+    # db.session.commit()
     return a
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-  
-            # add the pair of email IDs to the pairinglist.
-    # match based on partner request
-    # create list of tuples that i can add to
-    # Look at client database
-    # if partner request is 0, unmatched
-    # check if partner request is equal to another person, and if that person's partner request is equal to original
-    # add to pairing output, do not output duplicates
-
-
-

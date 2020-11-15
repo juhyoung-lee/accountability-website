@@ -17,17 +17,6 @@ class ClientEditForm:
             partner_request = StringField(default=Client.partner_request)
             priorities = StringField(default=Client.priorities)
             aim = StringField(default=Client.aim)
-
-        return F()
-
-
-class ServingsFormFactory:
-    @staticmethod
-    def form(beer_names):
-        class F(FlaskForm):
-            beer_sel = SelectField('Beer Name', choices=[
-                                   (bn, bn) for bn in beer_names])
-            submit = SubmitField('Submit')
         return F()
 
 
@@ -48,7 +37,6 @@ class AddClientForm(FlaskForm):
     classes = StringField('classes', [DataRequired()])
     partner_request = StringField('partner_request')
     priorities = StringField('priorities', [DataRequired()])
-    aim = StringField('aim', [DataRequired()])
     submit = SubmitField('register')
 
 
