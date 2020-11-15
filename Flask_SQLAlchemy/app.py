@@ -99,7 +99,21 @@ def registration():
         print(error)
         return render_template('registration.html')
 
+def getUnmatchedClients():
+    return db.session.query(models.Client) \
+            .filter(models.Client.matched==0).\
+        limit(5).from_self()
 
+<<<<<<< HEAD
+def getMatchedClients():
+    return db.session.query(models.Client) \
+        .filter(models.Client.matched==1).\
+    limit(5).from_self()
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
+=======
 @app.route('/admin')
 def admin():
     unmatched = db.session.query(models.Client) \
@@ -109,6 +123,7 @@ def admin():
         .filter(models.Client.matched == 1).\
         limit(5).from_self()
     return render_template('admin.html', unmatched=unmatched, matched=matched)
+>>>>>>> 8d6342777d72e541e7492ea58c79e2a9c70a19d3
     # return render_template('admin.html')
 
 
@@ -233,7 +248,7 @@ def edit_client(e_id):
     print('committed')
     return redirect('/view-client')  # redirect to view-goal
 
-
+@app.route('/create-pairings', methods=['post'])
 def create_pairings():
     a = []
     unmatched = db.session.query(models.Client) \
@@ -246,11 +261,15 @@ def create_pairings():
                 #unmatched[i].matched = 1
                 #unmatched[i].partner = unmatched[j].email_id
                # unmatched[j].partner = unmatched[i].email_id
-                a.append([unmatched[i].email_id, unmatched[j].email_id])
+               b = []
+               b.append(unmatched[i])
+               b.append(unmatched[j])
+               a.append(b)
                # db.session.merge(unmatched[i])
                # db.session.merge(unmatched[j])
-    # db.session.commit()
-    return a
+    #db.session.commit()
+    print(a)
+    return render_template('admin.html', pairings=a, unmatched=getUnmatchedClients(), matched=getMatchedClients())
 
 
 if __name__ == '__main__':
