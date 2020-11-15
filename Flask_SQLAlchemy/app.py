@@ -1,6 +1,6 @@
 import sys
-from models import *
-import models
+# from models import *
+# import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -83,11 +83,10 @@ def registration():
         classes = request.form['classes']
         partner_request = request.form['partner_request']
         priorities = request.form['priorities']
-        aim = request.form['aim']
-        user = models.User(email_id, password, name)
+        user = models.User(email_id, password, name, admin=0)
         db.session.add(user)
         client = models.Client(email_id, phone_number, timezone, year,
-                               major_minor, classes, partner_request, priorities, aim)
+                               major_minor, classes, partner_request, priorities, matched=0, partner='')
         db.session.add(client)
         db.session.commit()
         session['email'] = email_id
@@ -224,7 +223,7 @@ def edit_client(e_id):
     client.classes = request.form['classes']
     client.partner_request = request.form['partner_request']
     client.priorities = request.form['priorities']
-    client.aim = request.form['aim']
+    # client.aim = request.form['aim']
     db.session.merge(client)
     db.session.commit()
     print('committed')

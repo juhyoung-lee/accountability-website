@@ -12,7 +12,7 @@ fake = Faker()
 
 def add_users():
     emails = set()
-    for i in range(1000):
+    for i in range(5000):
         fake_email = fake.email()
         curr_len = len(emails)
         emails.add(fake_email)
