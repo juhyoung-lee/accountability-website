@@ -22,7 +22,7 @@ app.config['WTF_CSRF_ENABLED'] = False
 db = SQLAlchemy(app)
 
 
-@app.route('/')
+@app.route('/index')
 def index():
     return render_template('index.html')
 
@@ -45,10 +45,10 @@ def loggedin():
 def logout():
     if 'email' in session:
         session.pop('email', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         email = request.form['uname']
@@ -59,12 +59,14 @@ def login():
             session['email'] = email
             if request.form.get('remember') != None:
                 session.permanent = True
-            return redirect(url_for('loggedin'))
+            if person.admin == 1:
+                return redirect(url_for('admin'))
+            return redirect(url_for('view_goal'))
         else:
             return redirect(url_for('login'))
     else:
         if 'email' in session:
-            return redirect(url_for('index'))
+            return redirect(url_for('view_goal'))
         return render_template('login.html')
 
 
@@ -107,8 +109,13 @@ def getMatchedClients():
         .filter(models.Client.matched==1).\
     limit(5).from_self()
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET','POST'])
 def admin():
+    if request.method == 'POST':
+        if request.form['create-pairings'] == 'create-pairings':
+            return render_template('admin.html', pairings=create_pairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
+        # elif request.form['submit_button'] == 'Do Something Else':
+        #     pass # do something else
     return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
     # return render_template('admin.html')
 
@@ -169,13 +176,15 @@ def view_partner_goal():
     usr = session['email']
     user = db.session.query(models.Client) \
         .filter(models.Client.email_id == usr).one()
+    if user.partner == '':
+        return render_template('no-partner.html')
+
     partner = db.session.query(models.Client) \
         .filter(models.Client.email_id == user.partner_request).one()
     goal_results = db.session.query(models.Goal) \
         .filter(models.Goal.email_id == partner.email_id).all()
     milestone_results = db.session.query(models.Milestone) \
         .filter(models.Milestone.Email_ID == partner.email_id).all()
-
     return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results, user=user, partner=partner)
 
 
@@ -232,7 +241,6 @@ def edit_client(e_id):
     print('committed')
     return redirect('/view-client')  # redirect to view-goal
 
-@app.route('/create-pairings', methods=['post'])
 def create_pairings():
     a = []
     unmatched = db.session.query(models.Client) \
@@ -252,9 +260,8 @@ def create_pairings():
                # db.session.merge(unmatched[i])
                # db.session.merge(unmatched[j])
     #db.session.commit()
-    print(a)
-    return render_template('admin.html', pairings=a, unmatched=getUnmatchedClients(), matched=getMatchedClients())
-
+    return a
 
 if __name__ == '__main__':
     app.run(debug=True)
+ 
