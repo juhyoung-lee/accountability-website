@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block heading %}Display search results:{% endblock %}
+{% block content %}
+
+  <h3>
+    Email_IDs for clients satifying the search criteria:
+  </h3>
+
+  {% for client in c %}
+    {{ client.email_id }} 
+    <br>
+    <br>
+  {% endfor %}
+
+{% endblock %}
