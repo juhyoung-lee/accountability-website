@@ -4,14 +4,14 @@ from models import User, Goal, Milestone, Client
 
 import random
 import string
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from faker import Faker
 
 fake = Faker()
 
 
 def add_users():
-    emails = {'apple'}
+    emails = set()
     for i in range(5000):
         fake_email = fake.email()
         curr_len = len(emails)
@@ -23,7 +23,8 @@ def add_users():
         user = User(
             email_id=fake_email,
             password='passwd',
-            name=fake.name()
+            name=fake.name(),
+            admin=0
         )
         db.session.add(user)
     db.session.commit()
@@ -57,7 +58,6 @@ def add_clients():
             partner_req='',
             partner='',
             prio=random.choice(priorities),
-            aim='',
             matched=0
         )
         db.session.add(client)
@@ -94,13 +94,14 @@ def match_clients():
 
 def add_goals():
     clients = Client.query.all()
-    goal_names = ['HW1', 'HW2', 'HW3', 'HW4', 'HW5', 'HW6', 'HW7', 'HW8', 'HW9', 'HW10', 'Essay 1', 'Essay 2', 'Essay 3', 'Essay 4', 'Essay 5', 'Midterm 1', 'Midterm 2', 'Applications', 'Presentation', 'Call a friend', 'Go to the gym',
-                  'Go on a run', 'Interview prep', 'MCAT', 'Lab 1', 'Lab 2', 'Lab 3', 'Lab 4', 'Clean my room', 'Call parents', 'Call grandparents', 'Journal', 'Clean email inbox', 'Event planning', 'GRE', 'Bookbag', 'Take vitamins', 'Buy birthday gift']
+    goal_names = ['Problem set', 'Essay reflection', 'Midterm', 'Applications', 'Presentation', 'Call a friend', 'Go to the gym', 'Plan event', 'Watch movie', 'Watch lecture', 'Quiz', 'Read chapter', 'Find airpod', 'Drink water',
+                  'Go on a run', 'Interview prep', 'MCAT', 'Lab', 'Lab report', 'Clean my room', 'Call parents', 'Call grandparents', 'Journal', 'Clean email inbox', 'Event planning', 'GRE', 'Bookbag', 'Take vitamins', 'Buy birthday gift']
     for client in clients:
-        goal_count = random.randint(0, 4)
-        goal_set = random.choices(goal_names, k=goal_count)
+        goal_count = random.randint(2, 6)
+        goal_set = random.sample(goal_names, goal_count)
         for num in range(goal_count):
-            date = fake.date_this_year()
+            date = (datetime.strptime('2020-9-1', '%Y-%m-%d') +
+                    timedelta(days=random.randint(0, 75))).date()
             goal = Goal(
                 email=client.email_id,
                 name=goal_set.pop(),
@@ -121,13 +122,47 @@ def add_milestones():
                     milestone_id=num,
                     goal_id=goal.goal_id,
                     email_id=client.email_id,
-                    name=str(num),
+                    name='Step '+str(num+1),
                     # name=''.join(random.choice(letters) for i in range(8)),
                     deadline=fake.date_time_this_year(),
                     completed=random.randint(0, 1),
                     date_completed=fake.date_time_this_year()
                 )
                 db.session.add(milestone)
+    db.session.commit()
+
+
+def add_admin():
+    user = User(
+        email_id='admin@gmail.com',
+        password='passwd',
+        name='admin',
+        admin=1
+    )
+    db.session.add(user)
+
+    admin = Client(
+        email='admin@gmail.com',
+        phone=1234567890,
+        time=0,
+        year=2022,
+        major='COMPSCI',
+        classes='COMPSCI 316, COMPSCI 201, COMPSCI 250, COMPSCI 330',
+        partner_req='',
+        partner='',
+        prio='self care',
+        matched=1
+    )
+    db.session.add(admin)
+
+    goal = Goal(
+        email='admin@gmail.com',
+        name='Pass CS 316',
+        date_created=datetime.now().date(),
+        deadline=date.fromisoformat('2020-11-17')
+    )
+    db.session.add(goal)
+
     db.session.commit()
 
 
@@ -143,3 +178,5 @@ def add_fake_data():
     print('added goals')
     add_milestones()
     print('added milestones')
+    add_admin()
+    print('added admin')

@@ -34,13 +34,12 @@
     <input type="number" placeholder="Enter Phone Number" name="phone_number" id="phone_number" required />
     <br><br>
     <label for="year"><b>Class Year</b></label>
-    <input
-      type="number"
-      placeholder="Enter Year"
-      name="year"
-      id="year"
-      required
-    />
+    <select name="year" id="year">
+      <option value="2021">2021</option>
+      <option value="2021">2022</option>
+      <option value="2021">2023</option>
+      <option value="2021">2024</option>
+    </select>
 
     <!--<label for="year">Year</label>
 
@@ -56,17 +55,58 @@
       id="major_minor"
       required
     />-->
-    <br>
-      <label for="major_minor">Major</label>
+    <br><br>
+      <label for="major_minor"><b>Major</b></label>
 
       <select name="major_minor" id="major_minor">
-        <option value="Chemistry">Chemistry</option>
-        <option value="Computer Science">Computer Science</option>
-        <option value="Math">Math</option>
-        <option value="English">English</option>
-        <option value="Sociology">Sociology</option>
+        <option value="AAAS">AAAS</option>
+        <option value="AMES">AMES</option>
+        <option value="ARTHIST">ARTHIST</option>
+        <option value="BIOLOGY">BIOLOGY</option>
+        <option value="BME">BME</option>
+        <option value="CEE">CEE</option>
+        <option value="CHEM">CHEM</option>
+        <option value="CHINESE">CHINESE</option>
+        <option value="CLST">CLST</option>
+        <option value="COMPSCI">COMPSCI</option>
+        <option value="CULANTH">CULANTH</option>
+        <option value="DANCE">DANCE</option>
+        <option value="ECE">ECE</option>
+        <option value="ECON">ECON</option>
+        <option value="ENGLISH">ENGLISH</option>
+        <option value="ENVIRON">AAENVIRONAS</option>
+        <option value="EVANTH">EVANTH</option>
+        <option value="FRENCH">FRENCH</option>
+        <option value="GERMAN">GERMAN</option>
+        <option value="GLHLTH">GLHLTH</option>
+        <option value="GREEK">GREEK</option>
+        <option value="GSF">GSF</option>
+        <option value="HISTORY">HISTORY</option>
+        <option value="ITALIAN">ITALIAN</option>
+        <option value="ICS">ICS</option>
+        <option value="LIT">LIT</option>
+        <option value="LINGUIST">LINGUIST</option>
+        <option value="MATH">MATH</option>
+        <option value="ME">ME</option>
+        <option value="MUSIC">MUSIC</option>
+        <option value="MEDREN">MEDREN</option>
+        <option value="NEUROSCI">NEUROSCI</option>
+        <option value="PHIL">PHIL</option>
+        <option value="PHYSICS">PHYSICS</option>
+        <option value="POLSCI">POLSCI</option>
+        <option value="PSY">PSY</option>
+        <option value="PUBPOL">PUBPOL</option>
+        <option value="ROMST">ROMST</option>
+        <option value="RELIGION">RELIGION</option>
+        <option value="RUSSIAN">RUSSIAN</option>
+        <option value="SCIOL">SCIOL</option>
+        <option value="SPANISH">SPANISH</option>
+        <option value="STA">STA</option>
+        <option value="SES">SES</option>
+        <option value="THEATRST">THEATRST</option>
+        <option value="VMS">VMS</option>
+        <option value="WRITING">WRITING</option>
       </select>
-      <br>
 
     <!--<label for="classes"><b>Current Courses</b></label>
     <input
@@ -77,21 +117,13 @@
       required
     />-->
     <br><br>
-    <label for="classes">Classes</label>
-
-    <select name="classes" id="classes">
-      <option value="CS 316">CS 316</option>
-      <option value="Math 212">Math 212</option>
-      <option value="CHEM 210">Chemistry 210</option>
-      <option value="English 101">English 101</option>
-      <option value="Sociology 110">Sociology 110</option>
-    </select>
-
+    <label for="classes"><b>Classes</b></label>
+    <input type="text" placeholder="" name="classes" id="classes" required />
     <!--<label for="aim"
       ><b>What do you hope to get out of having a partner?</b></label>
 
     <input type="text" placeholder="" name="aim" id="aim" required />-->
-
+    <!--
     <br><br>
     <label for="aim">Aim</label>
 
@@ -100,12 +132,12 @@
       <option value="Having someone who is willing to do work with me">Having someone who is willing to do work with me</option>
       <option value="Having someone give me encouragement">Having someone give me encouragement</option>
       <option value="Having someone to keep me organized">Having someone to keep me organized</option>
-    </select>
-    
-    <br><br>
+    </select> 
+    -->
+    <br>
 
-    <label for="timezone"><b>Time Zone</b></label>
-    <input type="number" placeholder="UTC timezone from -12 to 14" name="timezone" id="timezone" min=-12 max=14/>
+    <label for="timezone"><b>UTC Time Zone</b></label>
+    <input type="number" placeholder="-12 to 14" name="timezone" id="timezone" min=-12 max=14/>
     <br><br>
     <label for="partner_request"><b>Requested Partner (if applicable)</b></label>
     <input
@@ -123,13 +155,20 @@
       id="priorities"
     />-->
 
-    <label for="priorities">Priorities</label>
+    <label for="priorities"><b>Priorities</b></label>
 
     <select name="priorities" id="priorities">
-      <option value="Same Major">Same Major</option>
-      <option value="Same Timezone">Same Timezone</option>
-      <option value="Same Year">Same Year</option>
-      <option value="Same Class">Same Class</option>
+      <option value="grades">grades</option>
+      <option value="self care">self care</option>
+      <option value="personal projects">personal projects</option>
+      <option value="recruiting">recruiting</option>
+      <option value="hobbies">hobbies</option>
+      <option value="research">research</option>
+      <option value="exercise">exercise</option>
+      <option value="organizations">organizations</option>
+      <option value="volunteering">volunteering</option>
+      <option value="being premed">being premed</option>
+      <option value="making friends">making friends</option>
     </select>
 
 
