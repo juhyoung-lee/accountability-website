@@ -161,13 +161,17 @@ def add_goal():
 
 @app.route('/view-partner-goal')
 def view_partner_goal():
-    usr = 'dorseyandrew@smith-clarke.biz'  # hardcoded partner for now
+    usr = session['email']
+    user = db.session.query(models.Client) \
+        .filter(models.Client.email_id == usr).one()
+    partner = db.session.query(models.Client) \
+        .filter(models.Client.email_id == user.partner_request).one()
     goal_results = db.session.query(models.Goal) \
-        .filter(models.Goal.email_id == usr).all()
+        .filter(models.Goal.email_id == partner.email_id).all()
     milestone_results = db.session.query(models.Milestone) \
-        .filter(models.Milestone.Email_ID == usr).all()
+        .filter(models.Milestone.Email_ID == partner.email_id).all()
 
-    return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
+    return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results, user=user, partner=partner)
 
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
