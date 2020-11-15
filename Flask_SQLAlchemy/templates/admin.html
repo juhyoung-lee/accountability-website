@@ -267,10 +267,10 @@
                     </div>
                   </div>
                   <div class="center">
-                    <button type="submit" name="reject-pairing" value={{value}} class="btn reject">Reject</button>
+                    <button type="submit" class="btn reject" name="reject-pairing" value={{value}}>Reject</button>
                     <!-- value must be a string -- submit email_id instead and query in app.py function -->
                     <!-- use onClick to call javascript function that sets visibility of blocks to hidden  -->
-                    <button type="submit" name="confirm-pairing" value={{value}} class="btn confirm">Confirm</button>
+                    <button type="submit" class="btn reject" name="confirm-pairing" value={{value}} class="btn confirm">Confirm</button>
                   </div>
                 </div>
                 {% endfor %}
