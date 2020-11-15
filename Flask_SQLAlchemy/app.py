@@ -110,10 +110,12 @@ def getMatchedClients():
 @app.route('/admin', methods=['GET','POST'])
 def admin():
     if request.method == 'POST':
-        if request.form['create-pairings'] == 'create-pairings':
+        if "create-pairings" in request.form:
             return render_template('admin.html', pairings=create_pairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
-        # elif request.form['submit_button'] == 'Do Something Else':
-        #     pass # do something else
+        elif "reject-pairing" in request.form:        
+            a = request.form['reject-pairing'][0]
+            pairing = request.form['reject-pairing'][1]
+            # return render_template('admin.html', pairings=a, unmatched=getUnmatchedClients(), matched=getMatchedClients())
     return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
     # return render_template('admin.html')
 
@@ -257,6 +259,33 @@ def create_pairings():
                # db.session.merge(unmatched[j])
     #db.session.commit()
     return a
+
+@app.route('/search-client')
+def search_client():
+    return render_template('search-client.html')
+
+@ app.route('/search-client', methods=['GET', 'POST'])
+def search_client1():
+    if request.form['phone_number'] != '':
+        client = models.Client.query.filter_by(phone_number=request.form['phone_number']).all()
+    if request.form['timezone'] != '':
+        client = models.Client.query.filter_by(timezone=request.form['timezone']).all()
+    if request.form['year'] != '':
+        client = models.Client.query.filter_by(year=request.form['year']).all()
+    if request.form['major_minor'] != '':
+        client = models.Client.query.filter_by(major_minor=request.form['major_minor']).all()
+    if request.form['classes'] != '':
+        client = models.Client.query.filter_by(classes=request.form['classes']).all()
+    if request.form['partner_request'] != '':
+        client = models.Client.query.filter_by(partner_request=request.form['partner_request']).all()
+    if request.form['priorities'] != '':
+        client = models.Client.query.filter_by(priorities=request.form['priorities']).all()
+    if request.form['aim'] != '':
+        client = models.Client.query.filter_by(aim=request.form['aim']).all()
+    #only print topic 20 clients on the display-search page
+    if len(client)>20:
+        client = client[:20]
+    return render_template('/display-search.html', c = client)  # redirect to display-search
 
 if __name__ == '__main__':
     app.run(debug=True)
