@@ -35,7 +35,7 @@ class Client(db.Model):
     partner = db.Column(db.String(100), nullable=False)
     goals = db.relationship('Goal', backref='client')
 
-    def __init__(self, email, phone, time, year, major, classes, partner_req, prio, aim, matched, partner):
+    def __init__(self, email, phone, time, year, major, classes, partner_req, prio, matched, partner):
         self.email_id = email
         self.phone_number = phone
         self.timezone = time
@@ -44,7 +44,6 @@ class Client(db.Model):
         self.classes = classes
         self.partner_request = partner_req
         self.priorities = prio
-        self.aim = aim
         self.matched = matched
         self.partner = partner
 
@@ -55,19 +54,17 @@ class Goal(db.Model):
         'client.email_id'), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     date_created = db.Column(db.Date, nullable=False)
-    deadline = db.Column(db.Date, nullable=False)
+    deadline = db.Column(db.Date)
     progress = db.Column(db.Integer)
     milestones = db.relationship('Milestone', backref='goal')
 
-    def __hash__(self):
-        return hash(self)
-
-    def __init__(self, email, name, deadline):
+    def __init__(self, email, name, date_created, deadline):
         self.goal_id = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.email_id = email
         self.name = name
-        self.date_created = datetime.now().date()
+        self.date_created = date_created
+        # self.date_created = datetime.now().date()
         self.deadline = deadline
         # self.deadline = datetime.strptime(str(deadline), '%Y-%m-%d')
         self.progress = 0

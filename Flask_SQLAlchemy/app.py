@@ -1,6 +1,6 @@
 import sys
-# from models import *
-# import models
+from models import *
+import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -149,7 +149,10 @@ def add_goal():
         deadline = request.form['deadline']
         if deadline == '':
             deadline = None
-        goal = models.Goal(email, name, deadline)
+        else:
+            deadline = datetime.strptime(deadline, '%Y-%m-%d')
+        goal = models.Goal(
+            email, name, date_created=datetime.now().date(), deadline=deadline)
         db.session.add(goal)
         db.session.commit()
         return redirect(url_for('view_goal'))
@@ -190,7 +193,12 @@ def submit_goal(id):
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
-    goal.deadline = request.form['deadline']
+    deadline = request.form['deadline']
+    if deadline == '':
+        deadline = None
+    else:
+        deadline = datetime.strptime(deadline, '%Y-%m-%d')
+    goal.deadline = deadline
     db.session.merge(goal)
     db.session.commit()
     return redirect('/view-goal')
