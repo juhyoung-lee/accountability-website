@@ -34,7 +34,7 @@ class Client(db.Model):
     partner = db.Column(db.String(100))
     goals = db.relationship('Goal', backref='client')
 
-    def __init__(self, email, phone, time, year, major, classes, partner_req, prio, aim, matched, partner):
+    def __init__(self, email, phone, time, year, major, classes, partner_req, prio, aim, matched=0, partner=''):
         self.email_id = email
         self.phone_number = phone
         self.timezone = time

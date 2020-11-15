@@ -1,6 +1,6 @@
 import sys
-from models import *
-import models
+# from models import *
+# import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -160,13 +160,17 @@ def add_goal():
 
 @app.route('/view-partner-goal')
 def view_partner_goal():
-    usr = 'dorseyandrew@smith-clarke.biz'  # hardcoded partner for now
+    usr = session['email']
+    user = db.session.query(models.Client) \
+        .filter(models.Client.email_id == usr).one()
+    partner = db.session.query(models.Client) \
+        .filter(models.Client.email_id == user.partner_request).one()
     goal_results = db.session.query(models.Goal) \
-        .filter(models.Goal.email_id == usr).all()
+        .filter(models.Goal.email_id == partner.email_id).all()
     milestone_results = db.session.query(models.Milestone) \
-        .filter(models.Milestone.Email_ID == usr).all()
+        .filter(models.Milestone.Email_ID == partner.email_id).all()
 
-    return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results)
+    return render_template('view-partner-goal.html', usr=usr, goal_data=goal_results, milestone_data=milestone_results, user=user, partner=partner)
 
 
 @app.route('/edit-goal/<id>', methods=['GET', 'POST'])
@@ -246,5 +250,38 @@ def edit_client(e_id):
     return redirect('/view-client')  # redirect to view-goal
 
 
+def create_pairings():
+    a = [] 
+    unmatched = db.session.query(models.Client) \
+        .filter(models.Client.matched==0, models.Client.partner_request != None ).all()
+    num_unmatched = len(unmatched)
+    for i in range(num_unmatched):
+        for j in range(num_unmatched):
+            if unmatched[i].partner_request == unmatched[j].email_id and unmatched[j].email_id == unmatched[i].partner_request and unmatched[j].email_id != unmatched[i].email_id and [unmatched[j].email_id, unmatched[i].email_id] not in a:
+                #unmatched[j].matched = 1
+                #unmatched[i].matched = 1
+                #unmatched[i].partner = unmatched[j].email_id
+               # unmatched[j].partner = unmatched[i].email_id
+                a.append([unmatched[i].email_id, unmatched[j].email_id])
+               # db.session.merge(unmatched[i])
+               # db.session.merge(unmatched[j])
+    #db.session.commit()
+    return a
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+  
+            # add the pair of email IDs to the pairinglist.
+    # match based on partner request
+    # create list of tuples that i can add to
+    # Look at client database
+    # if partner request is 0, unmatched
+    # check if partner request is equal to another person, and if that person's partner request is equal to original
+    # add to pairing output, do not output duplicates
+
+
+
