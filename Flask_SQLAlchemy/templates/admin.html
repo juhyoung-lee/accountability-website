@@ -5,25 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     section {
-      background: rgb(175, 239, 255);
       padding: 20px;
       font-size: 25px;
-      margin-top: 10px;
     }
 
     .left-header {
       background: rgb(241, 248, 145);
       padding: 20px;
-      font-size: 25px;
-      margin-top: 10px;
       font-size: 12px;
     }
 
     .right-header {
       background: rgb(207, 224, 243);
       padding: 20px;
-      font-size: 25px;
-      margin-top: 10px;
       font-size: 12px;
     }
 
@@ -49,8 +43,6 @@
     .column {
       flex: 50%;
       padding: 10px;
-      margin-right: 10px;
-      height: 600px; /* Should be removed. Only for demonstration */
     }
     
     .bar {
@@ -104,6 +96,11 @@
       box-shadow: 0 8px 16px 0 rgba(0,0,0,0.25);
     }
 
+    .selected {
+      border: deepskyblue;
+      border-width: 2px;
+    }
+
     /* Add some padding inside the card container */
     .card-container {
       padding: 8px 12px;
@@ -132,7 +129,7 @@
 
     .rec-grid-container {
       display: grid;
-      grid-template-columns: auto auto;
+      grid-template-columns: auto;
       padding: 12px;
     }
 
@@ -164,6 +161,14 @@
       background-color: #4CAF50;
     }
 
+    .next {
+      background-color: #182f44;
+    }
+
+    .prev{
+      background-color: #436483;
+    }
+
     .center {
       margin: auto;
       width: fit-content;
@@ -178,6 +183,7 @@
             <div class="left-header">
                 <h2>All users</h2>
                 <p>View and match users</p>
+                <button onClick="pairingMode">Pairing mode</button>
             </div>
             <div class="bar">
               <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
@@ -187,7 +193,7 @@
               <div class="grid-container">
                 <h3>Unmatched</h3>
                 {% for client in unmatched %}
-                <div class="card">
+                <div class="card" id={{client.email_id}}>
                   <div class="card-container">
                     <p><b>{{client.email_id}}</b></p>
                     <div class="client-info-grid">
@@ -197,11 +203,14 @@
                       <div class="client-grid-item">Classes: {{client.classes}}</div>
                       <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
                       <div class="client-grid-item">Priorities: {{client.priorities}}</div>
-                      <div class="client-grid-item">Aim: {{client.aim}}</div>
                     </div>
                   </div>
                 </div>
                 {% endfor %}
+              </div>
+              <div class="center">
+                <button class="btn prev">Prevous</button>
+                <button class="btn next">Next</button>
               </div>
             </div>
             <div id="matched" class="users-container" style="display:none">
@@ -218,7 +227,6 @@
                       <div class="client-grid-item">Classes: {{client.classes}}</div>
                       <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
                       <div class="client-grid-item">Priorities: {{client.priorities}}</div>
-                      <div class="client-grid-item">Aim: {{client.aim}}</div>
                     </div>
                   </div>
                 </div>
@@ -230,42 +238,57 @@
           <div class="right-header">
             <h2>Recommended pairings</h2>
             <p>Confirm or reject recommended pairings</p>
-            <button>Generate pairs</button>
+            <form action='/create-pairings' method='post'>
+              <button type="submit">Create pairs</button>
+            </form>
             <div class="rec-grid-container">
-              <div class="card">
-                <div class="card-container">
-                  <p><b>Client email</b></p>
-                  <div class="client-grid-item">Timezone: </div>
-                  <div class="client-grid-item">Class year: </div>
-                  <div class="client-grid-item">Major(s)/minor(s): </div>
-                  <div class="client-grid-item">Classes: </div>
-                  <div class="client-grid-item">Partner request: </div>
-                  <div class="client-grid-item">Priorities: </div>
-                  <div class="client-grid-item">Aim: </div>
+              {% if pairings != null%}
+              {% for i in range(0, 5) %}
+              <div>
+                <div class="card">
+                  <div class="card-container">
+                    <p><b>{{pairings[i][0].email_id}}</b></p>
+                    <div class="client-grid-item">Timezone: {{pairings[i][0].timezone}}</div>
+                    <div class="client-grid-item">Class year: {{pairings[i][0].year}}</div>
+                    <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][0].major_minor}}</div>
+                    <div class="client-grid-item">Classes: {{pairings[i][0].classes}}</div>
+                    <div class="client-grid-item">Partner request: {{pairings[i][0].partner_request}}</div>
+                    <div class="client-grid-item">Priorities: {{pairings[i][0].priorities}}</div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-container">
+                    <p><b>{{pairings[i][1].email_id}}</b></p>
+                    <div class="client-grid-item">Timezone: {{pairings[i][1].timezone}}</div>
+                    <div class="client-grid-item">Class year: {{pairings[i][1].year}}</div>
+                    <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][1].major_minor}}</div>
+                    <div class="client-grid-item">Classes: {{pairings[i][1].classes}}</div>
+                    <div class="client-grid-item">Partner request: {{pairings[i][1].partner_request}}</div>
+                    <div class="client-grid-item">Priorities: {{pairings[i][1].priorities}}</div>
+                  </div>
+                </div>
+                <div class="center">
+                  <button class="btn reject">Reject</button>
+                  <button class="btn confirm">Confirm</button>
                 </div>
               </div>
-              <div class="card">
-                <div class="card-container">
-                  <p><b>Client email</b></p>
-                  <div class="client-grid-item">Timezone: </div>
-                  <div class="client-grid-item">Class year: </div>
-                  <div class="client-grid-item">Major(s)/minor(s): </div>
-                  <div class="client-grid-item">Classes: </div>
-                  <div class="client-grid-item">Partner request: </div>
-                  <div class="client-grid-item">Priorities: </div>
-                  <div class="client-grid-item">Aim: </div>
-                </div>
-              </div>
-            </div>
-            <div class="center">
-              <button class="btn reject">Reject</button>
-              <button class="btn confirm">Confirm</button>
+              {% endfor %}
+              {% endif%}
             </div>
           </div>
         </div>
       </div>
     </div>
     <script>
+      var pairingMode = false;
+      function pairingMode() {
+        pairingMode = true;
+      }
+
+      function toggleSelect(){
+
+      }
+
       function openTab(evt, tabName) {
         var i, x, tablinks;
         x = document.getElementsByClassName("users-container");
