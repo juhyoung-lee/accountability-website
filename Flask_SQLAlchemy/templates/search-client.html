@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+{% block heading %}Search for Client{% endblock %}
+{% block content %}
+<form action="{{url_for('search_client')}}" method="POST">
+
+  <label for = "phone_number">
+    Phone number:
+  </label>
+  <input type="number" placeholder="Enter phone number" name="phone_number" id="phone_number">
+
+  <br>
+  <br>
+
+  <label for = "timezone">
+    Timezone: 
+
+  </label>
+  <input type="number" placeholder="Enter timezone" name="timezone" id="timezone">
+  
+  <br>
+  <br>
+
+  <label for = "year">
+    Year: 
+
+  </label>
+  <input type="number" placeholder="Enter year" name="year" id="year">
+
+  <br>
+  <br>
+
+  <label for = "major_minor">
+    Major and minor: 
+  </label>
+  <input type="text" placeholder="Enter major and minor" name="major_minor" id="major_minor">
+
+  <br>
+  <br>
+
+  <label for = "classes">
+    Classes: 
+  </label>
+  <input type="text" placeholder="Enter classes taking" name="classes" id="classes">
+  <br>
+  <br>
+
+  <label for = "partner_request">
+    Partner request: 
+  </label>
+  <input type="text" placeholder="Enter preferred partner" name="partner_request" id="partner_request">
+
+  <br>
+  <br>
+
+  <label for = "priorities">
+    Priorities: 
+  </label>
+  <input type="text" placeholder="Enter priorities" name="priorities" id="priorities">
+
+  <br>
+  <br>
+
+  <label for = "aim">
+    Aim: 
+  </label>
+  <input type="text" placeholder="Enter aim(s)" name="aim" id="aim">
+
+  <br>
+  <br>
+
+  <hr/>
+  <input type="reset" value="Reset"/>
+  <input type="submit" value="Submit"/>
+</form>
+
+{% endblock %}
