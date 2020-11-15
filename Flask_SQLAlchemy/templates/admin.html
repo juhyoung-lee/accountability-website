@@ -239,7 +239,7 @@
             <div class="right-header">
               <h2>Recommended pairings</h2>
               <p>Confirm or reject recommended pairings</p>
-              <button type="submit" name="create-pairings" value="create-pairings">Create pairs</button>
+              <button type="submit" name="create-pairings">Create pairs</button>
               <div class="rec-grid-container">
                 {% if pairings != null%}
                 {% for i in range(0, 5) %}
@@ -267,8 +267,10 @@
                     </div>
                   </div>
                   <div class="center">
-                    <button class="btn reject">Reject</button>
-                    <button class="btn confirm">Confirm</button>
+                    <button type="submit" name="reject-pairing" value={{value}} class="btn reject">Reject</button>
+                    <!-- value must be a string -- submit email_id instead and query in app.py function -->
+                    <!-- use onClick to call javascript function that sets visibility of blocks to hidden  -->
+                    <button type="submit" name="confirm-pairing" value={{value}} class="btn confirm">Confirm</button>
                   </div>
                 </div>
                 {% endfor %}
