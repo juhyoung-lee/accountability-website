@@ -102,7 +102,6 @@ def getUnmatchedClients():
             .filter(models.Client.matched==0).\
         limit(5).from_self()
 
-<<<<<<< HEAD
 def getMatchedClients():
     return db.session.query(models.Client) \
         .filter(models.Client.matched==1).\
@@ -111,17 +110,6 @@ def getMatchedClients():
 @app.route('/admin')
 def admin():
     return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
-=======
-@app.route('/admin')
-def admin():
-    unmatched = db.session.query(models.Client) \
-        .filter(models.Client.matched == 0).\
-        limit(5).from_self()
-    matched = db.session.query(models.Client) \
-        .filter(models.Client.matched == 1).\
-        limit(5).from_self()
-    return render_template('admin.html', unmatched=unmatched, matched=matched)
->>>>>>> 8d6342777d72e541e7492ea58c79e2a9c70a19d3
     # return render_template('admin.html')
 
 
