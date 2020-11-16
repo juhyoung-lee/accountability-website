@@ -56,7 +56,6 @@ def add_clients():
             major=major,
             classes=class_set,
             partner_req='',
-            partner='',
             prio=random.choice(priorities),
             matched=0
         )
@@ -117,7 +116,7 @@ def add_milestones():
     clients = Client.query.all()
     for client in clients:
         for goal in client.goals:
-            iter = random.randint(0, 3)
+            iter = random.randint(1, 3)
             start = goal.date_created
             end = goal.deadline
             delta = (end - start).days // iter
@@ -154,7 +153,6 @@ def add_admin():
         major='COMPSCI',
         classes='COMPSCI 316, COMPSCI 201, COMPSCI 250, COMPSCI 330',
         partner_req='',
-        partner='',
         prio='self care',
         matched=1
     )
@@ -170,6 +168,19 @@ def add_admin():
 
     db.session.commit()
 
+def add_pairings():
+    letters = string.ascii_lowercase
+    clients = Client.query.all()
+    for client in clients:
+        pairing = Pairing(
+            Date_formed = fake.date_time_this_year(),
+            Email_ID_User_1 = client.email_id,
+            Email_ID_User_2 = random.choice(Client.query.all()).email_id,
+            Concluded = random.choice([0, 1]),
+            Confirmed = random.choice([0, 1])
+        )
+        db.session.add(pairing)
+    db.session.commit()
 
 def add_fake_data():
     db.create_all()
