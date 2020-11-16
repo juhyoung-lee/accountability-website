@@ -217,19 +217,32 @@ def edit_goal(id):
     # if form.validate_on_submit():
     #     return redirect(url_for('success')) ## change this to appropriate url
     goal = Goal.query.filter_by(goal_id=id).first_or_404()
-    return render_template('edit-goal.html', goal=goal)
+    milestones = Milestone.query.filter_by(Goal_ID=id).all()
+    return render_template('edit-goal.html', goal=goal, milestones=milestones)
     # except con.Error as err: # if error
     # then display the error in 'database_error.html' page
     # return render_template('database_error.html', error=err)
 
 
-@app.route('/submit-goal/<id>', methods=['POST'])
+@app.route('/submit-edit/<id>', methods=['POST'])
 def submit_goal(id):
     goal = db.session.query(Goal).filter_by(goal_id=id).first()
     # goal = Goal.query.filter_by(goal_id=id).first_or_404()
     goal.name = request.form['name']
     goal.progress = request.form['progress']
     deadline = request.form['deadline']
+    milestones = Milestone.query.filter_by(Goal_ID=id).all()
+    for i in range(0, len(milestones)):
+        if ('milestone-name' + str(i)) in request.form:
+            print(request.form['milestone-name' + str(i)])
+            milestones[i].Name = request.form['milestone-name' + str(i)]
+        elif ('milestone-deadline' + str(i)) in request.form:
+            milestones[i].Deadline = request.form['milestone-deadline' + str(i)]
+        elif ('milestone-completed' + str(i)) in request.form:
+            if request.form['milestone-completed' + str(i)] == milestones[i].Completed:
+                milestones[i].Completed = 1
+            else:
+                milestones[i].Completed = 0
     if deadline == '':
         deadline = None
     else:
