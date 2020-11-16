@@ -78,22 +78,24 @@ class Milestone(db.Model):
         'client.email_id'), primary_key=True)
     Name = db.Column(db.String(100), nullable=False)
     Deadline = db.Column(db.DateTime)
-    Completed = db.Column(db.Integer)
+    Completed = db.Column(db.Integer, nullable=False)
     Date_Completed = db.Column(db.DateTime)
 
-    def __init__(self, milestone_id, goal_id, email_id, name, deadline, completed, date_completed):
+    def __init__(self, milestone_id, goal_id, email_id, name, deadline, date_completed):
         self.Milestone_ID = milestone_id
         self.Goal_ID = goal_id
         self.Email_ID = email_id
         self.Name = name
         self.Deadline = deadline
-        self.Completed = completed
+        self.Completed = 0
         self.Date_Completed = date_completed
+
 
 class Pairing(db.Model):
     Date_formed = db.Column(db.DateTime, primary_key=True)
-    Email_ID_User_1 = db.Column (db.String(100), db.ForeignKey ('client.email_id'), primary_key=True)
-    Email_ID_User_2 = db.Column(db.String(100), db.ForeignKey ('client.email_id'), primary_key=True)
+    Email_ID_User_1 = db.Column(db.String(100), db.ForeignKey(
+        'client.email_id'), primary_key=True)
+    Email_ID_User_2 = db.Column(db.String(100), db.ForeignKey(
+        'client.email_id'), primary_key=True)
     Concluded = db.Column(db.Boolean)
     Confirmed = db.Column(db.Boolean)
-

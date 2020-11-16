@@ -223,7 +223,11 @@
             {% for milestone in milestone_data %}
             {% if milestone.Goal_ID == goal.goal_id %}
             <tr>
+            {% if milestone.Completed == 0%}
               <td style="text-align:center">{{milestone.Name}}</td>
+            {% else %}
+              <td style="text-align:center"><del>{{milestone.Name}}</del></td>
+            {% endif %}
             </tr>
             {% endif %}
             {% endfor %}

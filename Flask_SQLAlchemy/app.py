@@ -130,8 +130,10 @@ def admin():
                     pair = request.form['pair-users']
                     emails = pair.split()
                     print(emails)
-                    client1 = db.session.query(Client).filter_by(email_id=emails[0]).first()
-                    client2 = db.session.query(Client).filter_by(email_id=emails[1]).first()
+                    client1 = db.session.query(Client).filter_by(
+                        email_id=emails[0]).first()
+                    client2 = db.session.query(Client).filter_by(
+                        email_id=emails[1]).first()
                     client1.partner = emails[1]
                     client1.partner = emails[0]
                     client1.matched = 1
@@ -143,6 +145,7 @@ def admin():
             return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
+
 
 @ app.route('/view-client')
 def view_client():
@@ -231,18 +234,23 @@ def submit_goal(id):
     goal.name = request.form['name']
     goal.progress = request.form['progress']
     deadline = request.form['deadline']
-    milestones = Milestone.query.filter_by(Goal_ID=id).all()
+    milestones = db.session.query(Milestone).filter_by(Goal_ID=id).all()
     for i in range(0, len(milestones)):
         if ('milestone-name' + str(i)) in request.form:
             print(request.form['milestone-name' + str(i)])
             milestones[i].Name = request.form['milestone-name' + str(i)]
-        elif ('milestone-deadline' + str(i)) in request.form:
-            milestones[i].Deadline = request.form['milestone-deadline' + str(i)]
-        elif ('milestone-completed' + str(i)) in request.form:
-            if request.form['milestone-completed' + str(i)] == milestones[i].Completed:
-                milestones[i].Completed = 1
+        if ('milestone-deadline' + str(i)) in request.form:
+            date = request.form['milestone-deadline' + str(i)]
+            if date == '':
+                date = None
             else:
+                date = datetime.strptime(date, '%Y-%m-%d')
+            milestones[i].Deadline = date
+        if ('milestone-completed' + str(i)) in request.form:
+            if request.form['milestone-completed' + str(i)] == None:
                 milestones[i].Completed = 0
+            else:
+                milestones[i].Completed = 1
     if deadline == '':
         deadline = None
     else:
