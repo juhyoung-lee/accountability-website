@@ -41,7 +41,7 @@
       <input
         type="text"
         value="{{milestones[i].Name}}"
-        name="milestone-name"+{{i|string}}
+        name="milestone-name{{i|string}}"
         id="milestone-name"
         required
       />
@@ -50,13 +50,18 @@
       <input
         type="date"
         value={{milestones[i].Deadline}}
-        name="milestone-deadline"+{{i|string}}
+        name="milestone-deadline{{i|string}}"
         id="milestone-deadline"
       />
 
-      <input type="checkbox" class="check" id="milestone-completed" name="milestone-completed"+{{i|string}} value={{milestones[i].Completed}}>
+      {% if milestones[i].Completed == 0%}
+      <input type="checkbox" id="milestone-completed" name="milestone-completed{{i|string}}" value={{milestones[i].Completed}}>
+      {% else %}
+      <input type="checkbox" class="check" id="milestone-completed" name="milestone-completed{{i|string}}" value={{milestones[i].Completed}}>
+      {% endif %}
       <label for="vehicle1">Completed</label><br>
       <br><br>
+
       {% endfor %}
 
       <a href="{{ url_for('view_goal') }}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->
