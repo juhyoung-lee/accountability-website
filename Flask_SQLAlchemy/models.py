@@ -89,3 +89,11 @@ class Milestone(db.Model):
         self.Deadline = deadline
         self.Completed = completed
         self.Date_Completed = date_completed
+
+class Pairing(db.Model):
+    Date_formed = db.Column(db.DateTime, primary_key=True)
+    Email_ID_User_1 = db.Column (db.String(100), db.ForeignKey ('client.email_id'), primary_key=True)
+    Email_ID_User_2 = db.Column(db.String(100), db.ForeignKey ('client.email_id'), primary_key=True)
+    Concluded = db.Column(db.Boolean)
+    Confirmed = db.Column(db.Boolean)
+
