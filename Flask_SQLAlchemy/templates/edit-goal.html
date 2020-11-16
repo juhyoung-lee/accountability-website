@@ -35,7 +35,7 @@
         name="deadline"
         id="deadline"
       />
-      <br><br>
+      <br><br><br><br>
       {% for i in range(0, milestones|length) %}
       <label for="milestone-name"><b>Milestone name</b></label>
       <input
@@ -46,7 +46,7 @@
         required
       />
 
-      <label for="milestone-deadline"><b>Milestone Deadline</b></label>
+      <label for="milestone-deadline"><b>Deadline</b></label>
       <input
         type="date"
         value={{milestones[i].Deadline}}
@@ -59,14 +59,18 @@
       {% else %}
       <input type="checkbox" class="check" id="milestone-completed" name="milestone-completed{{i|string}}" value={{milestones[i].Completed}}>
       {% endif %}
-      <label for="vehicle1">Completed</label><br>
-      <br><br>
+      <label for="vehicle1">Completed</label>
+      <a href="/delete-milestone/{{goal.goal_id}}/{{milestones[i].Milestone_ID}}" class="cancelbtn">Delete milestone</a>
+      <br><br><br><br>
 
       {% endfor %}
 
+      <a href="/add-milestone/{{goal.goal_id}}" class="submitbtn">Add new milestone</a>
+      <br><br>
       <a href="{{ url_for('view_goal') }}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->
       <button type="submit" class="submitbtn">Save changes</button>
       <input type="hidden" name="del" value=0>
+      
     </div>
 </form>
 <script>

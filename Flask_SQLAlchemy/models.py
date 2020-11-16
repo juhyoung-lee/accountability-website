@@ -71,7 +71,7 @@ class Goal(db.Model):
 
 
 class Milestone(db.Model):
-    Milestone_ID = db.Column(db.Integer, primary_key=True)
+    Milestone_ID = db.Column(db.String(100), primary_key=True)
     Goal_ID = db.Column(db.String(100), db.ForeignKey(
         'goal.goal_id'), primary_key=True)
     Email_ID = db.Column(db.String(100), db.ForeignKey(
@@ -81,8 +81,9 @@ class Milestone(db.Model):
     Completed = db.Column(db.Integer, nullable=False)
     Date_Completed = db.Column(db.DateTime)
 
-    def __init__(self, milestone_id, goal_id, email_id, name, deadline, date_completed):
-        self.Milestone_ID = milestone_id
+    def __init__(self, goal_id, email_id, name, deadline, date_completed):
+        self.Milestone_ID = ''.join(random.choices(
+            string.ascii_uppercase + string.digits, k=10))
         self.Goal_ID = goal_id
         self.Email_ID = email_id
         self.Name = name
