@@ -117,16 +117,21 @@ def add_milestones():
     clients = Client.query.all()
     for client in clients:
         for goal in client.goals:
-            for num in range(random.randint(0, 3)):
+            iter = random.randint(0, 3)
+            start = goal.date_created
+            end = goal.deadline
+            delta = (end - start).days // iter
+            for num in range(iter):
+                deadline = start + \
+                    timedelta(days=(iter*num+random.randint(0, iter)))
                 milestone = Milestone(
                     milestone_id=num,
                     goal_id=goal.goal_id,
                     email_id=client.email_id,
                     name='Step '+str(num+1),
-                    # name=''.join(random.choice(letters) for i in range(8)),
-                    deadline=fake.date_time_this_year(),
-                    completed=random.randint(0, 1),
-                    date_completed=fake.date_time_this_year()
+                    deadline=deadline,
+                    date_completed=fake.date_between_dates(
+                        date_start=start, date_end=deadline)
                 )
                 db.session.add(milestone)
     db.session.commit()
