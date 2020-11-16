@@ -114,28 +114,35 @@ def getMatchedClients():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    if request.method == 'POST':
-        if "create-pairings" in request.form:
-            return render_template('admin.html', pairings=create_pairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
-        elif "reject-pairing" in request.form:
-            a = request.form['reject-pairing'][0]
-            pairing = request.form['reject-pairing'][1]
-            return render_template('admin.html', pairings=a, unmatched=getUnmatchedClients(), matched=getMatchedClients())
-        elif "pair-users" in request.form:
-            pair = request.form['pair-users']
-            emails = pair.split()
-            print(emails)
-            client1 = db.session.query(Client).filter_by(email_id=emails[0]).first()
-            client2 = db.session.query(Client).filter_by(email_id=emails[1]).first()
-            client1.partner = emails[1]
-            client1.partner = emails[0]
-            client1.matched = 1
-            client2.matched = 1
-            db.session.commit()
-
-    return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
-    # return render_template('admin.html')
-
+    if 'email' in session:
+        email = session['email']
+        person = db.session.query(models.User).filter(
+            models.User.email_id == email).first()
+        if person.admin == 1:
+            if request.method == 'POST':
+                if "create-pairings" in request.form:
+                    return render_template('admin.html', pairings=create_pairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                elif "reject-pairing" in request.form:
+                    a = request.form['reject-pairing'][0]
+                    pairing = request.form['reject-pairing'][1]
+                    return render_template('admin.html', pairings=a, unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                elif "pair-users" in request.form:
+                    pair = request.form['pair-users']
+                    emails = pair.split()
+                    print(emails)
+                    client1 = db.session.query(Client).filter_by(email_id=emails[0]).first()
+                    client2 = db.session.query(Client).filter_by(email_id=emails[1]).first()
+                    client1.partner = emails[1]
+                    client1.partner = emails[0]
+                    client1.matched = 1
+                    client2.matched = 1
+                    db.session.commit()
+            return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
+            # return render_template('admin.html')
+        else:
+            return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 @ app.route('/view-client')
 def view_client():
