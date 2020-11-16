@@ -88,7 +88,6 @@
       transition: 0.3s;
       margin: 12px;
       border-radius: 4px;
-      background-color: white;
     }
 
     /* On mouse-over, add a deeper shadow */
@@ -97,8 +96,11 @@
     }
 
     .selected {
-      border: deepskyblue;
-      border-width: 2px;
+      box-shadow: 0 4px 8px 0 rgba(16, 119, 255, 0.877);
+    }
+
+    .selected:hover {
+      box-shadow: 0 8px 16px 0 rgba(16, 119, 255, 0.877);
     }
 
     /* Add some padding inside the card container */
@@ -161,12 +163,25 @@
       background-color: #4CAF50;
     }
 
+    .pair-users {
+      background-color: #4CAF50;
+      visibility: hidden;
+    }
+
     .next {
       background-color: #182f44;
     }
 
     .prev{
       background-color: #436483;
+    }
+
+    .pairing-mode-on {
+      background-color: rgba(16, 119, 255, 0.877);
+    }
+
+    .pairing-mode-off {
+      background-color: #4e4e4e;
     }
 
     .center {
@@ -183,8 +198,11 @@
             <div class="left-header">
                 <h2>All users</h2>
                 <p>View and match users</p>
-                <button onClick="pairingMode">Pairing mode</button>
-            </div>
+                <form method="POST">
+                  <button type="button" class="btn pairing-mode-off" onClick="togglePairingMode(event)">Pairing mode</button>
+                  <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing">Pair users</button>
+                </form>
+              </div>
             <div class="bar">
               <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
               <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
@@ -193,7 +211,7 @@
               <div class="grid-container">
                 <h3>Unmatched</h3>
                 {% for client in unmatched %}
-                <div class="card" id={{client.email_id}}>
+                <div class="card" id={{client.email_id}} onclick="toggleSelect(event, '{{client.email_id}}')">
                   <div class="card-container">
                     <p><b>{{client.email_id}}</b></p>
                     <div class="client-info-grid">
@@ -243,8 +261,8 @@
               <div class="rec-grid-container">
                 {% if pairings != null%}
                 {% for i in range(0, 5) %}
-                <div>
-                  <div class="card">
+                <div >
+                  <div class="card" id={{pairings[i][0].email_id}}>
                     <div class="card-container">
                       <p><b>{{pairings[i][0].email_id}}</b></p>
                       <div class="client-grid-item">Timezone: {{pairings[i][0].timezone}}</div>
@@ -255,7 +273,7 @@
                       <div class="client-grid-item">Priorities: {{pairings[i][0].priorities}}</div>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" id={{pairings[i][0].email_id}}>
                     <div class="card-container">
                       <p><b>{{pairings[i][1].email_id}}</b></p>
                       <div class="client-grid-item">Timezone: {{pairings[i][1].timezone}}</div>
@@ -267,10 +285,10 @@
                     </div>
                   </div>
                   <div class="center">
-                    <button type="submit" class="btn reject" name="reject-pairing" value={{value}}>Reject</button>
+                    <button type="submit" class="btn reject" name="reject-pairing" value={{i}}>Reject</button>
                     <!-- value must be a string -- submit email_id instead and query in app.py function -->
                     <!-- use onClick to call javascript function that sets visibility of blocks to hidden  -->
-                    <button type="submit" class="btn reject" name="confirm-pairing" value={{value}} class="btn confirm">Confirm</button>
+                    <button type="submit" class="btn confirm" name="confirm-pairing" value={{i}}>Confirm</button>
                   </div>
                 </div>
                 {% endfor %}
@@ -283,12 +301,54 @@
     </div>
     <script>
       var pairingMode = false;
-      function pairingMode() {
-        pairingMode = true;
+      var selectedPair = "";
+
+      window.onload = function() {
+        // document.getElementById("confirm-pairing").style.visibility="hidden";  
       }
 
-      function toggleSelect(){
+      function togglePairingMode(evt) {
+        if (pairingMode) {
+          pairingMode = false;
+          evt.currentTarget.className = "btn pairing-mode-off"
+          document.getElementById("confirm-pairing").style.visibility="hidden";  
+        }
+        else {
+          pairingMode = true;
+          evt.currentTarget.className = "btn pairing-mode-on"
+          document.getElementById("confirm-pairing").style.visibility="visible";  
+        }
+      }
 
+      function toggleSelect(evt, id){
+        if (pairingMode) {
+          if (evt.currentTarget.className.includes("selected")) {
+            evt.currentTarget.className = "card";
+            if (selectedPair.indexOf(id)==0) {
+              selectedPair.replace(id + " ", "")
+            }
+            else {
+              selectedPair.replace(" " + id, "")
+            }
+          }
+          else {
+            evt.currentTarget.className += " selected";
+            if (selectedPair == ""){
+              selectedPair = id
+            }
+            else {
+              selectedPair += " " + id
+            }
+          }
+          document.getElementById("confirm-pairing").setAttribute("value", selectedPair);
+        }
+      }
+
+      function hidePairs(id){
+        print("called function")
+        document.getElementById(id).style.visibility="hidden";  
+        document.getElementById('hi').style.visibility="visible";  
+        print(id)
       }
 
       function openTab(evt, tabName) {
