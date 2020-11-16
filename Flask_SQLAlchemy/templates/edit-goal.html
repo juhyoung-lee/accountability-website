@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-  <form action='/submit-goal/{{ goal.goal_id }}' method='post'>
+  <form action='/submit-edit/{{ goal.goal_id }}' method='post'>
     <div class="container">
       <h1>Edit Goal</h1>
       <hr />
@@ -35,13 +35,47 @@
         name="deadline"
         id="deadline"
       />
-
       <br><br>
+      {% for i in range(0, milestones|length) %}
+      <label for="milestone-name"><b>Milestone name</b></label>
+      <input
+        type="text"
+        value="{{milestones[i].Name}}"
+        name="milestone-name"+{{i|string}}
+        id="milestone-name"
+        required
+      />
+
+      <label for="milestone-deadline"><b>Milestone Deadline</b></label>
+      <input
+        type="date"
+        value={{milestones[i].Deadline}}
+        name="milestone-deadline"+{{i|string}}
+        id="milestone-deadline"
+      />
+
+      <input type="checkbox" class="check" id="milestone-completed" name="milestone-completed"+{{i|string}} value={{milestones[i].Completed}}>
+      <label for="vehicle1">Completed</label><br>
+      <br><br>
+      {% endfor %}
 
       <a href="{{ url_for('view_goal') }}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->
       <button type="submit" class="submitbtn">Save changes</button>
       <input type="hidden" name="del" value=0>
     </div>
 </form>
+<script>
+  window.onload = function () {
+    x = document.getElementsByClassName("check");
+    for (i = 0; i < x.length; i++) {
+      if (x[i].getAttribute("value") == 0) {
+          x[i].setAttribute("checked", false)
+        }
+      else {
+        x[i].setAttribute("checked", true)
+      }
+    }
+  }
+</script>
 {% endblock %}
  
