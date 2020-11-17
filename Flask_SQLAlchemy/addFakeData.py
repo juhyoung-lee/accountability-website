@@ -119,18 +119,20 @@ def add_milestones():
             iter = random.randint(1, 3)
             start = goal.date_created
             end = goal.deadline
-            delta = (end - start).days // iter
+            delta = (end - start).days
+            if iter > 0:
+                delta = delta // iter
             for num in range(iter):
                 deadline = start + \
                     timedelta(days=(iter*num+random.randint(0, iter)))
                 milestone = Milestone(
-                    milestone_id=num,
                     goal_id=goal.goal_id,
                     email_id=client.email_id,
                     name='Step '+str(num+1),
                     deadline=deadline,
                     date_completed=fake.date_between_dates(
-                        date_start=start, date_end=deadline)
+                        date_start=start, date_end=deadline),
+                    completed=random.randint(0, 1)
                 )
                 db.session.add(milestone)
     db.session.commit()

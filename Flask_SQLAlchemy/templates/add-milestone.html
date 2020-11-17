@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{from flask import url_for}
+{% block head%}
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../static/css/editgoals.css" />
+{% endblock %}
+
+{% block content %}
+  <form method="POST">
+    <div class="container">
+      <h1>Add Milestone</h1>
+      <hr />
+  
+      <label for="name"><b>Milestone name</b></label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        required
+      />
+
+      <label for="deadline"><b>Deadline</b></label>
+      <input
+        type="date"
+        name="deadline"
+        id="deadline"
+      />
+
+      <a href="/edit-goal/{{goal_id}}" class="cancelbtn">Cancel</a> <!-- link back to view_goal -->      
+    </div>
+    <button type="submit" class="submitbtn">Add</button>
+  </form>
+{% endblock %}

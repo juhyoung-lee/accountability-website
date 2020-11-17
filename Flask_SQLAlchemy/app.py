@@ -202,6 +202,39 @@ def add_goal():
         return render_template('add-goal.html')
 
 
+@app.route('/add-milestone/<goal_id>', methods=['POST', 'GET'])
+def add_milestone(goal_id):
+    if request.method == 'POST':
+        email = session['email']
+        deadline = request.form['deadline']
+        if deadline == '':
+            deadline = None
+        else:
+            deadline = datetime.strptime(deadline, '%Y-%m-%d')
+        milestone = models.Milestone(
+            goal_id=goal_id,
+            email_id=email,
+            name=request.form['name'],
+            deadline=deadline,
+            date_completed=None
+        )
+        db.session.add(milestone)
+        db.session.commit()
+        return redirect(url_for('edit_goal', id=goal_id))
+    return render_template('add-milestone.html', goal_id=goal_id)
+
+
+@app.route('/delete-milestone/<goal_id>/<ms_id>', methods=['POST', 'GET'])
+def delete_milestone(goal_id, ms_id):
+    email = session['email']
+    ms = db.session.query(Milestone).filter(Milestone.Email_ID.like(email)).filter(
+        Milestone.Goal_ID.like(goal_id)).filter(Milestone.Milestone_ID.like(ms_id)).first()
+    if ms != None:
+        db.session.delete(ms)
+        db.session.commit()
+    return redirect(url_for('edit_goal', id=goal_id))
+
+
 @app.route('/view-partner-goal')
 def view_partner_goal():
     usr = session['email']
@@ -239,22 +272,21 @@ def submit_goal(id):
     goal.progress = request.form['progress']
     deadline = request.form['deadline']
     milestones = db.session.query(Milestone).filter_by(Goal_ID=id).all()
-    for i in range(0, len(milestones)):
+    for ms, i in zip(milestones, range(0, len(milestones))):
         if ('milestone-name' + str(i)) in request.form:
-            print(request.form['milestone-name' + str(i)])
-            milestones[i].Name = request.form['milestone-name' + str(i)]
+            ms.Name = request.form['milestone-name' + str(i)]
         if ('milestone-deadline' + str(i)) in request.form:
             date = request.form['milestone-deadline' + str(i)]
             if date == '':
                 date = None
             else:
                 date = datetime.strptime(date, '%Y-%m-%d')
-            milestones[i].Deadline = date
+            ms.Deadline = date
         if ('milestone-completed' + str(i)) in request.form:
             if request.form['milestone-completed' + str(i)] == None:
-                milestones[i].Completed = 0
+                ms.Completed = 0
             else:
-                milestones[i].Completed = 1
+                ms.Completed = 1
     if deadline == '':
         deadline = None
     else:
