@@ -111,6 +111,27 @@ def getMatchedClients():
         .filter(models.Client.matched == 1).\
         limit(5).from_self()
 
+def getPairings():
+    pairings = db.session.query(models.Pairing).filter(
+    models.Pairing.Confirmed == 0).\
+    limit(5).from_self()
+    return pairings
+
+def getClientPairings():
+    client_pairings = []
+    pairings = getPairings()
+    for pair in pairings:
+        a = []
+        user1 = db.session.query(models.Client).filter(
+            models.Client.email_id == pair.Email_ID_User_1).\
+            first()
+        user2 = db.session.query(models.Client).filter(
+            models.Client.email_id == pair.Email_ID_User_2).\
+            first()
+        a.append(user1)
+        a.append(user2)
+        client_pairings.append(a)
+    return client_pairings
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -122,26 +143,19 @@ def admin():
             if request.method == 'POST':
                 if "create-pairings" in request.form:
                     create_pairings()
-                    pairings = db.session.query(models.Pairing).filter(
-                        models.Pairing.Confirmed == 0).\
-                        limit(5).from_self()
-                    client_pairings = []
-                    for pair in pairings:
-                        a = []
-                        user1 = db.session.query(models.Client).filter(
-                            models.Client.email_id == pair.Email_ID_User_1).\
-                            first()
-                        user2 = db.session.query(models.Client).filter(
-                            models.Client.email_id == pair.Email_ID_User_2).\
-                            first()
-                        a.append(user1)
-                        a.append(user2)
-                        client_pairings.append(a)
-                    return render_template('admin.html', pairings=client_pairings, unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                    return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "reject-pairing" in request.form:
-                    a = request.form['reject-pairing'][0]
-                    pairing = request.form['reject-pairing'][1]
-                    return render_template('admin.html', pairings=[], unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                    pair = request.form['reject-pairing']
+                    clients = pair.split()
+                    while db.session.query(models.Pairing).filter(
+                    models.Pairing.Email_ID_User_1 == clients[0] and models.Pairing.Email_ID_User_2 == clients[1]).\
+                    first() != None:
+                        rejected = db.session.query(models.Pairing).filter(
+                        models.Pairing.Email_ID_User_1 == clients[0] and models.Pairing.Email_ID_User_2 == clients[1]).\
+                        first()
+                        db.session.delete(rejected)
+                        db.session.commit()
+                    return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "pair-users" in request.form:
                     pair = request.form['pair-users']
                     emails = pair.split()
@@ -155,7 +169,7 @@ def admin():
                     client1.matched = 1
                     client2.matched = 1
                     db.session.commit()
-            return render_template('admin.html', unmatched=getUnmatchedClients(), matched=getMatchedClients())
+            return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
             # return render_template('admin.html')
         else:
             return redirect(url_for('login'))
