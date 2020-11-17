@@ -1,367 +1,501 @@
 {% extends 'admin_layout.html' %}
 {% block head%}
-  <title>Admin page</title>
-  <link rel="stylesheet" href="../static/css/admin.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    section {
-      padding: 20px;
-      font-size: 25px;
-    }
+<title>Admin page</title>
+<link rel="stylesheet" href="../static/css/admin.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  section {
+    padding: 20px;
+    font-size: 25px;
+  }
 
-    .left-header {
-      background: rgb(241, 248, 145);
-      padding: 20px;
-      font-size: 12px;
-    }
+  .left-header {
+    background: rgb(241, 248, 145);
+    padding: 20px;
+    font-size: 12px;
+  }
 
-    .right-header {
-      background: rgb(207, 224, 243);
-      padding: 20px;
-      font-size: 12px;
-    }
+  .right-header {
+    background: rgb(207, 224, 243);
+    padding: 20px;
+    font-size: 12px;
+  }
 
-    h2 {
-      font-size: 30px;
-      margin-top: 12px;
-    }
+  h2 {
+    font-size: 30px;
+    margin-top: 12px;
+  }
 
-    h3 {
-      font-size: 22px;
-      margin: 12px;
-    }
+  h3 {
+    font-size: 22px;
+    margin: 12px;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    .row {
-      display: flex;
-    }
+  .row {
+    display: flex;
+  }
 
-    /* Create two equal columns that sits next to each other */
-    .column {
-      flex: 50%;
-      padding: 10px;
-    }
-    
-    .bar {
-      width:100%;
-      overflow:hidden;
-      background-color: black;
-    }
+  /* Create two equal columns that sits next to each other */
+  .column {
+    flex: 50%;
+    padding: 10px;
+  }
 
-    .bar-item {
-      background-color: black;
-      color: white;
-      padding:8px 16px;
-      float:left;
-      width:auto;
-      border:none;
-      display:block;
-      outline:0
-    }
+  .bar {
+    width: 100%;
+    overflow: hidden;
+    background-color: black;
+  }
 
-    .bar-item:hover {
-      background-color: cornsilk;
-      color: black;
-    }
+  .bar-item {
+    background-color: black;
+    color: white;
+    padding: 8px 16px;
+    float: left;
+    width: auto;
+    border: none;
+    display: block;
+    outline: 0
+  }
 
-    .active-item {
-      color:#fff!important;
-      background-color:#1aa030!important;
-    }
+  .bar-item:hover {
+    background-color: cornsilk;
+    color: black;
+  }
 
-    .active-item:hover {
-      color: black!important;
-      background-color:cornsilk!important;
-    }
+  .active-item {
+    color: #fff !important;
+    background-color: #1aa030 !important;
+  }
 
-    .users-container {
-      background-color: rgb(233, 233, 233);
-      padding:0.01em 16px
-    }
+  .active-item:hover {
+    color: black !important;
+    background-color: cornsilk !important;
+  }
 
-    .card {
-      /* Add shadows to create the "card" effect */
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-      transition: 0.3s;
-      margin: 12px;
-      border-radius: 4px;
-    }
+  .users-container {
+    background-color: rgb(233, 233, 233);
+    padding: 0.01em 16px
+  }
 
-    /* On mouse-over, add a deeper shadow */
-    .card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.25);
-    }
+  .card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    margin: 12px;
+    border-radius: 4px;
+  }
 
-    .selected {
-      box-shadow: 0 4px 8px 0 rgba(16, 119, 255, 0.877);
-    }
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.25);
+  }
 
-    .selected:hover {
-      box-shadow: 0 8px 16px 0 rgba(16, 119, 255, 0.877);
-    }
+  .selected {
+    box-shadow: 0 4px 8px 0 rgba(16, 119, 255, 0.877);
+  }
 
-    /* Add some padding inside the card container */
-    .card-container {
-      padding: 8px 12px;
-      font-size: 12px;
-      background-color: white;
-      border-radius: 4px;
-    }
+  .selected:hover {
+    box-shadow: 0 8px 16px 0 rgba(16, 119, 255, 0.877);
+  }
 
-    .grid-container {
-      display: grid;
-      grid-template-columns: auto;
-      padding: 12px;
-    }
+  /* Add some padding inside the card container */
+  .card-container {
+    padding: 8px 12px;
+    font-size: 12px;
+    background-color: white;
+    border-radius: 4px;
+  }
 
-    .client-info-grid {
-      display: grid;
-      grid-template-columns: auto auto;
-      padding: 12px;
-    }
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto;
+    padding: 12px;
+  }
 
-    .client-grid-item {
-      font-size: 12px;
-      margin-top: 12px;
-      margin-right: 12px;
-    }
+  .client-info-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 12px;
+  }
 
-    .rec-grid-container {
-      display: grid;
-      grid-template-columns: auto;
-      padding: 12px;
-    }
+  .client-grid-item {
+    font-size: 12px;
+    margin-top: 12px;
+    margin-right: 12px;
+  }
 
-    .btn {
-      color: white;
-      box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
-      transition: 0.3s;
-      padding: 12px 16px;
-      margin: 8px 2px;
-      border: none;
-      border-radius: 4px;
-    }
+  .rec-grid-container {
+    display: grid;
+    grid-template-columns: auto;
+    padding: 12px;
+  }
 
-    .btn:hover {
-      background-color:coral;
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.25);
-      color: white;
-      padding: 12px 16px;
-      margin: 8px 2px;
-      border: none;
-      border-radius: 4px;
-    }
+  .btn {
+    color: white;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    padding: 12px 16px;
+    margin: 8px 2px;
+    border: none;
+    border-radius: 4px;
+  }
 
-    .reject {
-      background-color: #d3110b;
-    }
+  .btn:hover {
+    background-color: coral;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.25);
+    color: white;
+    padding: 12px 16px;
+    margin: 8px 2px;
+    border: none;
+    border-radius: 4px;
+  }
 
-    .confirm {
-      background-color: #4CAF50;
-    }
+  .reject {
+    background-color: #d3110b;
+  }
 
-    .pair-users {
-      background-color: #4CAF50;
-      visibility: hidden;
-    }
+  .confirm {
+    background-color: #4CAF50;
+  }
 
-    .next {
-      background-color: #182f44;
-    }
+  .pair-users {
+    background-color: #4CAF50;
+    visibility: hidden;
+  }
 
-    .prev{
-      background-color: #436483;
-    }
+  .search-mode-on {
+    background-color: #5d2ce6;
+  }
 
-    .pairing-mode-on {
-      background-color: rgba(16, 119, 255, 0.877);
-    }
+  .search-mode-off {
+    background-color: #4e4e4e;
+  }
 
-    .pairing-mode-off {
-      background-color: #4e4e4e;
-    }
+  .next {
+    background-color: #182f44;
+  }
 
-    .center {
-      margin: auto;
-      width: fit-content;
-    }
-  </style>
+  .prev {
+    background-color: #436483;
+  }
+
+  .pairing-mode-on {
+    background-color: rgba(16, 119, 255, 0.877);
+  }
+
+  .pairing-mode-off {
+    background-color: #4e4e4e;
+  }
+
+  .center {
+    margin: auto;
+    width: fit-content;
+  }
+
+  .search-form {
+    display: none;
+    margin: 12px;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
+
 <body>
-    <div class="row">
-        <div class="column">
-            <div class="left-header">
-                <h2>All users</h2>
-                <p>View and match users</p>
-                <form method="POST">
-                  <button type="button" class="btn pairing-mode-off" onClick="togglePairingMode(event)">Pairing mode</button>
-                  <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing">Pair users</button>
-                </form>
+  <div class="row">
+    <div class="column">
+      <div class="left-header">
+        <h2>All users</h2>
+        <p>View and match users</p>
+        <form method="POST">
+          <button type="button" class="btn search-mode-off" onClick="toggleSearchMode(event)">Search clients</button>
+          <button type="button" class="btn pairing-mode-off" onClick="togglePairingMode(event)">Pairing mode</button>
+          <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing" onClick='openSearchTab()'>Pair users</button>
+        </form>
+          <form action="{{url_for('admin_search_client1')}}" method="POST">
+            <div class="search-form" id="search-form">
+                <label for="phone_number">
+                  Phone number:
+                </label>
+                <input type="number" placeholder="Enter phone number" name="phone_number" id="phone_number">
+    
+                <br>
+                <br>
+    
+                <label for="timezone">
+                  Timezone:
+    
+                </label>
+                <input type="number" placeholder="Enter timezone" name="timezone" id="timezone">
+    
+                <br>
+                <br>
+    
+                <label for="year">
+                  Year:
+    
+                </label>
+                <input type="number" placeholder="Enter year" name="year" id="year">
+    
+                <br>
+                <br>
+    
+                <label for="major_minor">
+                  Major and minor:
+                </label>
+                <input type="text" placeholder="Enter major and minor" name="major_minor" id="major_minor">
+    
+                <br>
+                <br>
+    
+                <label for="classes">
+                  Classes:
+                </label>
+                <input type="text" placeholder="Enter classes taking" name="classes" id="classes">
+                <br>
+                <br>
+    
+                <label for="partner_request">
+                  Partner request:
+                </label>
+                <input type="text" placeholder="Enter preferred partner" name="partner_request" id="partner_request">
+    
+                <br>
+                <br>
+    
+                <label for="priorities">
+                  Priorities:
+                </label>
+                <input type="text" placeholder="Enter priorities" name="priorities" id="priorities">
+    
+                <br>
+                <br>
+    
+                <label for="aim">
+                  Aim:
+                </label>
+                <input type="text" placeholder="Enter aim(s)" name="aim" id="aim">
+    
+                <br>
+                <br>
+    
+                <hr />
+                <input type="reset" value="Reset" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>      
+      </div>
+      <div class="bar">
+        <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
+        <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
+        <button class="bar-item button tablink" onclick="openTab(event,'search')">Search results</button>
+      </div>
+      <div id="search" class="users-container" style="display:none">
+        <div class="grid-container">
+          <h3>Search results</h3>
+          {% if search_results != null%}
+          {% for result in search_results %}
+          <div class="card" id={{result.email_id}} onclick="toggleSelect(event, '{{result.email_id}}')">
+            <div class="card-container">
+              <p><b>{{result.email_id}}</b></p>
+              <div class="client-info-grid">
+                <div class="client-grid-item">Timezone: {{result.timezone}}</div>
+                <div class="client-grid-item">Class year: {{result.year}}</div>
+                <div class="client-grid-item">Major(s)/minor(s): {{result.major_minor}}</div>
+                <div class="client-grid-item">Classes: {{result.classes}}</div>
+                <div class="client-grid-item">Partner request: {{result.partner_request}}</div>
+                <div class="client-grid-item">Priorities: {{result.priorities}}</div>
               </div>
-            <div class="bar">
-              <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
-              <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
-            </div>
-            <div id="unmatched" class="users-container">
-              <div class="grid-container">
-                <h3>Unmatched</h3>
-                {% for client in unmatched %}
-                <div class="card" id={{client.email_id}} onclick="toggleSelect(event, '{{client.email_id}}')">
-                  <div class="card-container">
-                    <p><b>{{client.email_id}}</b></p>
-                    <div class="client-info-grid">
-                      <div class="client-grid-item">Timezone: {{client.timezone}}</div>
-                      <div class="client-grid-item">Class year: {{client.year}}</div>
-                      <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
-                      <div class="client-grid-item">Classes: {{client.classes}}</div>
-                      <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
-                      <div class="client-grid-item">Priorities: {{client.priorities}}</div>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </div>
-              <div class="center">
-                <button class="btn prev">Prevous</button>
-                <button class="btn next">Next</button>
-              </div>
-            </div>
-            <div id="matched" class="users-container" style="display:none">
-              <div class="grid-container">
-              <h3>Matched</h3>
-              {% for client in matched %}
-                <div class="card">
-                  <div class="card-container">
-                    <p><b>{{client.email_id}}</b></p>
-                    <div class="client-info-grid">
-                      <div class="client-grid-item">Timezone: {{client.timezone}}</div>
-                      <div class="client-grid-item">Class year: {{client.year}}</div>
-                      <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
-                      <div class="client-grid-item">Classes: {{client.classes}}</div>
-                      <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
-                      <div class="client-grid-item">Priorities: {{client.priorities}}</div>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
             </div>
           </div>
+          {% endfor %}
+          {% endif %}
         </div>
-        <div class="column">
-          <form method='post'>
-            <div class="right-header">
-              <h2>Recommended pairings</h2>
-              <p>Confirm or reject recommended pairings</p>
-              <button type="submit" name="create-pairings">Create pairs</button>
-              <div class="rec-grid-container">
-                {% if pairings != null%}
-                {% for i in range(0, 5) %}
-                <div >
-                  <div class="card" id={{pairings[i][0].email_id}}>
-                    <div class="card-container">
-                      <p><b>{{pairings[i][0].email_id}}</b></p>
-                      <div class="client-grid-item">Timezone: {{pairings[i][0].timezone}}</div>
-                      <div class="client-grid-item">Class year: {{pairings[i][0].year}}</div>
-                      <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][0].major_minor}}</div>
-                      <div class="client-grid-item">Classes: {{pairings[i][0].classes}}</div>
-                      <div class="client-grid-item">Partner request: {{pairings[i][0].partner_request}}</div>
-                      <div class="client-grid-item">Priorities: {{pairings[i][0].priorities}}</div>
-                    </div>
-                  </div>
-                  <div class="card" id={{pairings[i][0].email_id}}>
-                    <div class="card-container">
-                      <p><b>{{pairings[i][1].email_id}}</b></p>
-                      <div class="client-grid-item">Timezone: {{pairings[i][1].timezone}}</div>
-                      <div class="client-grid-item">Class year: {{pairings[i][1].year}}</div>
-                      <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][1].major_minor}}</div>
-                      <div class="client-grid-item">Classes: {{pairings[i][1].classes}}</div>
-                      <div class="client-grid-item">Partner request: {{pairings[i][1].partner_request}}</div>
-                      <div class="client-grid-item">Priorities: {{pairings[i][1].priorities}}</div>
-                    </div>
-                  </div>
-                  <div class="center">
-                    <button type="submit" class="btn reject" name="reject-pairing" value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Reject</button>
-                    <button type="submit" class="btn confirm" name="confirm-pairing" value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Confirm</button>
-                  </div>
-                </div>
-                {% endfor %}
-                {% endif%}
+        <div class="center">
+          <button class="btn prev">Prevous</button>
+          <button class="btn next">Next</button>
+        </div>
+      </div>
+      <div id="unmatched" class="users-container">
+        <div class="grid-container">
+          <h3>Unmatched</h3>
+          {% for client in unmatched %}
+          <div class="card" id={{client.email_id}} onclick="toggleSelect(event, '{{client.email_id}}')">
+            <div class="card-container">
+              <p><b>{{client.email_id}}</b></p>
+              <div class="client-info-grid">
+                <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+                <div class="client-grid-item">Class year: {{client.year}}</div>
+                <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+                <div class="client-grid-item">Classes: {{client.classes}}</div>
+                <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+                <div class="client-grid-item">Priorities: {{client.priorities}}</div>
               </div>
             </div>
-          </form>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="center">
+          <button class="btn prev">Prevous</button>
+          <button class="btn next">Next</button>
+        </div>
+      </div>
+      <div id="matched" class="users-container" style="display:none">
+        <div class="grid-container">
+          <h3>Matched</h3>
+          {% for client in matched %}
+          <div class="card">
+            <div class="card-container">
+              <p><b>{{client.email_id}}</b></p>
+              <div class="client-info-grid">
+                <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+                <div class="client-grid-item">Class year: {{client.year}}</div>
+                <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+                <div class="client-grid-item">Classes: {{client.classes}}</div>
+                <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+                <div class="client-grid-item">Priorities: {{client.priorities}}</div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
       </div>
     </div>
-    <script>
-      var pairingMode = false;
-      var selectedPair = "";
+    <div class="column">
+      <form method='post'>
+        <div class="right-header">
+          <h2>Recommended pairings</h2>
+          <p>Confirm or reject recommended pairings</p>
+          <button type="submit" name="create-pairings">Create pairs</button>
+          <div class="rec-grid-container">
+            {% if pairings != null%}
+            {% for i in range(0, 5) %}
+            <div>
+              <div class="card" id={{pairings[i][0].email_id}}>
+                <div class="card-container">
+                  <p><b>{{pairings[i][0].email_id}}</b></p>
+                  <div class="client-grid-item">Timezone: {{pairings[i][0].timezone}}</div>
+                  <div class="client-grid-item">Class year: {{pairings[i][0].year}}</div>
+                  <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][0].major_minor}}</div>
+                  <div class="client-grid-item">Classes: {{pairings[i][0].classes}}</div>
+                  <div class="client-grid-item">Partner request: {{pairings[i][0].partner_request}}</div>
+                  <div class="client-grid-item">Priorities: {{pairings[i][0].priorities}}</div>
+                </div>
+              </div>
+              <div class="card" id={{pairings[i][0].email_id}}>
+                <div class="card-container">
+                  <p><b>{{pairings[i][1].email_id}}</b></p>
+                  <div class="client-grid-item">Timezone: {{pairings[i][1].timezone}}</div>
+                  <div class="client-grid-item">Class year: {{pairings[i][1].year}}</div>
+                  <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][1].major_minor}}</div>
+                  <div class="client-grid-item">Classes: {{pairings[i][1].classes}}</div>
+                  <div class="client-grid-item">Partner request: {{pairings[i][1].partner_request}}</div>
+                  <div class="client-grid-item">Priorities: {{pairings[i][1].priorities}}</div>
+                </div>
+              </div>
+              <div class="center">
+                <button type="submit" class="btn reject" name="reject-pairing"
+                  value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Reject</button>
+                <button type="submit" class="btn confirm" name="confirm-pairing"
+                  value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Confirm</button>
+              </div>
+            </div>
+            {% endfor %}
+            {% endif%}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+  <script>
+    var pairingMode = false;
+    var searchMode = false;
+    var selectedPair = "";
 
-      window.onload = function() {
-        // document.getElementById("confirm-pairing").style.visibility="hidden";  
+    window.onload = function () {
+      // document.getElementById("confirm-pairing").style.visibility="hidden";  
+    }
+
+    function toggleSearchMode(evt) {
+      if (searchMode) {
+        searchMode = false;
+        evt.currentTarget.className = "btn search-mode-off"
+        document.getElementById("search-form").style.display = 'none'
       }
+      else {
+        searchMode = true;
+        evt.currentTarget.className = "btn search-mode-on"
+        document.getElementById("search-form").style.display = 'block'
+      }
+    }
 
-      function togglePairingMode(evt) {
-        if (pairingMode) {
-          pairingMode = false;
-          evt.currentTarget.className = "btn pairing-mode-off"
-          document.getElementById("confirm-pairing").style.visibility="hidden";  
-        }
-        else {
-          pairingMode = true;
-          evt.currentTarget.className = "btn pairing-mode-on"
-          document.getElementById("confirm-pairing").style.visibility="visible";  
+    function togglePairingMode(evt) {
+      if (pairingMode) {
+        pairingMode = false;
+        evt.currentTarget.className = "btn pairing-mode-off"
+        document.getElementById("confirm-pairing").style.visibility = "hidden";
+        x = document.getElementsByClassName("selected");
+        for (i = 0; i < x.length; i++) {
+          x[i].className = tablinks[i].className.replace("selected", "");
         }
       }
+      else {
+        pairingMode = true;
+        evt.currentTarget.className = "btn pairing-mode-on"
+        document.getElementById("confirm-pairing").style.visibility = "visible";
+      }
+    }
 
-      function toggleSelect(evt, id){
-        if (pairingMode) {
-          if (evt.currentTarget.className.includes("selected")) {
-            evt.currentTarget.className = "card";
-            if (selectedPair.indexOf(id)==0) {
-              selectedPair.replace(id + " ", "")
-            }
-            else {
-              selectedPair.replace(" " + id, "")
-            }
+    function toggleSelect(evt, id) {
+      if (pairingMode) {
+        if (evt.currentTarget.className.includes("selected")) {
+          evt.currentTarget.className = "card";
+          if (selectedPair.indexOf(id) == 0) {
+            selectedPair.replace(id + " ", "")
           }
           else {
-            evt.currentTarget.className += " selected";
-            if (selectedPair == ""){
-              selectedPair = id
-            }
-            else {
-              selectedPair += " " + id
-            }
+            selectedPair.replace(" " + id, "")
           }
-          document.getElementById("confirm-pairing").setAttribute("value", selectedPair);
         }
+        else {
+          evt.currentTarget.className += " selected";
+          if (selectedPair == "") {
+            selectedPair = id
+          }
+          else {
+            selectedPair += " " + id
+          }
+        }
+        document.getElementById("confirm-pairing").setAttribute("value", selectedPair);
       }
+    }
 
-      function hidePairs(id){
-        print("called function")
-        document.getElementById(id).style.visibility="hidden";  
-        document.getElementById('hi').style.visibility="visible";  
-        print(id)
+    function hidePairs(id) {
+      print("called function")
+      document.getElementById(id).style.visibility = "hidden";
+      document.getElementById('hi').style.visibility = "visible";
+      print(id)
+    }
+    
+    function openTab(evt, tabName) {
+      var i, x, tablinks;
+      x = document.getElementsByClassName("users-container");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
       }
-
-      function openTab(evt, tabName) {
-        var i, x, tablinks;
-        x = document.getElementsByClassName("users-container");
-        for (i = 0; i < x.length; i++) {
-          x[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablink");
-        for (i = 0; i < x.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active-item", "");
-        }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active-item";
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active-item", "");
       }
-    </script>
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active-item";
+    }
+  </script>
 </body>
 {% endblock %}

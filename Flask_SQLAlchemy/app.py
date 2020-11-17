@@ -103,13 +103,13 @@ def registration():
 def getUnmatchedClients():
     return db.session.query(models.Client) \
         .filter(models.Client.matched == 0).\
-        limit(5).from_self()
+        limit(10).from_self()
 
 
 def getMatchedClients():
     return db.session.query(models.Client) \
         .filter(models.Client.matched == 1).\
-        limit(5).from_self()
+        limit(10).from_self()
 
 def getPairings():
     pairings = db.session.query(models.Pairing).filter(
@@ -162,6 +162,7 @@ def admin():
             models.User.email_id == email).first()
         if person.admin == 1:
             if request.method == 'POST':
+                # admin_search_client()
                 if "create-pairings" in request.form:
                     create_pairings()
                     return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
@@ -169,13 +170,11 @@ def admin():
                     pair = request.form['reject-pairing']
                     emails = pair.split()
                     deleteRecommendedPairing(emails)
-                    return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "confirm-pairing" in request.form:
                     pair = request.form['confirm-pairing']
                     emails = pair.split()
                     pairClients(emails)
                     deleteRecommendedPairing(emails)
-                    return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "pair-users" in request.form:
                     pair = request.form['pair-users']
                     emails = pair.split()
@@ -381,6 +380,35 @@ def create_pairings():
     # db.session.commit()
     # return a
 
+# def admin_search_client():
+#     client = []
+#     if 'phone_number' in request.form:
+#         client = models.Client.query.filter_by(
+#             phone_number=request.form['phone_number']).all()
+#     if 'timezone' in request.form :
+#         client = models.Client.query.filter_by(
+#             timezone=request.form['timezone']).all()
+#     if 'year' in request.form:
+#         client = models.Client.query.filter_by(year=request.form['year']).all()
+#     if 'major_minor' in request.form:
+#         client = models.Client.query.filter_by(
+#             major_minor=request.form['major_minor']).all()
+#     if 'classes' in request.form:
+#         client = models.Client.query.filter_by(
+#             classes=request.form['classes']).all()
+#     if 'partner_request' in request.form != '':
+#         client = models.Client.query.filter_by(
+#             partner_request=request.form['partner_request']).all()
+#     if 'priorities' in request.form != '':
+#         client = models.Client.query.filter_by(
+#             priorities=request.form['priorities']).all()
+#     # only print topic 20 clients on the display-search page
+#     if len(client) > 20:
+#         client = client[:20]
+#     # redirect to display-search
+#     print(client)
+#     return render_template('admin.html', search_results=client, pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
+
 
 @app.route('/search-client')
 def search_client():
@@ -409,14 +437,45 @@ def search_client1():
     if request.form['priorities'] != '':
         client = models.Client.query.filter_by(
             priorities=request.form['priorities']).all()
-    if request.form['aim'] != '':
-        client = models.Client.query.filter_by(aim=request.form['aim']).all()
+    # if request.form['aim'] != '':
+    #     client = models.Client.query.filter_by(aim=request.form['aim']).all()
     # only print topic 20 clients on the display-search page
     if len(client) > 20:
         client = client[:20]
     # redirect to display-search
     return render_template('/display-search.html', c=client)
 
+@ app.route('/admin-search-client', methods=['GET', 'POST'])
+def admin_search_client1():
+    if request.form['phone_number'] != '':
+        client = models.Client.query.filter_by(
+            phone_number=request.form['phone_number']).all()
+    if request.form['timezone'] != '':
+        client = models.Client.query.filter_by(
+            timezone=request.form['timezone']).all()
+    if request.form['year'] != '':
+        client = models.Client.query.filter_by(year=request.form['year']).all()
+    if request.form['major_minor'] != '':
+        client = models.Client.query.filter_by(
+            major_minor=request.form['major_minor']).all()
+    if request.form['classes'] != '':
+        client = models.Client.query.filter_by(
+            classes=request.form['classes']).all()
+    if request.form['partner_request'] != '':
+        client = models.Client.query.filter_by(
+            partner_request=request.form['partner_request']).all()
+    if request.form['priorities'] != '':
+        client = models.Client.query.filter_by(
+            priorities=request.form['priorities']).all()
+    # if request.form['aim'] != '':
+    #     client = models.Client.query.filter_by(aim=request.form['aim']).all()
+    # only print topic 20 clients on the display-search page
+    if len(client) > 10:
+        client = client[:10]
+    # redirect to display-search
+    redirect(url_for('admin'))
+    # STORE SEARCH RESULTS IN SESSION INSTEAD
+    return render_template('admin.html', search_results=client, pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
 
 if __name__ == '__main__':
     app.run(debug=True)
