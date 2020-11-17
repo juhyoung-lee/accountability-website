@@ -131,6 +131,7 @@ def getClientPairings():
         a.append(user1)
         a.append(user2)
         client_pairings.append(a)
+    print(client_pairings)
     return client_pairings
 
 def pairClients(emails):
