@@ -123,9 +123,21 @@ def admin():
                 if "create-pairings" in request.form:
                     create_pairings()
                     pairings = db.session.query(models.Pairing).filter(
-                    models.Pairing.Confirmed == 0).\
-                    limit(5).from_self()
-                    return render_template('admin.html', pairings=pairings, unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                        models.Pairing.Confirmed == 0).\
+                        limit(5).from_self()
+                    client_pairings = []
+                    for pair in pairings:
+                        a = []
+                        user1 = db.session.query(models.Client).filter(
+                            models.Client.email_id == pair.Email_ID_User_1).\
+                            first()
+                        user2 = db.session.query(models.Client).filter(
+                            models.Client.email_id == pair.Email_ID_User_2).\
+                            first()
+                        a.append(user1)
+                        a.append(user2)
+                        client_pairings.append(a)
+                    return render_template('admin.html', pairings=client_pairings, unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "reject-pairing" in request.form:
                     a = request.form['reject-pairing'][0]
                     pairing = request.form['reject-pairing'][1]
@@ -325,9 +337,11 @@ def create_pairings():
     unmatched = db.session.query(models.Client) \
         .filter(models.Client.matched == 0, models.Client.partner_request != None).all()
     num_unmatched = len(unmatched)
+    pairings = db.session.query(models.Pairing).all()
     for i in range(num_unmatched):
         for j in range(num_unmatched):
-            if unmatched[i].partner_request == unmatched[j].email_id and unmatched[j].partner_request == unmatched[i].email_id and unmatched[j].email_id != unmatched[i].email_id:
+            if unmatched[i].partner_request == unmatched[j].email_id and unmatched[j].partner_request == unmatched[i].email_id and db.session.query(models.Pairing)\
+    .filter(models.Pairing.Email_ID_User_1 == unmatched[j].email_id).first() is None:
                 #unmatched[j].matched = 1
                 #unmatched[i].matched = 1
                 #unmatched[i].partner = unmatched[j].email_id

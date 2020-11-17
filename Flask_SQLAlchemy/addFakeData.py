@@ -56,6 +56,7 @@ def add_clients():
             major=major,
             classes=class_set,
             partner_req='',
+            partner='',
             prio=random.choice(priorities),
             matched=0
         )
@@ -156,6 +157,7 @@ def add_admin():
         classes='COMPSCI 316, COMPSCI 201, COMPSCI 250, COMPSCI 330',
         partner_req='',
         prio='self care',
+        partner='',
         matched=1
     )
     db.session.add(admin)
