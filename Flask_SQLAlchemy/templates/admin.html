@@ -213,11 +213,10 @@
         <h2>All users</h2>
         <p>View and match users</p>
         <form method="POST">
-          <button type="button" class="btn search-mode-off" onClick="toggleSearchMode(event)">Search clients</button>
           <button type="button" class="btn pairing-mode-off" onClick="togglePairingMode(event)">Pairing mode</button>
           <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing" onClick='openSearchTab()'>Pair users</button>
         </form>
-          <form method="POST">
+          <form action="{{url_for('admin_search_client1')}}" method="POST">
             <div class="search-form" id="search-form">
                 <label for="phone_number">
                   Phone number:
@@ -293,33 +292,6 @@
       <div class="bar">
         <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
         <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
-        <button class="bar-item button tablink" onclick="openTab(event,'search')">Search results</button>
-      </div>
-      <div id="search" class="users-container" style="display:none">
-        <div class="grid-container">
-          <h3>Search results</h3>
-          {% if search_results != null%}
-          {% for result in search_results %}
-          <div class="card" id={{result.email_id}} onclick="toggleSelect(event, '{{result.email_id}}')">
-            <div class="card-container">
-              <p><b>{{result.email_id}}</b></p>
-              <div class="client-info-grid">
-                <div class="client-grid-item">Timezone: {{result.timezone}}</div>
-                <div class="client-grid-item">Class year: {{result.year}}</div>
-                <div class="client-grid-item">Major(s)/minor(s): {{result.major_minor}}</div>
-                <div class="client-grid-item">Classes: {{result.classes}}</div>
-                <div class="client-grid-item">Partner request: {{result.partner_request}}</div>
-                <div class="client-grid-item">Priorities: {{result.priorities}}</div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-          {% endif %}
-        </div>
-        <div class="center">
-          <button class="btn prev">Prevous</button>
-          <button class="btn next">Next</button>
-        </div>
       </div>
       <div id="unmatched" class="users-container">
         <div class="grid-container">
@@ -340,10 +312,10 @@
           </div>
           {% endfor %}
         </div>
-        <div class="center">
+        <!-- <div class="center">
           <button class="btn prev">Prevous</button>
           <button class="btn next">Next</button>
-        </div>
+        </div> -->
       </div>
       <div id="matched" class="users-container" style="display:none">
         <div class="grid-container">
