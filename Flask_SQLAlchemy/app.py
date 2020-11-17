@@ -133,6 +133,27 @@ def getClientPairings():
         client_pairings.append(a)
     return client_pairings
 
+def pairClients(emails):
+    client1 = db.session.query(Client).filter_by(
+        email_id=emails[0]).first()
+    client2 = db.session.query(Client).filter_by(
+        email_id=emails[1]).first()
+    client1.partner = emails[1]
+    client1.partner = emails[0]
+    client1.matched = 1
+    client2.matched = 1
+    db.session.commit()
+
+def deleteRecommendedPairing(emails):
+    while db.session.query(models.Pairing).filter(
+    models.Pairing.Email_ID_User_1 == emails[0] and models.Pairing.Email_ID_User_2 == emails[1]).\
+    first() != None:
+        rejected = db.session.query(models.Pairing).filter(
+        models.Pairing.Email_ID_User_1 == emails[0] and models.Pairing.Email_ID_User_2 == emails[1]).\
+        first()
+        db.session.delete(rejected)
+        db.session.commit()
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if 'email' in session:
@@ -146,29 +167,19 @@ def admin():
                     return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "reject-pairing" in request.form:
                     pair = request.form['reject-pairing']
-                    clients = pair.split()
-                    while db.session.query(models.Pairing).filter(
-                    models.Pairing.Email_ID_User_1 == clients[0] and models.Pairing.Email_ID_User_2 == clients[1]).\
-                    first() != None:
-                        rejected = db.session.query(models.Pairing).filter(
-                        models.Pairing.Email_ID_User_1 == clients[0] and models.Pairing.Email_ID_User_2 == clients[1]).\
-                        first()
-                        db.session.delete(rejected)
-                        db.session.commit()
+                    emails = pair.split()
+                    deleteRecommendedPairing(emails)
+                    return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                elif "confirm-pairing" in request.form:
+                    pair = request.form['confirm-pairing']
+                    emails = pair.split()
+                    pairClients(emails)
+                    deleteRecommendedPairing(emails)
                     return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "pair-users" in request.form:
                     pair = request.form['pair-users']
                     emails = pair.split()
-                    print(emails)
-                    client1 = db.session.query(Client).filter_by(
-                        email_id=emails[0]).first()
-                    client2 = db.session.query(Client).filter_by(
-                        email_id=emails[1]).first()
-                    client1.partner = emails[1]
-                    client1.partner = emails[0]
-                    client1.matched = 1
-                    client2.matched = 1
-                    db.session.commit()
+                    pairClients(emails)
             return render_template('admin.html', pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
             # return render_template('admin.html')
         else:
