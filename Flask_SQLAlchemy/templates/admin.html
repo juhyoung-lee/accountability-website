@@ -217,7 +217,7 @@
           <button type="button" class="btn pairing-mode-off" onClick="togglePairingMode(event)">Pairing mode</button>
           <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing" onClick='openSearchTab()'>Pair users</button>
         </form>
-          <form action="{{url_for('admin_search_client1')}}" method="POST">
+          <form method="POST">
             <div class="search-form" id="search-form">
                 <label for="phone_number">
                   Phone number:
@@ -482,7 +482,7 @@
       document.getElementById('hi').style.visibility = "visible";
       print(id)
     }
-    
+
     function openTab(evt, tabName) {
       var i, x, tablinks;
       x = document.getElementsByClassName("users-container");
