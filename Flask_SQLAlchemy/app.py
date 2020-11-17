@@ -140,7 +140,7 @@ def pairClients(emails):
     client2 = db.session.query(Client).filter_by(
         email_id=emails[1]).first()
     client1.partner = emails[1]
-    client1.partner = emails[0]
+    client2.partner = emails[0]
     client1.matched = 1
     client2.matched = 1
     db.session.commit()
