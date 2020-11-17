@@ -32,7 +32,7 @@ class Client(db.Model):
     partner_request = db.Column(db.String(100), nullable=False)
     priorities = db.Column(db.String(500), nullable=False)
     matched = db.Column(db.Integer, nullable=False)
-    partner = db.Column(db.String(100), nullable=False)
+    partner = db.Column(db.String(100))
     goals = db.relationship('Goal', backref='client')
 
     def __init__(self, email, phone, time, year, major, classes, partner_req, prio, matched, partner):
@@ -46,7 +46,6 @@ class Client(db.Model):
         self.priorities = prio
         self.matched = matched
         self.partner = partner
-
 
 class Goal(db.Model):
     goal_id = db.Column(db.String(100), primary_key=True)
@@ -81,7 +80,7 @@ class Milestone(db.Model):
     Completed = db.Column(db.Integer, nullable=False)
     Date_Completed = db.Column(db.DateTime)
 
-    def __init__(self, goal_id, email_id, name, deadline, date_completed):
+    def __init__(self, goal_id, email_id, name, deadline, date_completed, completed):
         self.Milestone_ID = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.Goal_ID = goal_id
@@ -93,10 +92,17 @@ class Milestone(db.Model):
 
 
 class Pairing(db.Model):
-    Date_formed = db.Column(db.DateTime, primary_key=True)
+    Date_formed = db.Column(db.DateTime, default=datetime.now, primary_key=True)
     Email_ID_User_1 = db.Column(db.String(100), db.ForeignKey(
         'client.email_id'), primary_key=True)
     Email_ID_User_2 = db.Column(db.String(100), db.ForeignKey(
         'client.email_id'), primary_key=True)
     Concluded = db.Column(db.Boolean)
     Confirmed = db.Column(db.Boolean)
+
+    def __init__(self, Date_formed, Email_ID_User_1, Email_ID_User_2, Concluded, Confirmed):
+        self.Date_formed = Date_formed
+        self.Email_ID_User_1 = Email_ID_User_1
+        self.Email_ID_User_2 = Email_ID_User_2
+        self.Concluded = Concluded
+        self.Confirmed = Confirmed
