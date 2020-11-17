@@ -296,6 +296,7 @@
       <div id="unmatched" class="users-container">
         <div class="grid-container">
           <h3>Unmatched</h3>
+          {% if unmatched != null%}
           {% for client in unmatched %}
           <div class="card" id={{client.email_id}} onclick="toggleSelect(event, '{{client.email_id}}')">
             <div class="card-container">
@@ -311,6 +312,7 @@
             </div>
           </div>
           {% endfor %}
+          {% endif %}
         </div>
         <!-- <div class="center">
           <button class="btn prev">Prevous</button>
@@ -320,6 +322,7 @@
       <div id="matched" class="users-container" style="display:none">
         <div class="grid-container">
           <h3>Matched</h3>
+          {% if matched != null%}
           {% for client in matched %}
           <div class="card">
             <div class="card-container">
@@ -335,6 +338,7 @@
             </div>
           </div>
           {% endfor %}
+          {% endif %}
         </div>
       </div>
     </div>
