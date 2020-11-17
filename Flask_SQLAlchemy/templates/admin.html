@@ -349,8 +349,8 @@
           <p>Confirm or reject recommended pairings</p>
           <button type="submit" name="create-pairings">Create pairs</button>
           <div class="rec-grid-container">
-            {% if pairings != null%}
-            {% for i in range(0, 5) %}
+            {% if not pairings %}
+            {% for i in range(pairings|length) %}
             <div>
               <div class="card" id={{pairings[i][0].email_id}}>
                 <div class="card-container">
