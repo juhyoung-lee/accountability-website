@@ -80,7 +80,7 @@ class Milestone(db.Model):
     Completed = db.Column(db.Integer, nullable=False)
     Date_Completed = db.Column(db.DateTime)
 
-    def __init__(self, goal_id, email_id, name, deadline, date_completed, completed):
+    def __init__(self, goal_id, email_id, name, deadline, date_completed):
         self.Milestone_ID = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=10))
         self.Goal_ID = goal_id
