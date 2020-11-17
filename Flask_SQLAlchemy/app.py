@@ -1,6 +1,6 @@
 import sys
-# from models import *
-# import models
+from models import *
+import models
 from datetime import datetime, timedelta
 import forms
 from flask import Flask, redirect, render_template, url_for, request, session, flash
@@ -121,11 +121,15 @@ def admin():
         if person.admin == 1:
             if request.method == 'POST':
                 if "create-pairings" in request.form:
-                    return render_template('admin.html', pairings=create_pairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                    create_pairings()
+                    pairings = db.session.query(models.Pairing).filter(
+                    models.Pairing.Confirmed == 0).\
+                    limit(5).from_self()
+                    return render_template('admin.html', pairings=pairings, unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "reject-pairing" in request.form:
                     a = request.form['reject-pairing'][0]
                     pairing = request.form['reject-pairing'][1]
-                    return render_template('admin.html', pairings=a, unmatched=getUnmatchedClients(), matched=getMatchedClients())
+                    return render_template('admin.html', pairings=[], unmatched=getUnmatchedClients(), matched=getMatchedClients())
                 elif "pair-users" in request.form:
                     pair = request.form['pair-users']
                     emails = pair.split()
@@ -286,25 +290,25 @@ def edit_client(e_id):
 
 
 def create_pairings():
-    a = []
     unmatched = db.session.query(models.Client) \
         .filter(models.Client.matched == 0, models.Client.partner_request != None).all()
     num_unmatched = len(unmatched)
     for i in range(num_unmatched):
         for j in range(num_unmatched):
-            if unmatched[i].partner_request == unmatched[j].email_id and unmatched[j].email_id == unmatched[i].partner_request and unmatched[j].email_id != unmatched[i].email_id and [unmatched[j].email_id, unmatched[i].email_id] not in a:
+            if unmatched[i].partner_request == unmatched[j].email_id and unmatched[j].partner_request == unmatched[i].email_id and unmatched[j].email_id != unmatched[i].email_id:
                 #unmatched[j].matched = 1
                 #unmatched[i].matched = 1
                 #unmatched[i].partner = unmatched[j].email_id
                 # unmatched[j].partner = unmatched[i].email_id
-                b = []
-                b.append(unmatched[i])
-                b.append(unmatched[j])
-                a.append(b)
+                client1 = unmatched[i].email_id
+                client2 = unmatched[j].email_id
+                pairing = models.Pairing(Date_formed=datetime.now().date(),Email_ID_User_1=client1, Email_ID_User_2=client2, Confirmed=0, Concluded=0)
+                db.session.add(pairing)
                 # db.session.merge(unmatched[i])
                 # db.session.merge(unmatched[j])
+    db.session.commit()
     # db.session.commit()
-    return a
+    # return a
 
 
 @app.route('/search-client')
