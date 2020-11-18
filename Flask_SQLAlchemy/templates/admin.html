@@ -214,175 +214,174 @@
         <p>View and match users</p>
         <form method="POST">
           <button type="button" class="btn pairing-mode-off" onClick="togglePairingMode(event)">Pairing mode</button>
-          <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing" onClick='openSearchTab()'>Pair users</button>
+          <button type="submit" name="pair-users" class="btn pair-users" id="confirm-pairing"
+            onClick='openSearchTab()'>Pair users</button>
         </form>
-          <form action="{{url_for('admin_search_client1')}}" method="POST">
-            <div class="search-form" id="search-form">
-                <label for="phone_number">
-                  Phone number:
-                </label>
-                <input type="number" placeholder="Enter phone number" name="phone_number" id="phone_number">
-    
-                <br>
-                <br>
-    
-                <label for="timezone">
-                  Timezone:
-    
-                </label>
-                <input type="number" placeholder="Enter timezone" name="timezone" id="timezone">
-    
-                <br>
-                <br>
-    
-                <label for="year">
-                  Year:
-    
-                </label>
-                <input type="number" placeholder="Enter year" name="year" id="year">
-    
-                <br>
-                <br>
-    
-                <label for="major_minor">
-                  Major and minor:
-                </label>
-                <input type="text" placeholder="Enter major and minor" name="major_minor" id="major_minor">
-    
-                <br>
-                <br>
-    
-                <label for="classes">
-                  Classes:
-                </label>
-                <input type="text" placeholder="Enter classes taking" name="classes" id="classes">
-                <br>
-                <br>
-    
-                <label for="partner_request">
-                  Partner request:
-                </label>
-                <input type="text" placeholder="Enter preferred partner" name="partner_request" id="partner_request">
-    
-                <br>
-                <br>
-    
-                <label for="priorities">
-                  Priorities:
-                </label>
-                <input type="text" placeholder="Enter priorities" name="priorities" id="priorities">
-    
-                <br>
-                <br>
-    
-                <label for="aim">
-                  Aim:
-                </label>
-                <input type="text" placeholder="Enter aim(s)" name="aim" id="aim">
-    
-                <br>
-                <br>
-    
-                <hr />
-                <input type="reset" value="Reset" />
-                <input type="submit" value="Submit" />
-              </form>
-            </div>      
+        <form action="{{url_for('admin_search_client1')}}" method="POST">
+          <div class="search-form" id="search-form">
+            <label for="phone_number">
+              Phone number:
+            </label>
+            <input type="number" placeholder="Enter phone number" name="phone_number" id="phone_number">
+
+            <br>
+            <br>
+
+            <label for="timezone">
+              Timezone:
+
+            </label>
+            <input type="number" placeholder="Enter timezone" name="timezone" id="timezone">
+
+            <br>
+            <br>
+
+            <label for="year">
+              Year:
+
+            </label>
+            <input type="number" placeholder="Enter year" name="year" id="year">
+
+            <br>
+            <br>
+
+            <label for="major_minor">
+              Major and minor:
+            </label>
+            <input type="text" placeholder="Enter major and minor" name="major_minor" id="major_minor">
+
+            <br>
+            <br>
+
+            <label for="classes">
+              Classes:
+            </label>
+            <input type="text" placeholder="Enter classes taking" name="classes" id="classes">
+            <br>
+            <br>
+
+            <label for="partner_request">
+              Partner request:
+            </label>
+            <input type="text" placeholder="Enter preferred partner" name="partner_request" id="partner_request">
+
+            <br>
+            <br>
+
+            <label for="priorities">
+              Priorities:
+            </label>
+            <input type="text" placeholder="Enter priorities" name="priorities" id="priorities">
+
+            <br>
+            <br>
+
+            <label for="aim">
+              Aim:
+            </label>
+            <input type="text" placeholder="Enter aim(s)" name="aim" id="aim">
+
+            <br>
+            <br>
+
+            <hr />
+            <input type="reset" value="Reset" />
+            <input type="submit" value="Submit" />
+        </form>
       </div>
-      <div class="bar">
-        <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
-        <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
-      </div>
-      <div id="unmatched" class="users-container">
-        <div class="grid-container">
-          <h3>Unmatched</h3>
-          {% for client in unmatched %}
-          <div class="card" id={{client.email_id}} onclick="toggleSelect(event, '{{client.email_id}}')">
-            <div class="card-container">
-              <p><b>{{client.email_id}}</b></p>
-              <div class="client-info-grid">
-                <div class="client-grid-item">Timezone: {{client.timezone}}</div>
-                <div class="client-grid-item">Class year: {{client.year}}</div>
-                <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
-                <div class="client-grid-item">Classes: {{client.classes}}</div>
-                <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
-                <div class="client-grid-item">Priorities: {{client.priorities}}</div>
-              </div>
+    </div>
+    <div class="bar">
+      <button class="bar-item button tablink active-item" onclick="openTab(event,'unmatched')">Unmatched</button>
+      <button class="bar-item button tablink" onclick="openTab(event,'matched')">Matched</button>
+    </div>
+    <div id="unmatched" class="users-container">
+      <div class="grid-container">
+        <h3>Unmatched</h3>
+        {% for client in unmatched %}
+        <div class="card" id={{client.email_id}} onclick="toggleSelect(event, '{{client.email_id}}')">
+          <div class="card-container">
+            <p><b>{{client.email_id}}</b></p>
+            <div class="client-info-grid">
+              <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+              <div class="client-grid-item">Class year: {{client.year}}</div>
+              <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+              <div class="client-grid-item">Classes: {{client.classes}}</div>
+              <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+              <div class="client-grid-item">Priorities: {{client.priorities}}</div>
             </div>
           </div>
-          {% endfor %}
         </div>
-        <!-- <div class="center">
+        {% endfor %}
+      </div>
+      <!-- <div class="center">
           <button class="btn prev">Prevous</button>
           <button class="btn next">Next</button>
         </div> -->
+    </div>
+    <div id="matched" class="users-container" style="display:none">
+      <div class="grid-container">
+        <h3>Matched</h3>
+        {% for client in matched %}
+        <div class="card">
+          <div class="card-container">
+            <p><b>{{client.email_id}}</b></p>
+            <div class="client-info-grid">
+              <div class="client-grid-item">Timezone: {{client.timezone}}</div>
+              <div class="client-grid-item">Class year: {{client.year}}</div>
+              <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
+              <div class="client-grid-item">Classes: {{client.classes}}</div>
+              <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
+              <div class="client-grid-item">Priorities: {{client.priorities}}</div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
       </div>
-      <div id="matched" class="users-container" style="display:none">
-        <div class="grid-container">
-          <h3>Matched</h3>
-          {% for client in matched %}
-          <div class="card">
-            <div class="card-container">
-              <p><b>{{client.email_id}}</b></p>
-              <div class="client-info-grid">
-                <div class="client-grid-item">Timezone: {{client.timezone}}</div>
-                <div class="client-grid-item">Class year: {{client.year}}</div>
-                <div class="client-grid-item">Major(s)/minor(s): {{client.major_minor}}</div>
-                <div class="client-grid-item">Classes: {{client.classes}}</div>
-                <div class="client-grid-item">Partner request: {{client.partner_request}}</div>
-                <div class="client-grid-item">Priorities: {{client.priorities}}</div>
+    </div>
+  </div>
+  <div class="column">
+    <form method='post'>
+      <div class="right-header">
+        <h2>Recommended pairings</h2>
+        <p>Confirm or reject recommended pairings</p>
+        <button type="submit" name="create-pairings">Create pairs</button>
+        <div class="rec-grid-container">
+          {% for i in range(pairings|length) %}
+          <div>
+            <div class="card" id={{pairings[i][0].email_id}}>
+              <div class="card-container">
+                <p><b>{{pairings[i][0].email_id}}</b></p>
+                <div class="client-grid-item">Timezone: {{pairings[i][0].timezone}}</div>
+                <div class="client-grid-item">Class year: {{pairings[i][0].year}}</div>
+                <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][0].major_minor}}</div>
+                <div class="client-grid-item">Classes: {{pairings[i][0].classes}}</div>
+                <div class="client-grid-item">Partner request: {{pairings[i][0].partner_request}}</div>
+                <div class="client-grid-item">Priorities: {{pairings[i][0].priorities}}</div>
               </div>
+            </div>
+            <div class="card" id={{pairings[i][0].email_id}}>
+              <div class="card-container">
+                <p><b>{{pairings[i][1].email_id}}</b></p>
+                <div class="client-grid-item">Timezone: {{pairings[i][1].timezone}}</div>
+                <div class="client-grid-item">Class year: {{pairings[i][1].year}}</div>
+                <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][1].major_minor}}</div>
+                <div class="client-grid-item">Classes: {{pairings[i][1].classes}}</div>
+                <div class="client-grid-item">Partner request: {{pairings[i][1].partner_request}}</div>
+                <div class="client-grid-item">Priorities: {{pairings[i][1].priorities}}</div>
+              </div>
+            </div>
+            <div class="center">
+              <button type="submit" class="btn reject" name="reject-pairing"
+                value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Reject</button>
+              <button type="submit" class="btn confirm" name="confirm-pairing"
+                value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Confirm</button>
             </div>
           </div>
           {% endfor %}
         </div>
       </div>
-    </div>
-    <div class="column">
-      <form method='post'>
-        <div class="right-header">
-          <h2>Recommended pairings</h2>
-          <p>Confirm or reject recommended pairings</p>
-          <button type="submit" name="create-pairings">Create pairs</button>
-          <div class="rec-grid-container">
-            {% if pairings != null%}
-            {% for i in range(0, 5) %}
-            <div>
-              <div class="card" id={{pairings[i][0].email_id}}>
-                <div class="card-container">
-                  <p><b>{{pairings[i][0].email_id}}</b></p>
-                  <div class="client-grid-item">Timezone: {{pairings[i][0].timezone}}</div>
-                  <div class="client-grid-item">Class year: {{pairings[i][0].year}}</div>
-                  <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][0].major_minor}}</div>
-                  <div class="client-grid-item">Classes: {{pairings[i][0].classes}}</div>
-                  <div class="client-grid-item">Partner request: {{pairings[i][0].partner_request}}</div>
-                  <div class="client-grid-item">Priorities: {{pairings[i][0].priorities}}</div>
-                </div>
-              </div>
-              <div class="card" id={{pairings[i][0].email_id}}>
-                <div class="card-container">
-                  <p><b>{{pairings[i][1].email_id}}</b></p>
-                  <div class="client-grid-item">Timezone: {{pairings[i][1].timezone}}</div>
-                  <div class="client-grid-item">Class year: {{pairings[i][1].year}}</div>
-                  <div class="client-grid-item">Major(s)/minor(s): {{pairings[i][1].major_minor}}</div>
-                  <div class="client-grid-item">Classes: {{pairings[i][1].classes}}</div>
-                  <div class="client-grid-item">Partner request: {{pairings[i][1].partner_request}}</div>
-                  <div class="client-grid-item">Priorities: {{pairings[i][1].priorities}}</div>
-                </div>
-              </div>
-              <div class="center">
-                <button type="submit" class="btn reject" name="reject-pairing"
-                  value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Reject</button>
-                <button type="submit" class="btn confirm" name="confirm-pairing"
-                  value='{{pairings[i][0].email_id + " " + pairings[i][1].email_id}}'>Confirm</button>
-              </div>
-            </div>
-            {% endfor %}
-            {% endif%}
-          </div>
-        </div>
-      </form>
-    </div>
+    </form>
+  </div>
   </div>
   </div>
   <script>
