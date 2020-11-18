@@ -111,11 +111,13 @@ def getMatchedClients():
         .filter(models.Client.matched == 1).\
         limit(10).from_self()
 
+
 def getPairings():
     pairings = db.session.query(models.Pairing).filter(
-    models.Pairing.Confirmed == 0).\
-    limit(5).from_self()
+        models.Pairing.Confirmed == 0).\
+        limit(5).from_self()
     return pairings
+
 
 def getClientPairings():
     client_pairings = []
@@ -131,8 +133,8 @@ def getClientPairings():
         a.append(user1)
         a.append(user2)
         client_pairings.append(a)
-    print(client_pairings)
     return client_pairings
+
 
 def pairClients(emails):
     client1 = db.session.query(Client).filter_by(
@@ -145,15 +147,17 @@ def pairClients(emails):
     client2.matched = 1
     db.session.commit()
 
+
 def deleteRecommendedPairing(emails):
     while db.session.query(models.Pairing).filter(
-    models.Pairing.Email_ID_User_1 == emails[0] and models.Pairing.Email_ID_User_2 == emails[1]).\
-    first() != None:
+            models.Pairing.Email_ID_User_1 == emails[0] and models.Pairing.Email_ID_User_2 == emails[1]).\
+            first() != None:
         rejected = db.session.query(models.Pairing).filter(
-        models.Pairing.Email_ID_User_1 == emails[0] and models.Pairing.Email_ID_User_2 == emails[1]).\
-        first()
+            models.Pairing.Email_ID_User_1 == emails[0] and models.Pairing.Email_ID_User_2 == emails[1]).\
+            first()
         db.session.delete(rejected)
         db.session.commit()
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -161,7 +165,7 @@ def admin():
         email = session['email']
         person = db.session.query(models.User).filter(
             models.User.email_id == email).first()
-        if person.admin == 1:                
+        if person.admin == 1:
             if request.method == 'POST':
                 # admin_search_client()
                 if "create-pairings" in request.form:
@@ -361,19 +365,25 @@ def edit_client(e_id):
 def create_pairings():
     unmatched = db.session.query(models.Client) \
         .filter(models.Client.matched == 0, models.Client.partner_request != None).all()
-    num_unmatched = len(unmatched)
     pairings = db.session.query(models.Pairing).all()
+    for unmatch in unmatched:
+        for pairing in pairings:
+            if unmatch.email_id == pairing.Email_ID_User_1:
+                unmatched.remove(unmatch)
+
+    num_unmatched = len(unmatched)
     for i in range(num_unmatched):
         for j in range(num_unmatched):
             if unmatched[i].partner_request == unmatched[j].email_id and unmatched[j].partner_request == unmatched[i].email_id and db.session.query(models.Pairing)\
-    .filter(models.Pairing.Email_ID_User_1 == unmatched[j].email_id).first() is None:
+                    .filter(models.Pairing.Email_ID_User_1 == unmatched[j].email_id).first() is None:
                 #unmatched[j].matched = 1
                 #unmatched[i].matched = 1
                 #unmatched[i].partner = unmatched[j].email_id
                 # unmatched[j].partner = unmatched[i].email_id
                 client1 = unmatched[i].email_id
                 client2 = unmatched[j].email_id
-                pairing = models.Pairing(Date_formed=datetime.now().date(),Email_ID_User_1=client1, Email_ID_User_2=client2, Confirmed=0, Concluded=0)
+                pairing = models.Pairing(Date_formed=datetime.now().date(
+                ), Email_ID_User_1=client1, Email_ID_User_2=client2, Confirmed=0, Concluded=0)
                 db.session.add(pairing)
                 # db.session.merge(unmatched[i])
                 # db.session.merge(unmatched[j])
@@ -381,12 +391,13 @@ def create_pairings():
     # db.session.commit()
     # return a
 
+
 def admin_search_client():
     client = []
     if 'phone_number' in request.form:
         client = models.Client.query.filter_by(
             phone_number=request.form['phone_number']).all()
-    if 'timezone' in request.form :
+    if 'timezone' in request.form:
         client = models.Client.query.filter_by(
             timezone=request.form['timezone']).all()
     if 'year' in request.form:
@@ -446,6 +457,7 @@ def search_client1():
     # redirect to display-search
     return render_template('/display-search.html', c=client)
 
+
 @ app.route('/admin-search-client', methods=['GET', 'POST'])
 def admin_search_client1():
     if request.form['phone_number'] != '':
@@ -477,6 +489,7 @@ def admin_search_client1():
     redirect(url_for('admin'))
     # STORE SEARCH RESULTS IN SESSION INSTEAD
     return render_template('admin.html', search_results=client, pairings=getClientPairings(), unmatched=getUnmatchedClients(), matched=getMatchedClients())
+
 
 if __name__ == '__main__':
     app.run(debug=True)

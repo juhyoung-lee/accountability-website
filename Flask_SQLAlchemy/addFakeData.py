@@ -80,7 +80,7 @@ def match_clients():
         partner.partner = client.email_id
         db.session.merge(client)
         db.session.merge(partner)
-    for i in range(num_clients//10*2):
+    for i in range(4):
         client = clients[-1]
         clients.pop()
         partner = random.choice(clients)
